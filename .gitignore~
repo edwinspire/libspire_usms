@@ -1,0 +1,10 @@
+# Ignores
+*.c~
+*.vala~
+*.sh
+*.bat
+*.sh~
+*.bat~
+*.md~
+bin/lnx/proyects
+bin/win/proyects
