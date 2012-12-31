@@ -22,6 +22,7 @@ namespace edwinspire {
 			public edwinspire.uSMS.PhoneTableRow[] byIdContact (int idcontact);
 			public string byIdContactXml (int idcontact);
 			public string byIdXml (int idphone);
+			public string byId_Xml (int idphone, bool fieldtextasbase64 = true);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class PostgreSQLConnection : edwinspire.pgSQL.PostgreSqldb {

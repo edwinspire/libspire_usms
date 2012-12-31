@@ -702,6 +702,7 @@ void edwinspire_usms_phone_table_row_init (edwinspireuSMSPhoneTableRow *self);
 GType edwinspire_usms_phone_table_get_type (void) G_GNUC_CONST;
 edwinspireuSMSXmlRow* edwinspire_usms_phone_table_PhoneTableRowNodeXml (edwinspireuSMSPhoneTableRow* row);
 gchar* edwinspire_usms_phone_table_byIdXml (edwinspireuSMSPhoneTable* self, gint idphone);
+gchar* edwinspire_usms_phone_table_byId_Xml (edwinspireuSMSPhoneTable* self, gint idphone, gboolean fieldtextasbase64);
 void edwinspire_usms_phone_table_byId (edwinspireuSMSPhoneTable* self, gint idphone, edwinspireuSMSPhoneTableRow* result);
 gchar* edwinspire_usms_phone_table_byIdContactXml (edwinspireuSMSPhoneTable* self, gint idcontact);
 edwinspireuSMSPhoneTableRow* edwinspire_usms_phone_table_byIdContact (edwinspireuSMSPhoneTable* self, gint idcontact, int* result_length1);

@@ -250,27 +250,18 @@ public TableContacts(){
 }
 
 public string byId_Xml(int idcontact, bool fieldtextasbase64 = true){
-
 string RetornoX = "";
-
 var  Conexion = Postgres.connect_db (this.ConnString());
-
 if(Conexion.get_status () == ConnectionStatus.OK){
-
 string[] valuesin = {idcontact.to_string(), fieldtextasbase64.to_string()};
-
 var Resultado = Conexion.exec_params ("""SELECT * FROM fun_view_contacts_byidcontact_xml($1::integer, $2::boolean) AS return""", valuesin.length, null, valuesin, null, null, 0);
-
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
-
 foreach(var reg in this.Result_FieldName(ref Resultado)){
 RetornoX = reg["return"].Value;
 }
-
 } else{
 	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
     }
-
 }else{
 	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
 }
@@ -726,6 +717,26 @@ public string byIdXml(int idphone){
 return XmlDatas.XmlDocToString(PhoneTableRowNodeXml(this.byId(idphone)).Row());
 }
 
+public string byId_Xml(int idphone, bool fieldtextasbase64 = true){
+string RetornoX = "";
+var  Conexion = Postgres.connect_db (this.ConnString());
+if(Conexion.get_status () == ConnectionStatus.OK){
+string[] valuesin = {idphone.to_string(), fieldtextasbase64.to_string()};
+var Resultado = Conexion.exec_params ("""SELECT * FROM fun_view_phones_byid_xml($1::integer, $2::boolean) AS return""", valuesin.length, null, valuesin, null, null, 0);
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
+}
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+GLib.print(RetornoX);
+return RetornoX;
+}
+
 public PhoneTableRow byId(int idphone){
 
 string[] valuesin = {idphone.to_string()};
@@ -776,6 +787,8 @@ Rows->add_child(PhoneTableRowNodeXml(r).Row());
 }
 return XmlDatas.XmlDocToString(Rows);
 }
+
+
 
 public PhoneTableRow[] byIdContact(int idcontact){
 
