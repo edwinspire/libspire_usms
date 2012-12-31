@@ -74,6 +74,9 @@ break;
 case "/usmsgetcontactsvaluesselectbox":
 response = ResponseContactsNamesToSelectBox(request);
 break;
+case "/usms_getcontactbyid":
+response = ResponseContactById(request);
+break;
 
 default:
       response.Header.Status = StatusCode.NOT_FOUND;
@@ -87,6 +90,24 @@ public void RequestVirtualPageHandler(uHttpServer server, Request request, DataO
     server.serve_response( ResponseToVirtualRequest(request), dos );
 }
 
+private static uHttp.Response ResponseContactById(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+
+int id = 0;
+
+if(request.Query.has_key("idcontact")){
+id = int.parse(request.Query["idcontact"]);
+}
+
+TableContacts Tabla = new TableContacts();
+Tabla.GetParamCnx();
+    Retorno.Data =  Tabla.byId_Xml(id, true).data;
+
+return Retorno;
+}
 
 // Recibe los datos y los actualiza en la base de datos.
 private static uHttp.Response ResponseUpdateTableSerialPort(Request request){
@@ -109,14 +130,13 @@ return Retorno;
 private static uHttp.Response ResponseContactsNamesToSelectBox(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/plain";
+  Retorno.Header.ContentType = "text/xml";
     Retorno.Header.Status = StatusCode.OK;
 
 TableContacts Tabla = new TableContacts();
 Tabla.GetParamCnx();
 
     Retorno.Data =  Tabla.NameAndId_All_Xml().data;
-//print(Tabla.NameAndId_All_Xml());
 
 return Retorno;
 }

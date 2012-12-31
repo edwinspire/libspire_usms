@@ -99,7 +99,8 @@ namespace edwinspire {
 		public class TableContacts : edwinspire.uSMS.PostgreSQLConnection {
 			public TableContacts ();
 			public Gee.HashMap<int,string> NameAndId_All ();
-			public string NameAndId_All_Xml ();
+			public string NameAndId_All_Xml (bool fieldtextasbase64 = true);
+			public string byId_Xml (int idcontact, bool fieldtextasbase64 = true);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TablePostgres : GLib.Object {
