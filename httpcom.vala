@@ -24,12 +24,14 @@ print("Licence: LGPL\n");
 print("Contact: edwinspire@gmail.com\n");
 
 S.Port = 8080;
+/*
 S.VirtualUrl["getsmsouttable"] = "/getsmsouttable";
 S.VirtualUrl["getpostgresconf"] = "/getpostgresconf";
 S.VirtualUrl["postpostgresconf"] = "/postpostgresconf";
 S.VirtualUrl["gettableserialport"] = "/gettableserialport";
 S.VirtualUrl["posttableserialport"] = "/posttableserialport";
-S.VirtualUrl["usmsgetcontactsvaluesselectbox"] = "/usmsgetcontactsvaluesselectbox";  
+S.VirtualUrl["usms_getcontactslistidcontactname"] = "/usms_getcontactslistidcontactname";  
+*/
 
 foreach(var U in VirtualUrls().entries){
 S.VirtualUrl[U.key] = U.value;  
@@ -46,7 +48,7 @@ Retorno["getpostgresconf"] = "/getpostgresconf";
 Retorno["postpostgresconf"] = "/postpostgresconf";
 Retorno["gettableserialport"] = "/gettableserialport";
 Retorno["posttableserialport"] = "/posttableserialport";
-Retorno["usmsgetcontactsvaluesselectbox"] = "/usmsgetcontactsvaluesselectbox";  
+Retorno["usms_getcontactslistidcontactname_xml"] = "/usms_getcontactslistidcontactname_xml";  
 return Retorno;
 }
 
@@ -71,8 +73,8 @@ break;
 case "/posttableserialport":
 response = ResponseUpdateTableSerialPort(request);
 break;
-case "/usmsgetcontactsvaluesselectbox":
-response = ResponseContactsNamesToSelectBox(request);
+case "/usms_getcontactslistidcontactname_xml":
+response = ResponseContactsListNameAndId(request);
 break;
 case "/usms_getcontactbyid":
 response = ResponseContactById(request);
@@ -127,7 +129,7 @@ return Retorno;
 }
 
 
-private static uHttp.Response ResponseContactsNamesToSelectBox(Request request){
+private static uHttp.Response ResponseContactsListNameAndId(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
