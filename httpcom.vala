@@ -49,6 +49,7 @@ Retorno["postpostgresconf"] = "/postpostgresconf";
 Retorno["gettableserialport"] = "/gettableserialport";
 Retorno["posttableserialport"] = "/posttableserialport";
 Retorno["usms_getcontactslistidcontactname_xml"] = "/usms_getcontactslistidcontactname_xml";  
+Retorno["usms_getcontactbyid_xml"] = "/usms_getcontactbyid_xml";
 return Retorno;
 }
 
@@ -76,7 +77,7 @@ break;
 case "/usms_getcontactslistidcontactname_xml":
 response = ResponseContactsListNameAndId(request);
 break;
-case "/usms_getcontactbyid":
+case "/usms_getcontactbyid_xml":
 response = ResponseContactById(request);
 break;
 
