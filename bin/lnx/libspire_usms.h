@@ -678,6 +678,8 @@ gint edwinspire_usms_table_call_in_fun_incomingcalls_insert_online (edwinspireuS
 GType edwinspire_usms_table_contacts_get_type (void) G_GNUC_CONST;
 edwinspireuSMSTableContacts* edwinspire_usms_table_contacts_new (void);
 edwinspireuSMSTableContacts* edwinspire_usms_table_contacts_construct (GType object_type);
+gchar* edwinspire_usms_table_contacts_fun_contacts_table_xml_from_hashmap (edwinspireuSMSTableContacts* self, GeeHashMap* data, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_table_contacts_fun_contacts_table_xml (edwinspireuSMSTableContacts* self, gint inidcontact, gboolean inenable, const gchar* intitle, const gchar* infirstname, const gchar* inlastname, gint ingender, const gchar* inbirthday, gint intypeofid, const gchar* inidentification, const gchar* inweb, const gchar* inemail1, const gchar* inemail2, const gchar* inidaddress, const gchar* innote, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_table_contacts_byId_Xml (edwinspireuSMSTableContacts* self, gint idcontact, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_table_contacts_NameAndId_All_Xml (edwinspireuSMSTableContacts* self, gboolean fieldtextasbase64);
 GeeHashMap* edwinspire_usms_table_contacts_NameAndId_All (edwinspireuSMSTableContacts* self);
