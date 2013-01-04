@@ -89,7 +89,7 @@ case "/usms_contactstablefun_xml":
 response = ResponseFunctionContactTable(request);
 break;
 case "/usms_simplifiedviewofphonesbyidcontact_xml":
-response = ResponseFunctionContactTable(request);
+response = ResponseSimplifiedViewOfPhonesByIdContact(request);
 break;
 
 default:
