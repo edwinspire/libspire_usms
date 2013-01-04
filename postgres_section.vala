@@ -818,7 +818,7 @@ Fila.addFieldString("ts", row.TimeStamp, true);
 return Fila;
 }
 
-/*
+/*	
 public string byIdXml(int idphone){
 return XmlDatas.XmlDocToString(PhoneTableRowNodeXml(this.byId(idphone)).Row());
 }
@@ -897,7 +897,8 @@ return XmlDatas.XmlDocToString(Rows);
 }
 
 public string byIdContact_Xml(int idcontact, bool fieldtextasbase64 = true){
-string RetornoX = "";
+string RetornoX = "<table></table>";
+if(idcontact > 0){
 var  Conexion = Postgres.connect_db (this.ConnString());
 if(Conexion.get_status () == ConnectionStatus.OK){
 string[] valuesin = {idcontact.to_string(), fieldtextasbase64.to_string()};
@@ -911,6 +912,7 @@ RetornoX = reg["return"].Value;
     }
 }else{
 	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
 }
 GLib.print(RetornoX);
 return RetornoX;

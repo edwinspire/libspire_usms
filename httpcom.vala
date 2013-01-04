@@ -51,6 +51,10 @@ Retorno["posttableserialport"] = "/posttableserialport";
 Retorno["usms_getcontactslistidcontactname_xml"] = "/usms_getcontactslistidcontactname_xml";  
 Retorno["usms_getcontactbyid_xml"] = "/usms_getcontactbyid_xml";
 Retorno["usms_contactstablefun_xml"] = "/usms_contactstablefun_xml";
+Retorno["usms_simplifiedviewofphonesbyidcontact_xml"] = "/usms_simplifiedviewofphonesbyidcontact_xml";
+
+
+
 return Retorno;
 }
 
@@ -84,6 +88,9 @@ break;
 case "/usms_contactstablefun_xml":
 response = ResponseFunctionContactTable(request);
 break;
+case "/usms_simplifiedviewofphonesbyidcontact_xml":
+response = ResponseFunctionContactTable(request);
+break;
 
 default:
       response.Header.Status = StatusCode.NOT_FOUND;
@@ -95,6 +102,25 @@ return response;
 
 public void RequestVirtualPageHandler(uHttpServer server, Request request, DataOutputStream dos){
     server.serve_response( ResponseToVirtualRequest(request), dos );
+}
+
+private static uHttp.Response ResponseSimplifiedViewOfPhonesByIdContact(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+
+int id = 0;
+
+if(request.Query.has_key("idcontact")){
+id = int.parse(request.Query["idcontact"]);
+}
+
+PhoneTable Tabla = new PhoneTable();
+Tabla.GetParamCnx();
+    Retorno.Data =  Tabla.byIdContact_Xml(id).data;
+
+return Retorno;
 }
 
 private static uHttp.Response ResponseFunctionContactTable(Request request){
