@@ -22,7 +22,8 @@ namespace edwinspire {
 			public string byIdContactXml (int idcontact);
 			public string byIdContact_Xml (int idcontact, bool fieldtextasbase64 = true);
 			public string byId_Xml (int idphone, bool fieldtextasbase64 = true);
-			public string fun_phones_table_xml (int inidphone, int inidcontact, bool inenable, string inphone, int intypephone, int inidprovider, double ingeox, double ingeoy, string inphone_ext, string inidaddress, string inaddress, int inubiphone, string innote, string ts, bool fieldtextasbase64 = true);
+			public string fun_phones_table_xml (int inidphone, int inidcontact, bool inenable, string inphone, int intypephone, int inidprovider, double ingeox, double ingeoy, string inphone_ext, string inidaddress, string inaddress, int inubiphone, string innote, string ints, bool fieldtextasbase64 = true);
+			public string fun_phones_table_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class PostgreSQLConnection : edwinspire.pgSQL.PostgreSqldb {
