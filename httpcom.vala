@@ -52,7 +52,7 @@ Retorno["usms_getcontactslistidcontactname_xml"] = "/usms_getcontactslistidconta
 Retorno["usms_getcontactbyid_xml"] = "/usms_getcontactbyid_xml";
 Retorno["usms_contactstablefun_xml"] = "/usms_contactstablefun_xml";
 Retorno["usms_simplifiedviewofphonesbyidcontact_xml"] = "/usms_simplifiedviewofphonesbyidcontact_xml";
-Retorno["usms_getcontactbyid_xml"] = "/usms_getcontactbyid_xml";
+Retorno["usms_getphonebyid_xml"] = "/usms_getphonebyid_xml";
 
 
 

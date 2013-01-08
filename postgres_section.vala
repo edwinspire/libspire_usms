@@ -818,11 +818,27 @@ Fila.addFieldString("ts", row.TimeStamp, true);
 return Fila;
 }
 
-/*	
-public string byIdXml(int idphone){
-return XmlDatas.XmlDocToString(PhoneTableRowNodeXml(this.byId(idphone)).Row());
+// fun_phones_table_xml(inidphone integer, inidcontact integer, inenable boolean, inphone text, intypephone integer, inidprovider integer, ingeox real, ingeoy real, inphone_ext text, inidaddress text, inaddress text, inubiphone integer, innote text, ts timestamp without time zone)
+ 
+public string fun_phones_table_xml(int inidphone, int inidcontact, bool inenable, string inphone, int intypephone, int inidprovider, double ingeox, double ingeoy, string inphone_ext, string inidaddress, string inaddress, int inubiphone, string innote, string ts, bool fieldtextasbase64 = true){
+string RetornoX = "";
+var  Conexion = Postgres.connect_db (this.ConnString());
+if(Conexion.get_status () == ConnectionStatus.OK){
+string[] valuesin = {inidphone.to_string(), inidcontact.to_string(), inenable.to_string(), inphone, intypephone.to_string(), inidprovider.to_string(), ingeox.to_string(), ingeoy.to_string(), inphone_ext, inidaddress, inaddress, inubiphone.to_string(), innote, ts,  fieldtextasbase64.to_string()};
+var Resultado = Conexion.exec_params ("""SELECT * FROM fun_phones_table_xml($1::integer, $2::integer, $3::boolean, $4::text, $5::integer, $6::integer, $7::real, $8::real, $9::text, $10::text, $11::text, $12::integer, $13::text, $14::timestamp without time zone, $15::boolean) AS return""", valuesin.length, null, valuesin, null, null, 0);
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
 }
-*/
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+//GLib.print(RetornoX);
+return RetornoX;
+}
 
 public string byId_Xml(int idphone, bool fieldtextasbase64 = true){
 string RetornoX = "";
