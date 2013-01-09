@@ -877,6 +877,10 @@ if(data.has_key("idaddress")){
 inidaddress = data["idaddress"];
 }
 
+if(data.has_key("address")){
+inaddress = data["address"];
+}
+
 if(data.has_key("ubiphone")){
 inubiphone = int.parse(data["ubiphone"]);
 }
