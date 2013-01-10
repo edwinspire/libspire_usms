@@ -244,6 +244,17 @@ typedef struct _edwinspireuSMSTableSMSOutPrivate edwinspireuSMSTableSMSOutPrivat
 #define EDWINSPIRE_USMS_TYPE_PHONE_TABLE_ROW (edwinspire_usms_phone_table_row_get_type ())
 typedef struct _edwinspireuSMSPhoneTableRow edwinspireuSMSPhoneTableRow;
 
+#define EDWINSPIRE_USMS_TYPE_PROVIDER_TABLE (edwinspire_usms_provider_table_get_type ())
+#define EDWINSPIRE_USMS_PROVIDER_TABLE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_PROVIDER_TABLE, edwinspireuSMSProviderTable))
+#define EDWINSPIRE_USMS_PROVIDER_TABLE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_PROVIDER_TABLE, edwinspireuSMSProviderTableClass))
+#define EDWINSPIRE_USMS_IS_PROVIDER_TABLE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_PROVIDER_TABLE))
+#define EDWINSPIRE_USMS_IS_PROVIDER_TABLE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_PROVIDER_TABLE))
+#define EDWINSPIRE_USMS_PROVIDER_TABLE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_PROVIDER_TABLE, edwinspireuSMSProviderTableClass))
+
+typedef struct _edwinspireuSMSProviderTable edwinspireuSMSProviderTable;
+typedef struct _edwinspireuSMSProviderTableClass edwinspireuSMSProviderTableClass;
+typedef struct _edwinspireuSMSProviderTablePrivate edwinspireuSMSProviderTablePrivate;
+
 #define EDWINSPIRE_USMS_TYPE_PHONE_TABLE (edwinspire_usms_phone_table_get_type ())
 #define EDWINSPIRE_USMS_PHONE_TABLE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_PHONE_TABLE, edwinspireuSMSPhoneTable))
 #define EDWINSPIRE_USMS_PHONE_TABLE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_PHONE_TABLE, edwinspireuSMSPhoneTableClass))
@@ -492,6 +503,15 @@ struct _edwinspireuSMSPhoneTableRow {
 	gchar* TimeStamp;
 };
 
+struct _edwinspireuSMSProviderTable {
+	edwinspireuSMSPostgreSQLConnection parent_instance;
+	edwinspireuSMSProviderTablePrivate * priv;
+};
+
+struct _edwinspireuSMSProviderTableClass {
+	edwinspireuSMSPostgreSQLConnectionClass parent_class;
+};
+
 struct _edwinspireuSMSPhoneTable {
 	edwinspireuSMSPostgreSQLConnection parent_instance;
 	edwinspireuSMSPhoneTablePrivate * priv;
@@ -701,6 +721,10 @@ void edwinspire_usms_phone_table_row_free (edwinspireuSMSPhoneTableRow* self);
 void edwinspire_usms_phone_table_row_copy (const edwinspireuSMSPhoneTableRow* self, edwinspireuSMSPhoneTableRow* dest);
 void edwinspire_usms_phone_table_row_destroy (edwinspireuSMSPhoneTableRow* self);
 void edwinspire_usms_phone_table_row_init (edwinspireuSMSPhoneTableRow *self);
+GType edwinspire_usms_provider_table_get_type (void) G_GNUC_CONST;
+gchar* edwinspire_usms_provider_table_idname_Xml (edwinspireuSMSProviderTable* self, gboolean fieldtextasbase64);
+edwinspireuSMSProviderTable* edwinspire_usms_provider_table_new (void);
+edwinspireuSMSProviderTable* edwinspire_usms_provider_table_construct (GType object_type);
 GType edwinspire_usms_phone_table_get_type (void) G_GNUC_CONST;
 edwinspireuSMSXmlRow* edwinspire_usms_phone_table_PhoneTableRowNodeXml (edwinspireuSMSPhoneTableRow* row);
 gchar* edwinspire_usms_phone_table_fun_phones_table_xml_from_hashmap (edwinspireuSMSPhoneTable* self, GeeHashMap* data, gboolean fieldtextasbase64);

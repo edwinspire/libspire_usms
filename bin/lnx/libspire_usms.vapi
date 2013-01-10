@@ -47,6 +47,11 @@ namespace edwinspire {
 			public ProcessControldb.from_string (string? id, string? ctrl, string? note = "", string? date = "2000-01-01 00:00");
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
+		public class ProviderTable : edwinspire.uSMS.PostgreSQLConnection {
+			public ProviderTable ();
+			public string idname_Xml (bool fieldtextasbase64 = true);
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
 		public class SMSOutRow : edwinspire.GSM.MODEM.Submit {
 			public SMSOutRow ();
 			public int MaxSlices { get; set; }

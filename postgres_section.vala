@@ -793,6 +793,32 @@ this.TimeStamp = "";
 }
 
 
+public class ProviderTable:PostgreSQLConnection{
+
+public string idname_Xml(bool fieldtextasbase64 = true){
+string RetornoX = "";
+
+var  Conexion = Postgres.connect_db (this.ConnString());
+if(Conexion.get_status () == ConnectionStatus.OK){
+string[] valuesin = {fieldtextasbase64.to_string()};
+var Resultado = Conexion.exec_params ("SELECT * FROM fun_providers_idname_xml($1::boolean) AS return", valuesin.length, null, valuesin, null, null, 0);
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
+}
+}else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+
+return RetornoX;
+}
+
+
+}
+
 
 public class PhoneTable:PostgreSQLConnection{
 
@@ -936,50 +962,6 @@ RetornoX = reg["return"].Value;
 return RetornoX;
 }
 
-/*
-public PhoneTableRow byId(int idphone){
-
-string[] valuesin = {idphone.to_string()};
-PhoneTableRow Retorno = PhoneTableRow();
-var  Conexion = Postgres.connect_db (this.ConnString());
-
-if(Conexion.get_status () == ConnectionStatus.OK){
-
-var Resultado = Conexion.exec_params ("""SELECT * FROM phones WHERE idphone = $1;""", valuesin.length, null, valuesin, null, null, 0);
-
-    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
-
-foreach(var reg in this.Result_FieldName(ref Resultado)){
-
-Retorno.IdPhone = reg["idphone"].as_int();
-Retorno.IdContact = reg["idcontact"].as_int();
-Retorno.Enable = reg["enable"].as_bool();
-Retorno.Phone = reg["phone"].Value;
-Retorno.Type = reg["typephone"].as_int();
-Retorno.IdProvider = reg["idprovider"].as_int();
-Retorno.Note = reg["note"].Value;
-Retorno.GeoX = reg["geox"].as_double();
-Retorno.GeoY = reg["geoy"].as_double();
-Retorno.IdAddress = reg["idaddress"].Value;
-Retorno.PhoneExt = reg["phone_ext"].Value;
-Retorno.UbiPhone = reg["ubiphone"].as_int();
-Retorno.Address = reg["address"].Value;
-Retorno.TimeStamp = reg["ts"].Value;
-
-}
-
-} else{
-	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
-    }
-
-}else{
-	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
-}
-
-return Retorno;
-}
-*/
-
 public string byIdContactXml(int idcontact){
 var Rows = XmlDatas.Node("contacts");
 foreach(var r in this.byIdContact(idcontact)){
@@ -1006,7 +988,7 @@ RetornoX = reg["return"].Value;
 	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
 }
 }
-GLib.print(RetornoX);
+//GLib.print(RetornoX);
 return RetornoX;
 }
 

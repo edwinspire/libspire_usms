@@ -54,6 +54,7 @@ Retorno["usms_contactstablefun_xml"] = "/usms_contactstablefun_xml";
 Retorno["usms_simplifiedviewofphonesbyidcontact_xml"] = "/usms_simplifiedviewofphonesbyidcontact_xml";
 Retorno["usms_getphonebyid_xml"] = "/usms_getphonebyid_xml";
 Retorno["usms_phonetable_xml"] = "/usms_phonetable_xml";
+Retorno["usms_provider_listidname_xml"] = "/usms_provider_listidname_xml";
 
 
 
@@ -99,6 +100,9 @@ break;
 case "/usms_phonetable_xml":
 response = ResponsePhoneTable(request);
 break;
+case "/usms_provider_listidname_xml":
+response = ResponseProviderListIdNameXml(request);
+break;
 
 default:
       response.Header.Status = StatusCode.NOT_FOUND;
@@ -110,6 +114,19 @@ return response;
 
 public void RequestVirtualPageHandler(uHttpServer server, Request request, DataOutputStream dos){
     server.serve_response( ResponseToVirtualRequest(request), dos );
+}
+
+private static uHttp.Response ResponseProviderListIdNameXml(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+
+ProviderTable Tabla = new ProviderTable();
+Tabla.GetParamCnx();
+    Retorno.Data =  Tabla.idname_Xml(true).data;
+
+return Retorno;
 }
 
 private static uHttp.Response ResponsePhoneTable(Request request){
