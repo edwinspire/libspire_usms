@@ -112,6 +112,11 @@ namespace edwinspire {
 			public string fun_contacts_table_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
+		public class TableIncomingCalls : edwinspire.uSMS.PostgreSQLConnection {
+			public TableIncomingCalls ();
+			public string fun_view_incomingcalls_xml (string datestart, string dateend, bool fieldtextasbase64 = true);
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TablePostgres : GLib.Object {
 			public TablePostgres ();
 			public static int64 InsertRow (edwinspire.uSMS.TableRowPostgres row);

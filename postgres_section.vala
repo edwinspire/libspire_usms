@@ -242,6 +242,47 @@ return Retorno;
 
 
 
+
+public class TableIncomingCalls:PostgreSQLConnection{
+
+
+public TableIncomingCalls(){
+
+}
+
+//fun_view_incomingcalls_xml(datestart timestamp without time zone, dateend timestamp without time zone, fieldtextasbase64 boolean)
+public string fun_view_incomingcalls_xml(string datestart, string dateend, bool fieldtextasbase64 = true){
+
+string RetornoX = "";
+
+var  Conexion = Postgres.connect_db (this.ConnString());
+
+if(Conexion.get_status () == ConnectionStatus.OK){
+
+string[] valuesin = {datestart.to_string(), dateend.to_string(), fieldtextasbase64.to_string()};
+
+var Resultado = Conexion.exec_params ("SELECT * FROM fun_view_incomingcalls_xml($1::timestamp without time zone, $2::timestamp without time zone, $3::boolean) AS return", valuesin.length, null, valuesin, null, null, 0);
+
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
+}
+
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+return RetornoX;
+}
+
+
+}
+
+
 public class TableContacts:PostgreSQLConnection{
 
 

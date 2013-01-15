@@ -208,6 +208,17 @@ typedef struct _edwinspireuSMSTableCallIn edwinspireuSMSTableCallIn;
 typedef struct _edwinspireuSMSTableCallInClass edwinspireuSMSTableCallInClass;
 typedef struct _edwinspireuSMSTableCallInPrivate edwinspireuSMSTableCallInPrivate;
 
+#define EDWINSPIRE_USMS_TYPE_TABLE_INCOMING_CALLS (edwinspire_usms_table_incoming_calls_get_type ())
+#define EDWINSPIRE_USMS_TABLE_INCOMING_CALLS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_TABLE_INCOMING_CALLS, edwinspireuSMSTableIncomingCalls))
+#define EDWINSPIRE_USMS_TABLE_INCOMING_CALLS_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_TABLE_INCOMING_CALLS, edwinspireuSMSTableIncomingCallsClass))
+#define EDWINSPIRE_USMS_IS_TABLE_INCOMING_CALLS(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_TABLE_INCOMING_CALLS))
+#define EDWINSPIRE_USMS_IS_TABLE_INCOMING_CALLS_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_TABLE_INCOMING_CALLS))
+#define EDWINSPIRE_USMS_TABLE_INCOMING_CALLS_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_TABLE_INCOMING_CALLS, edwinspireuSMSTableIncomingCallsClass))
+
+typedef struct _edwinspireuSMSTableIncomingCalls edwinspireuSMSTableIncomingCalls;
+typedef struct _edwinspireuSMSTableIncomingCallsClass edwinspireuSMSTableIncomingCallsClass;
+typedef struct _edwinspireuSMSTableIncomingCallsPrivate edwinspireuSMSTableIncomingCallsPrivate;
+
 #define EDWINSPIRE_USMS_TYPE_TABLE_CONTACTS (edwinspire_usms_table_contacts_get_type ())
 #define EDWINSPIRE_USMS_TABLE_CONTACTS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_TABLE_CONTACTS, edwinspireuSMSTableContacts))
 #define EDWINSPIRE_USMS_TABLE_CONTACTS_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_TABLE_CONTACTS, edwinspireuSMSTableContactsClass))
@@ -459,6 +470,15 @@ struct _edwinspireuSMSTableCallInClass {
 	edwinspireuSMSPostgresuSMSClass parent_class;
 };
 
+struct _edwinspireuSMSTableIncomingCalls {
+	edwinspireuSMSPostgreSQLConnection parent_instance;
+	edwinspireuSMSTableIncomingCallsPrivate * priv;
+};
+
+struct _edwinspireuSMSTableIncomingCallsClass {
+	edwinspireuSMSPostgreSQLConnectionClass parent_class;
+};
+
 struct _edwinspireuSMSTableContacts {
 	edwinspireuSMSPostgreSQLConnection parent_instance;
 	edwinspireuSMSTableContactsPrivate * priv;
@@ -695,6 +715,10 @@ GType edwinspire_usms_table_call_in_get_type (void) G_GNUC_CONST;
 edwinspireuSMSTableCallIn* edwinspire_usms_table_call_in_new (void);
 edwinspireuSMSTableCallIn* edwinspire_usms_table_call_in_construct (GType object_type);
 gint edwinspire_usms_table_call_in_fun_incomingcalls_insert_online (edwinspireuSMSTableCallIn* self, gint inidport, edwinspireuSMSCallAction incallaction, const gchar* inphone, const gchar* innote);
+GType edwinspire_usms_table_incoming_calls_get_type (void) G_GNUC_CONST;
+edwinspireuSMSTableIncomingCalls* edwinspire_usms_table_incoming_calls_new (void);
+edwinspireuSMSTableIncomingCalls* edwinspire_usms_table_incoming_calls_construct (GType object_type);
+gchar* edwinspire_usms_table_incoming_calls_fun_view_incomingcalls_xml (edwinspireuSMSTableIncomingCalls* self, const gchar* datestart, const gchar* dateend, gboolean fieldtextasbase64);
 GType edwinspire_usms_table_contacts_get_type (void) G_GNUC_CONST;
 edwinspireuSMSTableContacts* edwinspire_usms_table_contacts_new (void);
 edwinspireuSMSTableContacts* edwinspire_usms_table_contacts_construct (GType object_type);
