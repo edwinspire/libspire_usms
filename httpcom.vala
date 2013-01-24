@@ -56,6 +56,7 @@ Retorno["usms_getphonebyid_xml"] = "/usms_getphonebyid_xml";
 Retorno["usms_phonetable_xml"] = "/usms_phonetable_xml";
 Retorno["usms_provider_listidname_xml"] = "/usms_provider_listidname_xml";
 Retorno["usms_gettableincomingcalls_xml"] = "/usms_gettableincomingcalls_xml";
+Retorno["usms_viewprovidertable_xml"] = "/usms_viewprovidertable_xml";
 
 
 
@@ -109,6 +110,11 @@ case "/usms_gettableincomingcalls_xml":
 response = ResponseGridIncomingCallsXml(request);
 break;
 
+case "/usms_viewprovidertable_xml":
+response = ResponseViewProviderTableXml(request);
+break;
+
+
 default:
       response.Header.Status = StatusCode.NOT_FOUND;
 break;
@@ -121,6 +127,18 @@ public void RequestVirtualPageHandler(uHttpServer server, Request request, DataO
     server.serve_response( ResponseToVirtualRequest(request), dos );
 }
 
+private static uHttp.Response ResponseViewProviderTableXml(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+
+ProviderTable Tabla = new ProviderTable();
+Tabla.GetParamCnx();
+    Retorno.Data =  Tabla.fun_view_provider_table_xml(true).data;
+
+return Retorno;
+}
 
 private static uHttp.Response ResponseGridIncomingCallsXml(Request request){
 
