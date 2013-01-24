@@ -836,6 +836,33 @@ this.TimeStamp = "";
 
 public class ProviderTable:PostgreSQLConnection{
 
+public string fun_view_provider_table_xml(bool fieldtextasbase64 = true){
+
+string Retorno = "";
+
+string[] ValuesArray = {fieldtextasbase64.to_string()};
+//GLib.print("Llega hasta aqui 3 \n");
+var  Conexion = Postgres.connect_db (this.ConnString());
+
+if(Conexion.get_status () == ConnectionStatus.OK){
+
+var Resultado = Conexion.exec_params ("SELECT * FROM fun_view_provider_table_xml($1::boolean) as return;",  ValuesArray.length, null, ValuesArray, null, null, 0);
+
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+
+foreach(var filas in this.Result_FieldName(ref Resultado)){
+Retorno = filas["return"].Value;
+}
+
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}
+
+return Retorno;
+}
+
 public string idname_Xml(bool fieldtextasbase64 = true){
 string RetornoX = "";
 
