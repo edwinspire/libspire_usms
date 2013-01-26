@@ -154,6 +154,7 @@ namespace edwinspire {
 			public edwinspire.uSMS.SMSOutRow ToSend (int IdProvider);
 			public int fun_smsout_insert (int inidphone, string inphone, string inmessage, int inidprovider = 0, int inidsmstype = 0, int inpriority = 5, GLib.DateTime indatetosend = new GLib.DateTime.now_local (), bool inenablemsgclass = false, edwinspire.PDU.DCS_MESSAGE_CLASS inmsgclass = edwinspire.PDU.DCS_MESSAGE_CLASS.TE_SPECIFIC, string innote = "");
 			public int fun_smsout_updatestatus (int inidsmsout, edwinspire.uSMS.ProcessSMSOut inprocess, int inidprovidersent, int inslices, int inslicessent, string innote = "");
+			public string fun_view_smsout_table_filter_xml (string start, string end, int rows, bool fieldtextasbase64 = true);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TableSerialPort : GLib.Object {

@@ -24,14 +24,6 @@ print("Licence: LGPL\n");
 print("Contact: edwinspire@gmail.com\n");
 
 S.Port = 8080;
-/*
-S.VirtualUrl["getsmsouttable"] = "/getsmsouttable";
-S.VirtualUrl["getpostgresconf"] = "/getpostgresconf";
-S.VirtualUrl["postpostgresconf"] = "/postpostgresconf";
-S.VirtualUrl["gettableserialport"] = "/gettableserialport";
-S.VirtualUrl["posttableserialport"] = "/posttableserialport";
-S.VirtualUrl["usms_getcontactslistidcontactname"] = "/usms_getcontactslistidcontactname";  
-*/
 
 foreach(var U in VirtualUrls().entries){
 S.VirtualUrl[U.key] = U.value;  
@@ -43,7 +35,7 @@ S.RequestVirtualUrl.connect(RequestVirtualPageHandler);
 
 public static HashMap<string, string> VirtualUrls(){
 var Retorno = new HashMap<string, string>();
-Retorno["getsmsouttable"] = "/getsmsouttable";
+Retorno["usms_smsoutviewtablefilter"] = "/usms_smsoutviewtablefilter";
 Retorno["getpostgresconf"] = "/getpostgresconf";
 Retorno["postpostgresconf"] = "/postpostgresconf";
 Retorno["gettableserialport"] = "/gettableserialport";
@@ -75,8 +67,8 @@ break;
 case "/postpostgresconf":
 response = ResponseUpdatePostgresConf(request);
 break;
-case "/getsmsouttable":
-response = ResponseSMSOutTable(request);
+case "/usms_smsoutviewtablefilter":
+response = ResponseSMSOutViewTableFilter(request);
 break;
 case "/gettableserialport":
 response = ResponseSerialPortTable(request);
@@ -307,15 +299,31 @@ return Retorno;
 }
 
 // Envia la tabla
-private static uHttp.Response ResponseSMSOutTable(Request request){
+private static uHttp.Response ResponseSMSOutViewTableFilter(Request request){
 uHttp.Response Retorno = new uHttp.Response();
     Retorno.Header.Status = StatusCode.OK;
   Retorno.Header.ContentType = "text/xml";
 
+string start = "2000-01-01";
+string end = "2100-01-01";
+int rows = 0;
+
+if(request.Query.has_key("fstart")){
+start = request.Query["fstart"];
+}
+
+if(request.Query.has_key("fend")){
+end = request.Query["fend"];
+}
+
+if(request.Query.has_key("nrows")){
+rows = int.parse(request.Query["nrows"]);
+}
+
 var Tablasmsout = new TableSMSOut();
 Tablasmsout.GetParamCnx();
 
-    Retorno.Data =  Tablasmsout.AllXml().data;
+    Retorno.Data =  Tablasmsout.fun_view_smsout_table_filter_xml(start, end, rows).data;
 
 return Retorno;
 }

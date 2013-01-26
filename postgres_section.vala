@@ -667,6 +667,36 @@ SMSData->add_child(Fila.Row());
 return XmlDatas.XmlDocToString(SMSData);
 }
 
+// fun_view_smsout_table_filter(timestamp without time zone, timestamp without time zone, integer, boolean);
+public string fun_view_smsout_table_filter_xml(string start, string end, int rows, bool fieldtextasbase64 = true){
+
+string RetornoX = "";
+
+var  Conexion = Postgres.connect_db (this.ConnString());
+
+if(Conexion.get_status () == ConnectionStatus.OK){
+
+string[] valuesin = {start, end, rows.to_string(), fieldtextasbase64.to_string()};
+
+var Resultado = Conexion.exec_params ("SELECT * FROM fun_view_smsout_table_filter_xml($1::timestamp without time zone, $2::timestamp without time zone, $3::integer,  $4::boolean) AS return", valuesin.length, null, valuesin, null, null, 0);
+
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
+}
+
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+//GLib.print(RetornoX);
+return RetornoX;
+}
+
 // fun_smsout_to_send(inidprovider integer DEFAULT 0)
 public ArrayList<SMSOutRow> All(GLib.DateTime start =  new GLib.DateTime.now_local(), GLib.DateTime end = new GLib.DateTime.now_local(), int maxrow = 100){
 
