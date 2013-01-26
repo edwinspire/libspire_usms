@@ -489,12 +489,12 @@ struct _edwinspireuSMSTableContactsClass {
 };
 
 struct _edwinspireuSMSTableSMSIn {
-	edwinspireuSMSPostgresuSMS parent_instance;
+	edwinspireuSMSPostgreSQLConnection parent_instance;
 	edwinspireuSMSTableSMSInPrivate * priv;
 };
 
 struct _edwinspireuSMSTableSMSInClass {
-	edwinspireuSMSPostgresuSMSClass parent_class;
+	edwinspireuSMSPostgreSQLConnectionClass parent_class;
 };
 
 struct _edwinspireuSMSTableSMSOut {
@@ -730,6 +730,7 @@ GeeHashMap* edwinspire_usms_table_contacts_NameAndId_All (edwinspireuSMSTableCon
 GType edwinspire_usms_table_sms_in_get_type (void) G_GNUC_CONST;
 edwinspireuSMSTableSMSIn* edwinspire_usms_table_sms_in_new (void);
 edwinspireuSMSTableSMSIn* edwinspire_usms_table_sms_in_construct (GType object_type);
+gchar* edwinspire_usms_table_sms_in_fun_view_smsin_table_filter_xml (edwinspireuSMSTableSMSIn* self, const gchar* start, const gchar* end, gint rows, gboolean fieldtextasbase64);
 gint edwinspire_usms_table_sms_in_fun_smsin_insert (edwinspireuSMSTableSMSIn* self, gint inidport, edwinspireGSMMODEMSMS_Status instatus, edwinspirePDUDatetime* indatesms, const gchar* inphone, const gchar* inmsj, const gchar* innote);
 GType edwinspire_usms_table_sms_out_get_type (void) G_GNUC_CONST;
 edwinspireuSMSTableSMSOut* edwinspire_usms_table_sms_out_new (void);
