@@ -36,6 +36,7 @@ S.RequestVirtualUrl.connect(RequestVirtualPageHandler);
 public static HashMap<string, string> VirtualUrls(){
 var Retorno = new HashMap<string, string>();
 Retorno["usms_smsoutviewtablefilter"] = "/usms_smsoutviewtablefilter";
+Retorno["usms_smsinviewtablefilter"] = "/usms_smsinviewtablefilter";
 Retorno["getpostgresconf"] = "/getpostgresconf";
 Retorno["postpostgresconf"] = "/postpostgresconf";
 Retorno["gettableserialport"] = "/gettableserialport";
@@ -106,6 +107,10 @@ case "/usms_viewprovidertable_xml":
 response = ResponseViewProviderTableXml(request);
 break;
 
+case "/usms_smsinviewtablefilter":
+response = ResponseSMSInViewTableFilter(request);
+break;
+
 
 default:
       response.Header.Status = StatusCode.NOT_FOUND;
@@ -114,6 +119,34 @@ break;
 return response;
 }
 
+private static uHttp.Response ResponseSMSInViewTableFilter(Request request){
+uHttp.Response Retorno = new uHttp.Response();
+    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header.ContentType = "text/xml";
+
+string start = "2000-01-01";
+string end = "2100-01-01";
+int rows = 0;
+
+if(request.Query.has_key("fstart")){
+start = request.Query["fstart"];
+}
+
+if(request.Query.has_key("fend")){
+end = request.Query["fend"];
+}
+
+if(request.Query.has_key("nrows")){
+rows = int.parse(request.Query["nrows"]);
+}
+
+var Tabla = new TableSMSIn();
+Tabla.GetParamCnx();
+
+    Retorno.Data =  Tabla.fun_view_smsin_table_filter_xml(start, end, rows).data;
+
+return Retorno;
+}
 
 public void RequestVirtualPageHandler(uHttpServer server, Request request, DataOutputStream dos){
     server.serve_response( ResponseToVirtualRequest(request), dos );
