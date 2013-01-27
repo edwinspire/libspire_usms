@@ -746,6 +746,7 @@ void edwinspire_usms_phone_table_row_copy (const edwinspireuSMSPhoneTableRow* se
 void edwinspire_usms_phone_table_row_destroy (edwinspireuSMSPhoneTableRow* self);
 void edwinspire_usms_phone_table_row_init (edwinspireuSMSPhoneTableRow *self);
 GType edwinspire_usms_provider_table_get_type (void) G_GNUC_CONST;
+gchar* edwinspire_usms_provider_table_fun_provider_edit_xml (edwinspireuSMSProviderTable* self, gint inidprovider, gboolean inenable, const gchar* incimi, const gchar* inname, const gchar* innote, const gchar* ints, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_provider_table_fun_view_provider_table_xml (edwinspireuSMSProviderTable* self, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_provider_table_idname_Xml (edwinspireuSMSProviderTable* self, gboolean fieldtextasbase64);
 edwinspireuSMSProviderTable* edwinspire_usms_provider_table_new (void);

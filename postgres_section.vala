@@ -754,6 +754,36 @@ this.TimeStamp = "";
 
 public class ProviderTable:PostgreSQLConnection{
 
+//fun_provider_edit(IN inidprovider integer, IN inenable boolean, IN incimi text, IN inname text, IN innote text, IN ints timestamp without time zone, IN fieldtextasbase64 boolean, OUT outreturn integer, OUT outpgmsg text)
+public string fun_provider_edit_xml(int inidprovider, bool inenable, string incimi, string inname, string innote, string ints, bool fieldtextasbase64 = true){
+
+string Retorno = "";
+
+string[] ValuesArray = {inidprovider.to_string(), inenable.to_string(), incimi, inname, innote, ints, fieldtextasbase64.to_string()};
+
+var  Conexion = Postgres.connect_db (this.ConnString());
+
+if(Conexion.get_status () == ConnectionStatus.OK){
+
+var Resultado = Conexion.exec_params ("SELECT * FROM fun_provider_edit_xml($1::integer, $2::boolean, $3::text, $4::text, $5::text, $6::timestamp without time zone, $7::boolean) as return;",  ValuesArray.length, null, ValuesArray, null, null, 0);
+
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+
+foreach(var filas in this.Result_FieldName(ref Resultado)){
+Retorno = filas["return"].Value;
+}
+
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}
+
+return Retorno;
+}
+
+
+
 public string fun_view_provider_table_xml(bool fieldtextasbase64 = true){
 
 string Retorno = "";
