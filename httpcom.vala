@@ -50,6 +50,7 @@ Retorno["usms_phonetable_xml"] = "/usms_phonetable_xml";
 Retorno["usms_provider_listidname_xml"] = "/usms_provider_listidname_xml";
 Retorno["usms_gettableincomingcalls_xml"] = "/usms_gettableincomingcalls_xml";
 Retorno["usms_viewprovidertable_xml"] = "/usms_viewprovidertable_xml";
+Retorno["providereditxml.usms"] = "/providereditxml.usms";
 
 
 
@@ -111,12 +112,29 @@ case "/usms_smsinviewtablefilter":
 response = ResponseSMSInViewTableFilter(request);
 break;
 
+case "/providereditxml.usms":
+response = ResponseProviderEditXml(request);
+break;
+
 
 default:
       response.Header.Status = StatusCode.NOT_FOUND;
 break;
 }
 return response;
+}
+
+private static uHttp.Response ResponseProviderEditXml(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+
+ProviderTable Tabla = new ProviderTable();
+Tabla.GetParamCnx();
+    Retorno.Data =  Tabla.fun_provider_edit_xml_from_hashmap(request.Form, true).data;
+
+return Retorno;
 }
 
 private static uHttp.Response ResponseSMSInViewTableFilter(Request request){

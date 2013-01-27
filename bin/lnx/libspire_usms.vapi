@@ -50,6 +50,7 @@ namespace edwinspire {
 		public class ProviderTable : edwinspire.uSMS.PostgreSQLConnection {
 			public ProviderTable ();
 			public string fun_provider_edit_xml (int inidprovider, bool inenable, string incimi, string inname, string innote, string ints, bool fieldtextasbase64 = true);
+			public string fun_provider_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
 			public string fun_view_provider_table_xml (bool fieldtextasbase64 = true);
 			public string idname_Xml (bool fieldtextasbase64 = true);
 		}

@@ -754,6 +754,42 @@ this.TimeStamp = "";
 
 public class ProviderTable:PostgreSQLConnection{
 
+public string fun_provider_edit_xml_from_hashmap(HashMap<string, string> data, bool fieldtextasbase64 = true){
+
+int inidprovider = 0;
+bool inenable = false;
+string incimi = "";
+string inname = "";
+string innote = "";
+string ints = "1990-01-01";
+
+if(data.has_key("idprovider")){
+inidprovider = int.parse(data["idprovider"]);
+}
+
+if(data.has_key("enable")){
+inenable = bool.parse(data["enable"]);
+}
+
+if(data.has_key("cimi")){
+incimi = data["cimi"];
+}
+
+if(data.has_key("name")){
+inname = data["name"];
+}
+
+if(data.has_key("note")){
+innote = data["note"];
+}
+
+if(data.has_key("ts")){
+ints = data["ts"];
+}
+
+return fun_provider_edit_xml(inidprovider, inenable, incimi, inname, innote, ints, fieldtextasbase64);
+}
+
 //fun_provider_edit(IN inidprovider integer, IN inenable boolean, IN incimi text, IN inname text, IN innote text, IN ints timestamp without time zone, IN fieldtextasbase64 boolean, OUT outreturn integer, OUT outpgmsg text)
 public string fun_provider_edit_xml(int inidprovider, bool inenable, string incimi, string inname, string innote, string ints, bool fieldtextasbase64 = true){
 
