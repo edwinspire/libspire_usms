@@ -435,12 +435,12 @@ struct _edwinspireuSMSPostgreSQLConnectionClass {
 };
 
 struct _edwinspireuSMSPostgresuSMS {
-	edwinspirepgSQLPostgreSqldb parent_instance;
+	edwinspireuSMSPostgreSQLConnection parent_instance;
 	edwinspireuSMSPostgresuSMSPrivate * priv;
 };
 
 struct _edwinspireuSMSPostgresuSMSClass {
-	edwinspirepgSQLPostgreSqldbClass parent_class;
+	edwinspireuSMSPostgreSQLConnectionClass parent_class;
 };
 
 struct _edwinspireuSMSTableProvider {
@@ -647,7 +647,6 @@ edwinspireuSMSPostgreSQLConnection* edwinspire_usms_postgre_sql_connection_const
 GType edwinspire_usms_postgresu_sms_get_type (void) G_GNUC_CONST;
 edwinspireuSMSPostgresuSMS* edwinspire_usms_postgresu_sms_new (void);
 edwinspireuSMSPostgresuSMS* edwinspire_usms_postgresu_sms_construct (GType object_type);
-void edwinspire_usms_postgresu_sms_GetParamCnx (edwinspireuSMSPostgresuSMS* self);
 gboolean edwinspire_usms_postgresu_sms_fun_portmodem_update (edwinspireuSMSPostgresuSMS* self, gint inidport, const gchar* inport, const gchar* incimi, const gchar* inimei, const gchar* inmanufacturer, const gchar* inmodel, const gchar* inrevision);
 gint edwinspire_usms_postgresu_sms_fun_currentportsproviders_insertupdate (edwinspireuSMSPostgresuSMS* self, gint inidport, const gchar* inport, const gchar* incimi, const gchar* inimei);
 GType edwinspire_usms_table_provider_get_type (void) G_GNUC_CONST;

@@ -31,9 +31,8 @@ namespace edwinspire {
 			public void GetParamCnx ();
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
-		public class PostgresuSMS : edwinspire.pgSQL.PostgreSqldb {
+		public class PostgresuSMS : edwinspire.uSMS.PostgreSQLConnection {
 			public PostgresuSMS ();
-			public void GetParamCnx ();
 			public int fun_currentportsproviders_insertupdate (int inidport, string inport, string incimi, string inimei);
 			public bool fun_portmodem_update (int inidport, string inport, string incimi, string inimei, string inmanufacturer, string inmodel, string inrevision);
 		}

@@ -40,11 +40,8 @@ this.ParamCnx = TablePostgres.LastRowEnabled().Parameters;
 }
 
 
-public class PostgresuSMS:PostgreSqldb{
+public class PostgresuSMS:PostgreSQLConnection{
 public PostgresuSMS(){
-}
-public void GetParamCnx(){
-this.ParamCnx = TablePostgres.LastRowEnabled().Parameters;
 }
 
 
