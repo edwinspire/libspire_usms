@@ -625,7 +625,7 @@ if(Conexion.get_status () == ConnectionStatus.OK){
 
 string[] valuesin = {start, end, rows.to_string(), fieldtextasbase64.to_string()};
 
-var Resultado = Conexion.exec_params ("SELECT * FROM fun_view_smsout_table_filter_xml($1::timestamp without time zone, $2::timestamp without time zone, $3::integer,  $4::boolean) AS return", valuesin.length, null, valuesin, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_view_smsout_table_filter_xml($1::timestamp without time zone, $2::timestamp without time zone, $3::integer,  $4::boolean) AS return", valuesin);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
