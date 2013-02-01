@@ -55,17 +55,12 @@ var  Conexion = Postgres.connect_db (this.ConnString());
 
 if(Conexion.get_status () == ConnectionStatus.OK){
 
-var Resultado = Conexion.exec_params ("""SELECT fun_portmodem_update($1::integer, $2::text, $3::text, $4::text, $5::text, $6::text, $7::text);""",  valuessms.length, null, valuessms, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT fun_portmodem_update($1::integer, $2::text, $3::text, $4::text, $5::text, $6::text, $7::text);",  valuessms);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
 foreach(var filas in this.Result_FieldName(ref Resultado)){
 Retorno = filas["fun_portmodem_update"].as_int();
-/*
-foreach(var tu in filas.entries){
-GLib.print("%s => %s\n", tu.key, tu.value);
-}
-*/
 }
 
 } else{
@@ -86,17 +81,12 @@ var  Conexion = Postgres.connect_db (this.ConnString());
 
 if(Conexion.get_status () == ConnectionStatus.OK){
 
-var Resultado = Conexion.exec_params ("""SELECT fun_currentportsproviders_insertupdate($1::integer, $2::text, $3::text, $4::text);""",  valuessms.length, null, valuessms, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT fun_currentportsproviders_insertupdate($1::integer, $2::text, $3::text, $4::text);",  valuessms);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
 foreach(var filas in this.Result_FieldName(ref Resultado)){
 Retorno = filas["fun_currentportsproviders_insertupdate"].as_int();
-/*
-foreach(var tu in filas.entries){
-GLib.print("%s => %s\n", tu.key, tu.value);
-}
-*/
 }
 
 } else{
@@ -129,20 +119,14 @@ var  Conexion = Postgres.connect_db (this.ConnString());
 
 if(Conexion.get_status () == ConnectionStatus.OK){
 
-//var Resultado = Conexion.exec("""SELECT fun_insert_smsout(1, 1, 0, '989988711', '2009-12-23 12:12', 'inmessage text', 'innote text');""");
-
-var Resultado = Conexion.exec_params ("""SELECT idprovider FROM provider WHERE cimi LIKE $1::text AND enable = true;""", valuesin.length, null, valuesin, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT idprovider FROM provider WHERE cimi LIKE $1::text AND enable = true;", valuesin);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
-
-
 foreach(var filas in this.Result_FieldName(ref Resultado)){
 foreach(var fila in filas.entries){
-//GLib.print("%s => %s\n", fila.key, fila.value);
 if(fila.key == "idprovider"){
 Retorno = fila.value.as_int();
-//GLib.print("CIMI POSTGRES = %s\n", Retorno.to_string());
 break;
 }
 }
@@ -211,17 +195,12 @@ var  Conexion = Postgres.connect_db (this.ConnString());
 
 if(Conexion.get_status () == ConnectionStatus.OK){
 
-var Resultado = Conexion.exec_params ("""SELECT fun_incomingcalls_insert_online($1::integer, $2::integer, $3::text, $4::text);""",  valuessms.length, null, valuessms, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT fun_incomingcalls_insert_online($1::integer, $2::integer, $3::text, $4::text);",  valuessms);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
 foreach(var filas in this.Result_FieldName(ref Resultado)){
 Retorno = filas["fun_incomingcalls_insert_online"].as_int();
-/*
-foreach(var tu in filas.entries){
-GLib.print("%s => %s\n", tu.key, tu.value);
-}
-*/
 }
 
 } else{
@@ -258,7 +237,7 @@ if(Conexion.get_status () == ConnectionStatus.OK){
 
 string[] valuesin = {datestart.to_string(), dateend.to_string(), fieldtextasbase64.to_string()};
 
-var Resultado = Conexion.exec_params ("SELECT * FROM fun_view_incomingcalls_xml($1::timestamp without time zone, $2::timestamp without time zone, $3::boolean) AS return", valuesin.length, null, valuesin, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_view_incomingcalls_xml($1::timestamp without time zone, $2::timestamp without time zone, $3::boolean) AS return", valuesin);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
@@ -375,7 +354,7 @@ if(Conexion.get_status () == ConnectionStatus.OK){
 
 string[] valuesin = {inidcontact.to_string(), inenable.to_string(), intitle, infirstname, inlastname, ingender.to_string(), inbirthday, intypeofid.to_string(), inidentification, inweb, inemail1, inemail2, inidaddress, innote, fieldtextasbase64.to_string()};
 
-var Resultado = Conexion.exec_params ("""SELECT * FROM fun_contacts_table_xml($1::integer, $2::boolean, $3::text, $4::text, $5::text, $6::integer, $7::date, $8::integer, $9::text, $10::text, $11::text, $12::text, $13::text, $14::text, $15::boolean) AS return""", valuesin.length, null, valuesin, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_contacts_table_xml($1::integer, $2::boolean, $3::text, $4::text, $5::text, $6::integer, $7::date, $8::integer, $9::text, $10::text, $11::text, $12::text, $13::text, $14::text, $15::boolean) AS return;", valuesin);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
@@ -398,7 +377,7 @@ string RetornoX = "";
 var  Conexion = Postgres.connect_db (this.ConnString());
 if(Conexion.get_status () == ConnectionStatus.OK){
 string[] valuesin = {idcontact.to_string(), fieldtextasbase64.to_string()};
-var Resultado = Conexion.exec_params ("""SELECT * FROM fun_view_contacts_byidcontact_xml($1::integer, $2::boolean) AS return""", valuesin.length, null, valuesin, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_view_contacts_byidcontact_xml($1::integer, $2::boolean) AS return;", valuesin);
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 foreach(var reg in this.Result_FieldName(ref Resultado)){
 RetornoX = reg["return"].Value;
@@ -409,7 +388,6 @@ RetornoX = reg["return"].Value;
 }else{
 	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
 }
-GLib.print(RetornoX);
 return RetornoX;
 }
 
@@ -423,7 +401,7 @@ if(Conexion.get_status () == ConnectionStatus.OK){
 
 string[] valuesin = {fieldtextasbase64.to_string()};
 
-var Resultado = Conexion.exec_params ("""SELECT * FROM fun_view_contacts_to_list_xml($1::boolean) AS return""", valuesin.length, null, valuesin, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_view_contacts_to_list_xml($1::boolean) AS return;", valuesin);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
@@ -441,23 +419,6 @@ RetornoX = reg["return"].Value;
 return RetornoX;
 }
 
-/*
-public string NameAndId_All_Xml(){
-
-var Rows = XmlDatas.Node("contacts");
-
-foreach(var r in NameAndId_All().entries){
-XmlRow Fila = new XmlRow();
-Fila.Name = "row";
-Fila.addFieldInt("idcontact", r.key);
-Fila.addFieldString("name", r.value, true);
-Rows->add_child(Fila.Row());
-}
-return XmlDatas.XmlDocToString(Rows);
-}
-*/
-
-
 public HashMap<int, string> NameAndId_All(){
 
 string[] valuesin = {"lastname"};
@@ -468,7 +429,7 @@ var  Conexion = Postgres.connect_db (this.ConnString());
 
 if(Conexion.get_status () == ConnectionStatus.OK){
 
-var Resultado = Conexion.exec_params ("SELECT idcontact, enable, lastname, firstname FROM contacts ORDER BY $1;", valuesin.length, null, valuesin, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT idcontact, enable, lastname, firstname FROM contacts ORDER BY $1;", valuesin);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
@@ -477,7 +438,6 @@ var Nombre = new StringBuilder();
 foreach(var reg in this.Result_FieldName(ref Resultado)){
 Nombre.truncate();
 Nombre.append_printf("%s %s", reg["lastname"].Value, reg["firstname"].Value);
-
 RetornoX[reg["idcontact"].as_int()] = Nombre.str;
 }
 
@@ -499,10 +459,7 @@ return RetornoX;
 
 
 
-//fun_smsin_insert(inidport integer, instatus integer, indatesms timestamp without time zone, inphone text, inmsj text, innote text)
-
 public class TableSMSIn:PostgreSQLConnection{
-
 
 public TableSMSIn(){
 
@@ -519,7 +476,7 @@ if(Conexion.get_status () == ConnectionStatus.OK){
 
 string[] valuesin = {start, end, rows.to_string(), fieldtextasbase64.to_string()};
 
-var Resultado = Conexion.exec_params ("SELECT * FROM fun_view_smsin_table_filter_xml($1::timestamp without time zone, $2::timestamp without time zone, $3::integer,  $4::boolean) AS return", valuesin.length, null, valuesin, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_view_smsin_table_filter_xml($1::timestamp without time zone, $2::timestamp without time zone, $3::integer,  $4::boolean) AS return", valuesin);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
@@ -534,7 +491,6 @@ RetornoX = reg["return"].Value;
 }else{
 	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
 }
-//GLib.print(RetornoX);
 return RetornoX;
 }
 
@@ -547,17 +503,12 @@ var  Conexion = Postgres.connect_db (this.ConnString());
 
 if(Conexion.get_status () == ConnectionStatus.OK){
 
-var Resultado = Conexion.exec_params ("""SELECT fun_smsin_insert($1::integer, $2::integer, $3::timestamp without time zone, $4::text, $5::text, $6::text);""",  valuessms.length, null, valuessms, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT fun_smsin_insert($1::integer, $2::integer, $3::timestamp without time zone, $4::text, $5::text, $6::text);",  valuessms);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
 foreach(var filas in this.Result_FieldName(ref Resultado)){
 Retorno = filas["fun_smsin_insert"].as_int();
-/*
-foreach(var tu in filas.entries){
-GLib.print("%s => %s\n", tu.key, tu.value);
-}
-*/
 }
 
 } else{
@@ -589,9 +540,7 @@ var  Conexion = Postgres.connect_db (this.ConnString());
 
 if(Conexion.get_status () == ConnectionStatus.OK){
 
-//var Resultado = Conexion.exec("""SELECT fun_insert_smsout(1, 1, 0, '989988711', '2009-12-23 12:12', 'inmessage text', 'innote text');""");
-
-var Resultado = Conexion.exec_params ("""SELECT idsmsout, phone, message, messageclass, enablemessageclass, report, maxslices FROM fun_smsout_to_send($1::integer);""", valuesin.length, null, valuesin, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT idsmsout, phone, message, messageclass, enablemessageclass, report, maxslices FROM fun_smsout_to_send($1::integer);", valuesin);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
@@ -603,7 +552,6 @@ Retorno.MessageClass = (edwinspire.PDU.DCS_MESSAGE_CLASS)reg["messageclass"].as_
 Retorno.enableMessageClass = reg["enablemessageclass"].as_bool();
 Retorno.StatusReport = reg["report"].as_bool();
 Retorno.MaxSlices = reg["maxslices"].as_int();
-GLib.print("Mensage[%s] >>>> %s\n", Retorno.Index.to_string(), Retorno.Text);
 }
 
 } else{
@@ -654,17 +602,12 @@ var  Conexion = Postgres.connect_db (this.ConnString());
 
 if(Conexion.get_status () == ConnectionStatus.OK){
 
-var Resultado = Conexion.exec_params ("""SELECT fun_smsout_insert($1::integer, $2::integer, $3::integer, $4::integer, $5::text, $6::timestamp without time zone, $7::text, $8::boolean, $9::integer, $10::text);""",  valuessms.length, null, valuessms, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT fun_smsout_insert($1::integer, $2::integer, $3::integer, $4::integer, $5::text, $6::timestamp without time zone, $7::text, $8::boolean, $9::integer, $10::text);",  valuessms);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
 foreach(var filas in this.Result_FieldName(ref Resultado)){
 Retorno = filas["fun_smsout_insert"].as_int();
-/*
-foreach(var tu in filas.entries){
-GLib.print("%s => %s\n", tu.key, tu.value);
-}
-*/
 }
 
 } else{
@@ -687,17 +630,12 @@ var  Conexion = Postgres.connect_db (this.ConnString());
 
 if(Conexion.get_status () == ConnectionStatus.OK){
 
-var Resultado = Conexion.exec_params ("""SELECT fun_smsout_updatestatus($1::integer, $2::integer, $3::integer, $4::integer, $5::integer, $6::text);""",  valuessms.length, null, valuessms, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT fun_smsout_updatestatus($1::integer, $2::integer, $3::integer, $4::integer, $5::integer, $6::text);",  valuessms);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
 foreach(var filas in this.Result_FieldName(ref Resultado)){
 Retorno = filas["fun_smsout_updatestatus"].as_int();
-/*
-foreach(var tu in filas.entries){
-GLib.print("%s => %s\n", tu.key, tu.value);
-}
-*/
 }
 
 } else{
@@ -798,7 +736,7 @@ var  Conexion = Postgres.connect_db (this.ConnString());
 
 if(Conexion.get_status () == ConnectionStatus.OK){
 
-var Resultado = Conexion.exec_params ("SELECT * FROM fun_provider_edit_xml($1::integer, $2::boolean, $3::text, $4::text, $5::text, $6::timestamp without time zone, $7::boolean) as return;",  ValuesArray.length, null, ValuesArray, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_provider_edit_xml($1::integer, $2::boolean, $3::text, $4::text, $5::text, $6::timestamp without time zone, $7::boolean) as return;",  ValuesArray);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
@@ -822,12 +760,12 @@ public string fun_view_provider_table_xml(bool fieldtextasbase64 = true){
 string Retorno = "";
 
 string[] ValuesArray = {fieldtextasbase64.to_string()};
-//GLib.print("Llega hasta aqui 3 \n");
+
 var  Conexion = Postgres.connect_db (this.ConnString());
 
 if(Conexion.get_status () == ConnectionStatus.OK){
 
-var Resultado = Conexion.exec_params ("SELECT * FROM fun_view_provider_table_xml($1::boolean) as return;",  ValuesArray.length, null, ValuesArray, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_view_provider_table_xml($1::boolean) as return;",  ValuesArray);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
@@ -850,7 +788,7 @@ string RetornoX = "";
 var  Conexion = Postgres.connect_db (this.ConnString());
 if(Conexion.get_status () == ConnectionStatus.OK){
 string[] valuesin = {fieldtextasbase64.to_string()};
-var Resultado = Conexion.exec_params ("SELECT * FROM fun_providers_idname_xml($1::boolean) AS return", valuesin.length, null, valuesin, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_providers_idname_xml($1::boolean) AS return", valuesin);
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 foreach(var reg in this.Result_FieldName(ref Resultado)){
 RetornoX = reg["return"].Value;
@@ -976,7 +914,7 @@ string RetornoX = "";
 var  Conexion = Postgres.connect_db (this.ConnString());
 if(Conexion.get_status () == ConnectionStatus.OK){
 string[] valuesin = {inidphone.to_string(), inidcontact.to_string(), inenable.to_string(), inphone, intypephone.to_string(), inidprovider.to_string(), ingeox.to_string(), ingeoy.to_string(), inphone_ext, inidaddress, inaddress, inubiphone.to_string(), innote, ints,  fieldtextasbase64.to_string()};
-var Resultado = Conexion.exec_params ("""SELECT * FROM fun_phones_table_xml($1::integer, $2::integer, $3::boolean, $4::text, $5::integer, $6::integer, $7::real, $8::real, $9::text, $10::text, $11::text, $12::integer, $13::text, $14::timestamp without time zone, $15::boolean) AS return""", valuesin.length, null, valuesin, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_phones_table_xml($1::integer, $2::integer, $3::boolean, $4::text, $5::integer, $6::integer, $7::real, $8::real, $9::text, $10::text, $11::text, $12::integer, $13::text, $14::timestamp without time zone, $15::boolean) AS return;", valuesin);
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 foreach(var reg in this.Result_FieldName(ref Resultado)){
 RetornoX = reg["return"].Value;
@@ -987,7 +925,6 @@ RetornoX = reg["return"].Value;
 }else{
 	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
 }
-//GLib.print(RetornoX);
 return RetornoX;
 }
 
@@ -996,7 +933,7 @@ string RetornoX = "";
 var  Conexion = Postgres.connect_db (this.ConnString());
 if(Conexion.get_status () == ConnectionStatus.OK){
 string[] valuesin = {idphone.to_string(), fieldtextasbase64.to_string()};
-var Resultado = Conexion.exec_params ("""SELECT * FROM fun_view_phones_byid_xml($1::integer, $2::boolean) AS return""", valuesin.length, null, valuesin, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_view_phones_byid_xml($1::integer, $2::boolean) AS return", valuesin);
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 foreach(var reg in this.Result_FieldName(ref Resultado)){
 RetornoX = reg["return"].Value;
@@ -1007,7 +944,6 @@ RetornoX = reg["return"].Value;
 }else{
 	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
 }
-//GLib.print(RetornoX);
 return RetornoX;
 }
 
@@ -1025,7 +961,7 @@ if(idcontact > 0){
 var  Conexion = Postgres.connect_db (this.ConnString());
 if(Conexion.get_status () == ConnectionStatus.OK){
 string[] valuesin = {idcontact.to_string(), fieldtextasbase64.to_string()};
-var Resultado = Conexion.exec_params ("""SELECT * FROM fun_view_phones_byidcontact_simplified_xml($1::integer, $2::boolean) AS return""", valuesin.length, null, valuesin, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_view_phones_byidcontact_simplified_xml($1::integer, $2::boolean) AS return", valuesin);
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 foreach(var reg in this.Result_FieldName(ref Resultado)){
 RetornoX = reg["return"].Value;
@@ -1037,7 +973,6 @@ RetornoX = reg["return"].Value;
 	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
 }
 }
-//GLib.print(RetornoX);
 return RetornoX;
 }
 
@@ -1049,7 +984,7 @@ var  Conexion = Postgres.connect_db (this.ConnString());
 
 if(Conexion.get_status () == ConnectionStatus.OK){
 
-var Resultado = Conexion.exec_params ("""SELECT * FROM phones WHERE idcontact = $1;""", valuesin.length, null, valuesin, null, null, 0);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM phones WHERE idcontact = $1;", valuesin);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
