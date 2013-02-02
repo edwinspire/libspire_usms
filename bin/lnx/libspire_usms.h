@@ -754,7 +754,7 @@ edwinspireuSMSProviderTable* edwinspire_usms_provider_table_construct (GType obj
 GType edwinspire_usms_phone_table_get_type (void) G_GNUC_CONST;
 edwinspireuSMSXmlRow* edwinspire_usms_phone_table_PhoneTableRowNodeXml (edwinspireuSMSPhoneTableRow* row);
 gchar* edwinspire_usms_phone_table_fun_phones_table_xml_from_hashmap (edwinspireuSMSPhoneTable* self, GeeHashMap* data, gboolean fieldtextasbase64);
-gchar* edwinspire_usms_phone_table_fun_phones_table_xml (edwinspireuSMSPhoneTable* self, gint inidphone, gint inidcontact, gboolean inenable, const gchar* inphone, gint intypephone, gint inidprovider, gdouble ingeox, gdouble ingeoy, const gchar* inphone_ext, const gchar* inidaddress, const gchar* inaddress, gint inubiphone, const gchar* innote, const gchar* ints, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_phone_table_fun_phones_table_xml (edwinspireuSMSPhoneTable* self, gint inidphone, gint inidcontact, gboolean inenable, const gchar* inphone, gint intypephone, gint inidprovider, const gchar* inphone_ext, gint inidaddress, gint inubiphone, const gchar* innote, const gchar* ints, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_phone_table_byId_Xml (edwinspireuSMSPhoneTable* self, gint idphone, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_phone_table_byIdContactXml (edwinspireuSMSPhoneTable* self, gint idcontact);
 gchar* edwinspire_usms_phone_table_byIdContact_Xml (edwinspireuSMSPhoneTable* self, gint idcontact, gboolean fieldtextasbase64);

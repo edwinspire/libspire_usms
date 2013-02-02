@@ -841,11 +841,8 @@ bool inenable = false;
 string inphone = "";
 int intypephone = 0;
 int inidprovider = 0;
-double ingeox = 0;
-double ingeoy = 0;
 string inphone_ext = "";
-string inidaddress = "";
-string inaddress = "";
+int inidaddress = 0;
 int inubiphone = 0;
 string innote = "";
 string ints = "1990-01-01";
@@ -874,25 +871,14 @@ if(data.has_key("idprovider")){
 inidprovider = int.parse(data["idprovider"]);
 }
 
-if(data.has_key("geox")){
-ingeox = double.parse(data["geox"]);
-}
-
-if(data.has_key("geoy")){
-ingeoy = double.parse(data["geoy"]);
-}
-
 if(data.has_key("phone_ext")){
 inphone_ext = data["phone_ext"];
 }
 
 if(data.has_key("idaddress")){
-inidaddress = data["idaddress"];
+inidaddress = int.parse(data["idaddress"]);
 }
 
-if(data.has_key("address")){
-inaddress = data["address"];
-}
 
 if(data.has_key("ubiphone")){
 inubiphone = int.parse(data["ubiphone"]);
@@ -906,15 +892,15 @@ if(data.has_key("ts")){
 ints = data["ts"];
 }
 
-return fun_phones_table_xml(inidphone, inidcontact, inenable, inphone, intypephone, inidprovider, ingeox, ingeoy, inphone_ext, inidaddress, inaddress, inubiphone, innote, ints, fieldtextasbase64);
+return fun_phones_table_xml(inidphone, inidcontact, inenable, inphone, intypephone, inidprovider, inphone_ext, inidaddress, inubiphone, innote, ints, fieldtextasbase64);
 }
 
-public string fun_phones_table_xml(int inidphone, int inidcontact, bool inenable, string inphone, int intypephone, int inidprovider, double ingeox, double ingeoy, string inphone_ext, string inidaddress, string inaddress, int inubiphone, string innote, string ints, bool fieldtextasbase64 = true){
+public string fun_phones_table_xml(int inidphone, int inidcontact, bool inenable, string inphone, int intypephone, int inidprovider, string inphone_ext, int inidaddress, int inubiphone, string innote, string ints, bool fieldtextasbase64 = true){
 string RetornoX = "";
 var  Conexion = Postgres.connect_db (this.ConnString());
 if(Conexion.get_status () == ConnectionStatus.OK){
-string[] valuesin = {inidphone.to_string(), inidcontact.to_string(), inenable.to_string(), inphone, intypephone.to_string(), inidprovider.to_string(), ingeox.to_string(), ingeoy.to_string(), inphone_ext, inidaddress, inaddress, inubiphone.to_string(), innote, ints,  fieldtextasbase64.to_string()};
-var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_phones_table_xml($1::integer, $2::integer, $3::boolean, $4::text, $5::integer, $6::integer, $7::real, $8::real, $9::text, $10::text, $11::text, $12::integer, $13::text, $14::timestamp without time zone, $15::boolean) AS return;", valuesin);
+string[] valuesin = {inidphone.to_string(), inidcontact.to_string(), inenable.to_string(), inphone, intypephone.to_string(), inidprovider.to_string(), inphone_ext, inidaddress.to_string(), inubiphone.to_string(), innote, ints,  fieldtextasbase64.to_string()};
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_phones_table_xml($1::integer, $2::integer, $3::boolean, $4::text, $5::integer, $6::integer, $7::text, $8::integer, $9::integer, $10::text, $11::timestamp without time zone, $12::boolean) AS return;", valuesin);
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 foreach(var reg in this.Result_FieldName(ref Resultado)){
 RetornoX = reg["return"].Value;
