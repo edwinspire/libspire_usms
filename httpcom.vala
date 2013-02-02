@@ -43,7 +43,7 @@ Retorno["gettableserialport"] = "/gettableserialport";
 Retorno["posttableserialport"] = "/posttableserialport";
 Retorno["usms_getcontactslistidcontactname_xml"] = "/usms_getcontactslistidcontactname_xml";  
 Retorno["usms_getcontactbyid_xml"] = "/usms_getcontactbyid_xml";
-Retorno["usms_contactstablefun_xml"] = "/usms_contactstablefun_xml";
+Retorno["contacts_table_edit.usms"] = "/contacts_table_edit.usms";
 Retorno["usms_simplifiedviewofphonesbyidcontact_xml"] = "/usms_simplifiedviewofphonesbyidcontact_xml";
 Retorno["usms_getphonebyid_xml"] = "/usms_getphonebyid_xml";
 Retorno["usms_phonetable_xml"] = "/usms_phonetable_xml";
@@ -84,8 +84,8 @@ break;
 case "/usms_getcontactbyid_xml":
 response = ResponseContactById(request);
 break;
-case "/usms_contactstablefun_xml":
-response = ResponseFunctionContactTable(request);
+case "/contacts_table_edit.usms":
+response = ResponseFunctionContactEditTable(request);
 break;
 case "/usms_simplifiedviewofphonesbyidcontact_xml":
 response = ResponseSimplifiedViewOfPhonesByIdContact(request);
@@ -273,7 +273,7 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
-private static uHttp.Response ResponseFunctionContactTable(Request request){
+private static uHttp.Response ResponseFunctionContactEditTable(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -282,7 +282,7 @@ uHttp.Response Retorno = new uHttp.Response();
 
 TableContacts Tabla = new TableContacts();
 Tabla.GetParamCnx();
-    Retorno.Data =  Tabla.fun_contacts_table_xml_from_hashmap(request.Form).data;
+    Retorno.Data =  Tabla.fun_contacts_edit_xml_from_hashmap(request.Form).data;
 
 return Retorno;
 }

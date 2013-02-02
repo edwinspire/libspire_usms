@@ -110,8 +110,8 @@ namespace edwinspire {
 			public Gee.HashMap<int,string> NameAndId_All ();
 			public string NameAndId_All_Xml (bool fieldtextasbase64 = true);
 			public string byId_Xml (int idcontact, bool fieldtextasbase64 = true);
-			public string fun_contacts_table_xml (int inidcontact, bool inenable, string intitle, string infirstname, string inlastname, int ingender, string inbirthday, int intypeofid, string inidentification, string inweb, string inemail1, string inemail2, string inidaddress, string innote, bool fieldtextasbase64 = true);
-			public string fun_contacts_table_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
+			public string fun_contacts_edit_xml (int inidcontact, bool inenable, string intitle, string infirstname, string inlastname, int ingender, string inbirthday, int intypeofid, string inidentification, string inweb, string inemail1, string inemail2, int inidaddress, string innote, bool fieldtextasbase64 = true);
+			public string fun_contacts_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TableIncomingCalls : edwinspire.uSMS.PostgreSQLConnection {

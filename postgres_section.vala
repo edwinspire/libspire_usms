@@ -266,7 +266,7 @@ public TableContacts(){
 
 }
 
-public string fun_contacts_table_xml_from_hashmap(HashMap<string, string> data, bool fieldtextasbase64 = true){
+public string fun_contacts_edit_xml_from_hashmap(HashMap<string, string> data, bool fieldtextasbase64 = true){
 int inidcontact = -1;
 bool inenable = false;
 string intitle = "";
@@ -279,7 +279,7 @@ string inidentification = "";
 string inweb = "";
 string inemail1 = "";
 string inemail2 = "";
-string inidaddress = "";
+int inidaddress = 0;
 string innote = "";
 
 if(data.has_key("idcontact")){
@@ -331,7 +331,7 @@ inemail2 = data["email2"];
 }
 
 if(data.has_key("idaddress")){
-inidaddress = data["idaddress"];
+inidaddress = int.parse(data["idaddress"]);
 }
 
 if(data.has_key("note")){
@@ -339,12 +339,12 @@ innote = data["note"];
 }
 
 
-return fun_contacts_table_xml(inidcontact, inenable, intitle, infirstname, inlastname, ingender, inbirthday, intypeofid, inidentification, inweb, inemail1, inemail2, inidaddress, innote, fieldtextasbase64);
+return fun_contacts_edit_xml(inidcontact, inenable, intitle, infirstname, inlastname, ingender, inbirthday, intypeofid, inidentification, inweb, inemail1, inemail2, inidaddress, innote, fieldtextasbase64);
 }
 
 //fun_contacts_table_xml(inidcontact integer, inenable boolean, intitle text, infirstname text, inlastname text, ingender integer, inbirthday date, intypeofid integer, inidentification text, inweb text, inemail1 text, inemail2 text, inidaddress text, innote text)
  
-public string fun_contacts_table_xml(int inidcontact, bool inenable, string intitle, string infirstname, string inlastname, int ingender, string inbirthday, int intypeofid, string inidentification, string inweb, string inemail1, string inemail2, string inidaddress, string innote, bool fieldtextasbase64 = true){
+public string fun_contacts_edit_xml(int inidcontact, bool inenable, string intitle, string infirstname, string inlastname, int ingender, string inbirthday, int intypeofid, string inidentification, string inweb, string inemail1, string inemail2, int inidaddress, string innote, bool fieldtextasbase64 = true){
 
 string RetornoX = "";
 
@@ -352,9 +352,9 @@ var  Conexion = Postgres.connect_db (this.ConnString());
 
 if(Conexion.get_status () == ConnectionStatus.OK){
 
-string[] valuesin = {inidcontact.to_string(), inenable.to_string(), intitle, infirstname, inlastname, ingender.to_string(), inbirthday, intypeofid.to_string(), inidentification, inweb, inemail1, inemail2, inidaddress, innote, fieldtextasbase64.to_string()};
+string[] valuesin = {inidcontact.to_string(), inenable.to_string(), intitle, infirstname, inlastname, ingender.to_string(), inbirthday, intypeofid.to_string(), inidentification, inweb, inemail1, inemail2, inidaddress.to_string(), innote, fieldtextasbase64.to_string()};
 
-var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_contacts_table_xml($1::integer, $2::boolean, $3::text, $4::text, $5::text, $6::integer, $7::date, $8::integer, $9::text, $10::text, $11::text, $12::text, $13::text, $14::text, $15::boolean) AS return;", valuesin);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_contacts_edit_xml($1::integer, $2::boolean, $3::text, $4::text, $5::text, $6::integer, $7::date, $8::integer, $9::text, $10::text, $11::text, $12::text, $13::integer, $14::text, $15::boolean) AS return;", valuesin);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
