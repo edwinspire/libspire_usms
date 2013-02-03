@@ -3,6 +3,11 @@
 namespace edwinspire {
 	namespace uSMS {
 		[CCode (cheader_filename = "libspire_usms.h")]
+		public class AddressTable : edwinspire.uSMS.PostgreSQLConnection {
+			public AddressTable ();
+			public string fun_view_address_byid_xml (int idaddress, bool fieldtextasbase64 = true);
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
 		public class Device : edwinspire.GSM.MODEM.ModemGSM {
 			public int IdPort;
 			public uint TimeWindowSleep;

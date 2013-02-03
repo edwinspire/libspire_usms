@@ -807,6 +807,30 @@ return RetornoX;
 }
 
 
+public class AddressTable:PostgreSQLConnection{
+
+public string fun_view_address_byid_xml(int idaddress, bool fieldtextasbase64 = true){
+string RetornoX = "";
+var  Conexion = Postgres.connect_db (this.ConnString());
+if(Conexion.get_status () == ConnectionStatus.OK){
+string[] valuesin = {idaddress.to_string(), fieldtextasbase64.to_string()};
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_view_address_byid_xml($1::integer, $2::boolean) AS return;", valuesin);
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
+}
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+return RetornoX;
+}
+
+}
+
+
 public class PhoneTable:PostgreSQLConnection{
 
 public static XmlRow PhoneTableRowNodeXml(PhoneTableRow row){
