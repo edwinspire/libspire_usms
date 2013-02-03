@@ -52,6 +52,7 @@ Retorno["usms_gettableincomingcalls_xml"] = "/usms_gettableincomingcalls_xml";
 Retorno["usms_viewprovidertable_xml"] = "/usms_viewprovidertable_xml";
 Retorno["providereditxml.usms"] = "/providereditxml.usms";
 Retorno["get_address_byid.usms"] = "/get_address_byid.usms";
+Retorno["fun_address_edit.usms"] = "/fun_address_edit.usms";
 
 return Retorno;
 }
@@ -119,11 +120,30 @@ case "/get_address_byid.usms":
 response = ResponseGetAddressById(request);
 break;
 
+case "/fun_address_edit.usms":
+response = ResponseAddressTableEdit(request);
+break;
+
+
 default:
       response.Header.Status = StatusCode.NOT_FOUND;
 break;
 }
 return response;
+}
+
+private static uHttp.Response ResponseAddressTableEdit(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+
+AddressTable Tabla = new AddressTable();
+Tabla.GetParamCnx();
+
+    Retorno.Data =  Tabla.fun_address_edit_xml_from_hashmap(request.Form, true).data;
+
+return Retorno;
 }
 
 private static uHttp.Response ResponseGetAddressById(Request request){

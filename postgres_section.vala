@@ -809,6 +809,80 @@ return RetornoX;
 
 public class AddressTable:PostgreSQLConnection{
 
+//fun_address_edit_xml(inidaddress integer, inidlocation text, ingeox real, ingeoy real, inmstreet text, insstreet text, inother text, innote text, ints timestamp without time zone, fieldtextasbase64 boolean)
+
+public string fun_address_edit_xml_from_hashmap(HashMap<string, string> data, bool fieldtextasbase64 = true){ 
+
+int inidaddress = 0;
+string inidlocation = "";
+double ingeox = 0;
+double ingeoy = 0;
+string inmstreet = "";
+string insstreet = ""; 
+string inother = "";
+string innote = "";
+string ints = "1990-01-01";
+
+if(data.has_key("idaddress")){
+inidaddress = int.parse(data["idaddress"]);
+}
+
+if(data.has_key("idlocation")){
+inidlocation = data["idlocation"];
+}
+
+if(data.has_key("geox")){
+ingeox = double.parse(data["geox"]);
+}
+
+if(data.has_key("geoy")){
+ingeoy = double.parse(data["geoy"]);
+}
+
+
+if(data.has_key("main_street")){
+inmstreet = data["main_street"];
+}
+
+if(data.has_key("secundary_street")){
+insstreet = data["secundary_street"];
+}
+
+if(data.has_key("other")){
+inother = data["other"];
+}
+
+if(data.has_key("note")){
+innote = data["note"];
+}
+
+if(data.has_key("ts")){
+ints = data["ts"];
+}
+
+return fun_address_edit_xml(inidaddress, inidlocation, ingeox, ingeoy, inmstreet, insstreet, inother, innote, ints, fieldtextasbase64);
+}
+
+
+public string fun_address_edit_xml(int inidaddress, string inidlocation, double ingeox, double ingeoy, string inmstreet, string insstreet,  string inother, string innote, string ints, bool fieldtextasbase64 = true){
+string RetornoX = "";
+var  Conexion = Postgres.connect_db (this.ConnString());
+if(Conexion.get_status () == ConnectionStatus.OK){
+string[] valuesin = {inidaddress.to_string(), inidlocation, ingeox.to_string(), ingeoy.to_string(), inmstreet, insstreet, inother, innote, ints, fieldtextasbase64.to_string()};
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_address_edit_xml($1::integer, $2::text, $3::real, $4::real, $5::text, $6::text,  $7::text, $8::text, $9::timestamp without time zone, $10::text) AS return;", valuesin);
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
+}
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+return RetornoX;
+}
+
 public string fun_view_address_byid_xml(int idaddress, bool fieldtextasbase64 = true){
 string RetornoX = "";
 var  Conexion = Postgres.connect_db (this.ConnString());

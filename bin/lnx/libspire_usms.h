@@ -772,6 +772,8 @@ gchar* edwinspire_usms_provider_table_idname_Xml (edwinspireuSMSProviderTable* s
 edwinspireuSMSProviderTable* edwinspire_usms_provider_table_new (void);
 edwinspireuSMSProviderTable* edwinspire_usms_provider_table_construct (GType object_type);
 GType edwinspire_usms_address_table_get_type (void) G_GNUC_CONST;
+gchar* edwinspire_usms_address_table_fun_address_edit_xml_from_hashmap (edwinspireuSMSAddressTable* self, GeeHashMap* data, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_address_table_fun_address_edit_xml (edwinspireuSMSAddressTable* self, gint inidaddress, const gchar* inidlocation, gdouble ingeox, gdouble ingeoy, const gchar* inmstreet, const gchar* insstreet, const gchar* inother, const gchar* innote, const gchar* ints, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_address_table_fun_view_address_byid_xml (edwinspireuSMSAddressTable* self, gint idaddress, gboolean fieldtextasbase64);
 edwinspireuSMSAddressTable* edwinspire_usms_address_table_new (void);
 edwinspireuSMSAddressTable* edwinspire_usms_address_table_construct (GType object_type);
