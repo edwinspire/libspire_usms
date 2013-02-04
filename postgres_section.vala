@@ -266,6 +266,58 @@ public TableContacts(){
 
 }
 
+public string fun_contact_address_edit_xml_from_hashmap(HashMap<string, string> data, bool fieldtextasbase64 = true){ 
+
+int idcontact = 0;
+string inidlocation = "";
+double ingeox = 0;
+double ingeoy = 0;
+string inmstreet = "";
+string insstreet = ""; 
+string inother = "";
+string innote = "";
+string ints = "1990-01-01";
+
+if(data.has_key("idcontact")){
+idcontact = int.parse(data["idcontact"]);
+}
+
+if(data.has_key("idlocation")){
+inidlocation = data["idlocation"];
+}
+
+if(data.has_key("geox")){
+ingeox = double.parse(data["geox"]);
+}
+
+if(data.has_key("geoy")){
+ingeoy = double.parse(data["geoy"]);
+}
+
+
+if(data.has_key("main_street")){
+inmstreet = data["main_street"];
+}
+
+if(data.has_key("secundary_street")){
+insstreet = data["secundary_street"];
+}
+
+if(data.has_key("other")){
+inother = data["other"];
+}
+
+if(data.has_key("note")){
+innote = data["note"];
+}
+
+if(data.has_key("ts")){
+ints = data["ts"];
+}
+
+return fun_contact_address_edit_xml(idcontact, inidlocation, ingeox, ingeoy, inmstreet, insstreet, inother, innote, ints, fieldtextasbase64);
+}
+
 public string fun_contact_address_edit_xml(int idcontact, string inidlocation, double ingeox, double ingeoy, string inmstreet, string insstreet,  string inother, string innote, string ints, bool fieldtextasbase64 = true){
 string RetornoX = "";
 var  Conexion = Postgres.connect_db (this.ConnString());
@@ -925,6 +977,58 @@ return RetornoX;
 
 
 public class PhoneTable:PostgreSQLConnection{
+
+public string fun_phone_address_edit_xml_from_hashmap(HashMap<string, string> data, bool fieldtextasbase64 = true){ 
+
+int idphone = 0;
+string inidlocation = "";
+double ingeox = 0;
+double ingeoy = 0;
+string inmstreet = "";
+string insstreet = ""; 
+string inother = "";
+string innote = "";
+string ints = "1990-01-01";
+
+if(data.has_key("idphone")){
+idphone = int.parse(data["idphone"]);
+}
+
+if(data.has_key("idlocation")){
+inidlocation = data["idlocation"];
+}
+
+if(data.has_key("geox")){
+ingeox = double.parse(data["geox"]);
+}
+
+if(data.has_key("geoy")){
+ingeoy = double.parse(data["geoy"]);
+}
+
+
+if(data.has_key("main_street")){
+inmstreet = data["main_street"];
+}
+
+if(data.has_key("secundary_street")){
+insstreet = data["secundary_street"];
+}
+
+if(data.has_key("other")){
+inother = data["other"];
+}
+
+if(data.has_key("note")){
+innote = data["note"];
+}
+
+if(data.has_key("ts")){
+ints = data["ts"];
+}
+
+return fun_phones_address_edit_xml(idphone, inidlocation, ingeox, ingeoy, inmstreet, insstreet, inother, innote, ints, fieldtextasbase64);
+}
 
 
 public string fun_phones_address_edit_xml(int idphone, string inidlocation, double ingeox, double ingeoy, string inmstreet, string insstreet,  string inother, string innote, string ints, bool fieldtextasbase64 = true){
