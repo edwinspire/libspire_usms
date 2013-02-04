@@ -29,6 +29,7 @@ namespace edwinspire {
 			public string byIdContactXml (int idcontact);
 			public string byIdContact_Xml (int idcontact, bool fieldtextasbase64 = true);
 			public string byId_Xml (int idphone, bool fieldtextasbase64 = true);
+			public string fun_phones_address_edit_xml (int idphone, string inidlocation, double ingeox, double ingeoy, string inmstreet, string insstreet, string inother, string innote, string ints, bool fieldtextasbase64 = true);
 			public string fun_phones_table_xml (int inidphone, int inidcontact, bool inenable, string inphone, int intypephone, int inidprovider, string inphone_ext, int inidaddress, int inubiphone, string innote, string ints, bool fieldtextasbase64 = true);
 			public string fun_phones_table_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
 		}
@@ -117,6 +118,7 @@ namespace edwinspire {
 			public Gee.HashMap<int,string> NameAndId_All ();
 			public string NameAndId_All_Xml (bool fieldtextasbase64 = true);
 			public string byId_Xml (int idcontact, bool fieldtextasbase64 = true);
+			public string fun_contact_address_edit_xml (int idcontact, string inidlocation, double ingeox, double ingeoy, string inmstreet, string insstreet, string inother, string innote, string ints, bool fieldtextasbase64 = true);
 			public string fun_contacts_edit_xml (int inidcontact, bool inenable, string intitle, string infirstname, string inlastname, int ingender, string inbirthday, int intypeofid, string inidentification, string inweb, string inemail1, string inemail2, int inidaddress, string innote, bool fieldtextasbase64 = true);
 			public string fun_contacts_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
 		}
