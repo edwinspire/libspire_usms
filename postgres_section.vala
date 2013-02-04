@@ -1033,6 +1033,7 @@ return fun_phones_address_edit_xml(idphone, inidlocation, ingeox, ingeoy, inmstr
 
 public string fun_phones_address_edit_xml(int idphone, string inidlocation, double ingeox, double ingeoy, string inmstreet, string insstreet,  string inother, string innote, string ints, bool fieldtextasbase64 = true){
 string RetornoX = "";
+//GLib.print("idphone = %s\n", idphone.to_string());
 var  Conexion = Postgres.connect_db (this.ConnString());
 if(Conexion.get_status () == ConnectionStatus.OK){
 string[] valuesin = {idphone.to_string(), inidlocation, ingeox.to_string(), ingeoy.to_string(), inmstreet, insstreet, inother, innote, ints, fieldtextasbase64.to_string()};
