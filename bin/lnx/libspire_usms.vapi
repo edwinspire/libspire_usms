@@ -114,6 +114,13 @@ namespace edwinspire {
 			public int fun_incomingcalls_insert_online (int inidport, edwinspire.uSMS.CallAction incallaction, string inphone, string innote = "");
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
+		public class TableCity : edwinspire.uSMS.PostgreSQLConnection {
+			public TableCity ();
+			public string fun_location_city_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
+			public string fun_location_city_remove_selected_xml (string ids, bool fieldtextasbase64 = true);
+			public string fun_view_city_by_idstate_xml (int idcountry, bool fieldtextasbase64 = true);
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TableContacts : edwinspire.uSMS.PostgreSQLConnection {
 			public TableContacts ();
 			public Gee.HashMap<int,string> NameAndId_All ();
@@ -123,6 +130,13 @@ namespace edwinspire {
 			public string fun_contact_address_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
 			public string fun_contacts_edit_xml (int inidcontact, bool inenable, string intitle, string infirstname, string inlastname, int ingender, string inbirthday, int intypeofid, string inidentification, string inweb, string inemail1, string inemail2, int inidaddress, string innote, bool fieldtextasbase64 = true);
 			public string fun_contacts_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
+		public class TableCountry : edwinspire.uSMS.PostgreSQLConnection {
+			public TableCountry ();
+			public string fun_location_country_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
+			public string fun_location_country_remove_selected_xml (string ids, bool fieldtextasbase64 = true);
+			public string fun_view_country_xml (bool fieldtextasbase64 = true);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TableIncomingCalls : edwinspire.uSMS.PostgreSQLConnection {
@@ -168,6 +182,13 @@ namespace edwinspire {
 			public string fun_view_smsout_table_filter_xml (string start, string end, int rows, bool fieldtextasbase64 = true);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
+		public class TableSector : edwinspire.uSMS.PostgreSQLConnection {
+			public TableSector ();
+			public string fun_location_sector_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
+			public string fun_location_sector_remove_selected_xml (string ids, bool fieldtextasbase64 = true);
+			public string fun_view_sector_by_idcity_xml (int idcity, bool fieldtextasbase64 = true);
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TableSerialPort : GLib.Object {
 			public TableSerialPort ();
 			public static Gee.ArrayList<edwinspire.uSMS.SerialPortConf> All ();
@@ -178,6 +199,20 @@ namespace edwinspire {
 			public static int64 InsertUpdate (edwinspire.uSMS.SerialPortConf row);
 			public static int64 InsertUpdateFromWeb (Gee.HashMap<string,string> postData);
 			public static bool Update (edwinspire.uSMS.SerialPortConf row);
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
+		public class TableState : edwinspire.uSMS.PostgreSQLConnection {
+			public TableState ();
+			public string fun_location_state_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
+			public string fun_location_state_remove_selected_xml (string ids, bool fieldtextasbase64 = true);
+			public string fun_view_state_by_idcountry_xml (int idcountry, bool fieldtextasbase64 = true);
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
+		public class TableSubSector : edwinspire.uSMS.PostgreSQLConnection {
+			public TableSubSector ();
+			public string fun_location_subsector_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
+			public string fun_location_subsector_remove_selected_xml (string ids, bool fieldtextasbase64 = true);
+			public string fun_view_subsector_by_idsector_xml (int idsector, bool fieldtextasbase64 = true);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class XmlDatas : GLib.Object {

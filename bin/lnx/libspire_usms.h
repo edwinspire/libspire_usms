@@ -208,6 +208,61 @@ typedef struct _edwinspireuSMSTableCallIn edwinspireuSMSTableCallIn;
 typedef struct _edwinspireuSMSTableCallInClass edwinspireuSMSTableCallInClass;
 typedef struct _edwinspireuSMSTableCallInPrivate edwinspireuSMSTableCallInPrivate;
 
+#define EDWINSPIRE_USMS_TYPE_TABLE_CITY (edwinspire_usms_table_city_get_type ())
+#define EDWINSPIRE_USMS_TABLE_CITY(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_TABLE_CITY, edwinspireuSMSTableCity))
+#define EDWINSPIRE_USMS_TABLE_CITY_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_TABLE_CITY, edwinspireuSMSTableCityClass))
+#define EDWINSPIRE_USMS_IS_TABLE_CITY(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_TABLE_CITY))
+#define EDWINSPIRE_USMS_IS_TABLE_CITY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_TABLE_CITY))
+#define EDWINSPIRE_USMS_TABLE_CITY_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_TABLE_CITY, edwinspireuSMSTableCityClass))
+
+typedef struct _edwinspireuSMSTableCity edwinspireuSMSTableCity;
+typedef struct _edwinspireuSMSTableCityClass edwinspireuSMSTableCityClass;
+typedef struct _edwinspireuSMSTableCityPrivate edwinspireuSMSTableCityPrivate;
+
+#define EDWINSPIRE_USMS_TYPE_TABLE_STATE (edwinspire_usms_table_state_get_type ())
+#define EDWINSPIRE_USMS_TABLE_STATE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_TABLE_STATE, edwinspireuSMSTableState))
+#define EDWINSPIRE_USMS_TABLE_STATE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_TABLE_STATE, edwinspireuSMSTableStateClass))
+#define EDWINSPIRE_USMS_IS_TABLE_STATE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_TABLE_STATE))
+#define EDWINSPIRE_USMS_IS_TABLE_STATE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_TABLE_STATE))
+#define EDWINSPIRE_USMS_TABLE_STATE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_TABLE_STATE, edwinspireuSMSTableStateClass))
+
+typedef struct _edwinspireuSMSTableState edwinspireuSMSTableState;
+typedef struct _edwinspireuSMSTableStateClass edwinspireuSMSTableStateClass;
+typedef struct _edwinspireuSMSTableStatePrivate edwinspireuSMSTableStatePrivate;
+
+#define EDWINSPIRE_USMS_TYPE_TABLE_SECTOR (edwinspire_usms_table_sector_get_type ())
+#define EDWINSPIRE_USMS_TABLE_SECTOR(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_TABLE_SECTOR, edwinspireuSMSTableSector))
+#define EDWINSPIRE_USMS_TABLE_SECTOR_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_TABLE_SECTOR, edwinspireuSMSTableSectorClass))
+#define EDWINSPIRE_USMS_IS_TABLE_SECTOR(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_TABLE_SECTOR))
+#define EDWINSPIRE_USMS_IS_TABLE_SECTOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_TABLE_SECTOR))
+#define EDWINSPIRE_USMS_TABLE_SECTOR_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_TABLE_SECTOR, edwinspireuSMSTableSectorClass))
+
+typedef struct _edwinspireuSMSTableSector edwinspireuSMSTableSector;
+typedef struct _edwinspireuSMSTableSectorClass edwinspireuSMSTableSectorClass;
+typedef struct _edwinspireuSMSTableSectorPrivate edwinspireuSMSTableSectorPrivate;
+
+#define EDWINSPIRE_USMS_TYPE_TABLE_SUB_SECTOR (edwinspire_usms_table_sub_sector_get_type ())
+#define EDWINSPIRE_USMS_TABLE_SUB_SECTOR(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_TABLE_SUB_SECTOR, edwinspireuSMSTableSubSector))
+#define EDWINSPIRE_USMS_TABLE_SUB_SECTOR_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_TABLE_SUB_SECTOR, edwinspireuSMSTableSubSectorClass))
+#define EDWINSPIRE_USMS_IS_TABLE_SUB_SECTOR(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_TABLE_SUB_SECTOR))
+#define EDWINSPIRE_USMS_IS_TABLE_SUB_SECTOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_TABLE_SUB_SECTOR))
+#define EDWINSPIRE_USMS_TABLE_SUB_SECTOR_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_TABLE_SUB_SECTOR, edwinspireuSMSTableSubSectorClass))
+
+typedef struct _edwinspireuSMSTableSubSector edwinspireuSMSTableSubSector;
+typedef struct _edwinspireuSMSTableSubSectorClass edwinspireuSMSTableSubSectorClass;
+typedef struct _edwinspireuSMSTableSubSectorPrivate edwinspireuSMSTableSubSectorPrivate;
+
+#define EDWINSPIRE_USMS_TYPE_TABLE_COUNTRY (edwinspire_usms_table_country_get_type ())
+#define EDWINSPIRE_USMS_TABLE_COUNTRY(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_TABLE_COUNTRY, edwinspireuSMSTableCountry))
+#define EDWINSPIRE_USMS_TABLE_COUNTRY_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_TABLE_COUNTRY, edwinspireuSMSTableCountryClass))
+#define EDWINSPIRE_USMS_IS_TABLE_COUNTRY(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_TABLE_COUNTRY))
+#define EDWINSPIRE_USMS_IS_TABLE_COUNTRY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_TABLE_COUNTRY))
+#define EDWINSPIRE_USMS_TABLE_COUNTRY_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_TABLE_COUNTRY, edwinspireuSMSTableCountryClass))
+
+typedef struct _edwinspireuSMSTableCountry edwinspireuSMSTableCountry;
+typedef struct _edwinspireuSMSTableCountryClass edwinspireuSMSTableCountryClass;
+typedef struct _edwinspireuSMSTableCountryPrivate edwinspireuSMSTableCountryPrivate;
+
 #define EDWINSPIRE_USMS_TYPE_TABLE_INCOMING_CALLS (edwinspire_usms_table_incoming_calls_get_type ())
 #define EDWINSPIRE_USMS_TABLE_INCOMING_CALLS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_TABLE_INCOMING_CALLS, edwinspireuSMSTableIncomingCalls))
 #define EDWINSPIRE_USMS_TABLE_INCOMING_CALLS_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_TABLE_INCOMING_CALLS, edwinspireuSMSTableIncomingCallsClass))
@@ -481,6 +536,51 @@ struct _edwinspireuSMSTableCallInClass {
 	edwinspireuSMSPostgresuSMSClass parent_class;
 };
 
+struct _edwinspireuSMSTableCity {
+	edwinspireuSMSPostgreSQLConnection parent_instance;
+	edwinspireuSMSTableCityPrivate * priv;
+};
+
+struct _edwinspireuSMSTableCityClass {
+	edwinspireuSMSPostgreSQLConnectionClass parent_class;
+};
+
+struct _edwinspireuSMSTableState {
+	edwinspireuSMSPostgreSQLConnection parent_instance;
+	edwinspireuSMSTableStatePrivate * priv;
+};
+
+struct _edwinspireuSMSTableStateClass {
+	edwinspireuSMSPostgreSQLConnectionClass parent_class;
+};
+
+struct _edwinspireuSMSTableSector {
+	edwinspireuSMSPostgreSQLConnection parent_instance;
+	edwinspireuSMSTableSectorPrivate * priv;
+};
+
+struct _edwinspireuSMSTableSectorClass {
+	edwinspireuSMSPostgreSQLConnectionClass parent_class;
+};
+
+struct _edwinspireuSMSTableSubSector {
+	edwinspireuSMSPostgreSQLConnection parent_instance;
+	edwinspireuSMSTableSubSectorPrivate * priv;
+};
+
+struct _edwinspireuSMSTableSubSectorClass {
+	edwinspireuSMSPostgreSQLConnectionClass parent_class;
+};
+
+struct _edwinspireuSMSTableCountry {
+	edwinspireuSMSPostgreSQLConnection parent_instance;
+	edwinspireuSMSTableCountryPrivate * priv;
+};
+
+struct _edwinspireuSMSTableCountryClass {
+	edwinspireuSMSPostgreSQLConnectionClass parent_class;
+};
+
 struct _edwinspireuSMSTableIncomingCalls {
 	edwinspireuSMSPostgreSQLConnection parent_instance;
 	edwinspireuSMSTableIncomingCallsPrivate * priv;
@@ -734,6 +834,36 @@ GType edwinspire_usms_table_call_in_get_type (void) G_GNUC_CONST;
 edwinspireuSMSTableCallIn* edwinspire_usms_table_call_in_new (void);
 edwinspireuSMSTableCallIn* edwinspire_usms_table_call_in_construct (GType object_type);
 gint edwinspire_usms_table_call_in_fun_incomingcalls_insert_online (edwinspireuSMSTableCallIn* self, gint inidport, edwinspireuSMSCallAction incallaction, const gchar* inphone, const gchar* innote);
+GType edwinspire_usms_table_city_get_type (void) G_GNUC_CONST;
+gchar* edwinspire_usms_table_city_fun_location_city_remove_selected_xml (edwinspireuSMSTableCity* self, const gchar* ids, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_table_city_fun_location_city_edit_xml_from_hashmap (edwinspireuSMSTableCity* self, GeeHashMap* data, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_table_city_fun_view_city_by_idstate_xml (edwinspireuSMSTableCity* self, gint idcountry, gboolean fieldtextasbase64);
+edwinspireuSMSTableCity* edwinspire_usms_table_city_new (void);
+edwinspireuSMSTableCity* edwinspire_usms_table_city_construct (GType object_type);
+GType edwinspire_usms_table_state_get_type (void) G_GNUC_CONST;
+gchar* edwinspire_usms_table_state_fun_location_state_remove_selected_xml (edwinspireuSMSTableState* self, const gchar* ids, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_table_state_fun_location_state_edit_xml_from_hashmap (edwinspireuSMSTableState* self, GeeHashMap* data, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_table_state_fun_view_state_by_idcountry_xml (edwinspireuSMSTableState* self, gint idcountry, gboolean fieldtextasbase64);
+edwinspireuSMSTableState* edwinspire_usms_table_state_new (void);
+edwinspireuSMSTableState* edwinspire_usms_table_state_construct (GType object_type);
+GType edwinspire_usms_table_sector_get_type (void) G_GNUC_CONST;
+gchar* edwinspire_usms_table_sector_fun_location_sector_remove_selected_xml (edwinspireuSMSTableSector* self, const gchar* ids, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_table_sector_fun_location_sector_edit_xml_from_hashmap (edwinspireuSMSTableSector* self, GeeHashMap* data, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_table_sector_fun_view_sector_by_idcity_xml (edwinspireuSMSTableSector* self, gint idcity, gboolean fieldtextasbase64);
+edwinspireuSMSTableSector* edwinspire_usms_table_sector_new (void);
+edwinspireuSMSTableSector* edwinspire_usms_table_sector_construct (GType object_type);
+GType edwinspire_usms_table_sub_sector_get_type (void) G_GNUC_CONST;
+gchar* edwinspire_usms_table_sub_sector_fun_location_subsector_remove_selected_xml (edwinspireuSMSTableSubSector* self, const gchar* ids, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_table_sub_sector_fun_location_subsector_edit_xml_from_hashmap (edwinspireuSMSTableSubSector* self, GeeHashMap* data, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_table_sub_sector_fun_view_subsector_by_idsector_xml (edwinspireuSMSTableSubSector* self, gint idsector, gboolean fieldtextasbase64);
+edwinspireuSMSTableSubSector* edwinspire_usms_table_sub_sector_new (void);
+edwinspireuSMSTableSubSector* edwinspire_usms_table_sub_sector_construct (GType object_type);
+GType edwinspire_usms_table_country_get_type (void) G_GNUC_CONST;
+gchar* edwinspire_usms_table_country_fun_location_country_remove_selected_xml (edwinspireuSMSTableCountry* self, const gchar* ids, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_table_country_fun_location_country_edit_xml_from_hashmap (edwinspireuSMSTableCountry* self, GeeHashMap* data, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_table_country_fun_view_country_xml (edwinspireuSMSTableCountry* self, gboolean fieldtextasbase64);
+edwinspireuSMSTableCountry* edwinspire_usms_table_country_new (void);
+edwinspireuSMSTableCountry* edwinspire_usms_table_country_construct (GType object_type);
 GType edwinspire_usms_table_incoming_calls_get_type (void) G_GNUC_CONST;
 edwinspireuSMSTableIncomingCalls* edwinspire_usms_table_incoming_calls_new (void);
 edwinspireuSMSTableIncomingCalls* edwinspire_usms_table_incoming_calls_construct (GType object_type);

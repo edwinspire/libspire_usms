@@ -217,12 +217,470 @@ return Retorno;
 }
 
 
+public class TableCity:PostgreSQLConnection{
+
+
+public string fun_location_city_remove_selected_xml(string ids, bool fieldtextasbase64 = true){
+
+string Retorno = "";
+
+string[] ValuesArray = {"{"+ids+"}", fieldtextasbase64.to_string()};
+//GLib.print("Llega hasta aqui 3 \n");
+var  Conexion = Postgres.connect_db (this.ConnString());
+
+if(Conexion.get_status () == ConnectionStatus.OK){
+
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_location_city_remove_selected_xml($1::integer[], $2::boolean) AS return;",  ValuesArray);
+
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var filas in this.Result_FieldName(ref Resultado)){
+Retorno = filas["return"].Value;
+}
+
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}
+return Retorno;
+}
+
+public string fun_location_city_edit_xml_from_hashmap(HashMap<string, string> data, bool fieldtextasbase64 = true){
+
+string RetornoX = "";
+int id = 0;
+int idstate = 0;
+string name = "";
+string code = "";
+string ts = "1990-01-01";
+
+if(data.has_key("idstate")){
+idstate = int.parse(data["idstate"]);
+}
+
+if(data.has_key("idcity")){
+id = int.parse(data["idcity"]);
+}
+
+
+if(data.has_key("name")){
+name = data["name"];
+}
+
+if(data.has_key("code")){
+code = data["code"];
+}
+
+if(data.has_key("ts")){
+ts = data["ts"];
+}
+
+var  Conexion = Postgres.connect_db (this.ConnString());
+
+if(Conexion.get_status () == ConnectionStatus.OK){
+
+string[] valuesin = {idstate.to_string(), id.to_string(), name, code, ts, fieldtextasbase64.to_string()};
+
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_location_city_edit_xml($1::integer, $2::integer, $3::text, $4::text, $5::timestamp without time zone, $6::boolean) AS return", valuesin);
+
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
+}
+
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+return RetornoX;
+}
+
+public string fun_view_city_by_idstate_xml(int idcountry, bool fieldtextasbase64 = true){
+
+string RetornoX = "";
+
+var  Conexion = Postgres.connect_db (this.ConnString());
+
+if(Conexion.get_status () == ConnectionStatus.OK){
+
+string[] valuesin = {idcountry.to_string(), fieldtextasbase64.to_string()};
+
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_view_city_by_idstate_xml($1::integer, $2::boolean) AS return", valuesin);
+
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
+}
+
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+return RetornoX;
+}
+
+}
+
+
+public class TableState:PostgreSQLConnection{
+
+
+public string fun_location_state_remove_selected_xml(string ids, bool fieldtextasbase64 = true){
+string Retorno = "";
+string[] ValuesArray = {"{"+ids+"}", fieldtextasbase64.to_string()};
+var  Conexion = Postgres.connect_db (this.ConnString());
+if(Conexion.get_status () == ConnectionStatus.OK){
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_location_state_remove_selected_xml($1::integer[], $2::boolean) AS return;",  ValuesArray);
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var filas in this.Result_FieldName(ref Resultado)){
+Retorno = filas["return"].Value;
+}
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+}
+return Retorno;
+}
+
+public string fun_location_state_edit_xml_from_hashmap(HashMap<string, string> data, bool fieldtextasbase64 = true){
+string RetornoX = "";
+int id = 0;
+int idcountry = 0;
+string name = "";
+string code = "";
+string ts = "1990-01-01";
+if(data.has_key("idstate")){
+id = int.parse(data["idstate"]);
+}
+if(data.has_key("idcountry")){
+idcountry = int.parse(data["idcountry"]);
+}
+if(data.has_key("name")){
+name = data["name"];
+}
+if(data.has_key("code")){
+code = data["code"];
+}
+if(data.has_key("ts")){
+ts = data["ts"];
+}
+
+var  Conexion = Postgres.connect_db (this.ConnString());
+if(Conexion.get_status () == ConnectionStatus.OK){
+string[] valuesin = {idcountry.to_string(), id.to_string(), name, code, ts, fieldtextasbase64.to_string()};
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_location_state_edit_xml($1::integer, $2::integer, $3::text, $4::text, $5::timestamp without time zone, $6::boolean) AS return", valuesin);
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
+}
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+return RetornoX;
+}
+
+public string fun_view_state_by_idcountry_xml(int idcountry, bool fieldtextasbase64 = true){
+string RetornoX = "";
+var  Conexion = Postgres.connect_db (this.ConnString());
+if(Conexion.get_status () == ConnectionStatus.OK){
+string[] valuesin = {idcountry.to_string(), fieldtextasbase64.to_string()};
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_view_state_by_idcountry_xml($1::integer, $2::boolean) AS return", valuesin);
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
+}
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+return RetornoX;
+}
+}
+
+public class TableSector:PostgreSQLConnection{
+
+public string fun_location_sector_remove_selected_xml(string ids, bool fieldtextasbase64 = true){
+string Retorno = "";
+string[] ValuesArray = {"{"+ids+"}", fieldtextasbase64.to_string()};
+var  Conexion = Postgres.connect_db (this.ConnString());
+if(Conexion.get_status () == ConnectionStatus.OK){
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_location_sector_remove_selected_xml($1::integer[], $2::boolean) AS return;",  ValuesArray);
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var filas in this.Result_FieldName(ref Resultado)){
+Retorno = filas["return"].Value;
+}
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+}
+return Retorno;
+}
+
+public string fun_location_sector_edit_xml_from_hashmap(HashMap<string, string> data, bool fieldtextasbase64 = true){
+string RetornoX = "";
+int id = 0;
+int idcity = 0;
+string name = "";
+string ts = "1990-01-01";
+if(data.has_key("idsector")){
+id = int.parse(data["idsector"]);
+}
+if(data.has_key("idcity")){
+idcity = int.parse(data["idcity"]);
+}
+if(data.has_key("name")){
+name = data["name"];
+}
+if(data.has_key("ts")){
+ts = data["ts"];
+}
+
+var  Conexion = Postgres.connect_db (this.ConnString());
+if(Conexion.get_status () == ConnectionStatus.OK){
+string[] valuesin = {idcity.to_string(), id.to_string(), name, ts, fieldtextasbase64.to_string()};
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_location_sector_edit_xml($1::integer, $2::integer, $3::text, $4::timestamp without time zone, $5::boolean) AS return", valuesin);
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
+}
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+return RetornoX;
+}
+
+public string fun_view_sector_by_idcity_xml(int idcity, bool fieldtextasbase64 = true){
+string RetornoX = "";
+var  Conexion = Postgres.connect_db (this.ConnString());
+if(Conexion.get_status () == ConnectionStatus.OK){
+string[] valuesin = {idcity.to_string(), fieldtextasbase64.to_string()};
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_view_sector_by_idcity_xml($1::integer, $2::boolean) AS return", valuesin);
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
+}
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+return RetornoX;
+}
+}
+
+
+
+public class TableSubSector:PostgreSQLConnection{
+
+public string fun_location_subsector_remove_selected_xml(string ids, bool fieldtextasbase64 = true){
+string Retorno = "";
+string[] ValuesArray = {"{"+ids+"}", fieldtextasbase64.to_string()};
+var  Conexion = Postgres.connect_db (this.ConnString());
+if(Conexion.get_status () == ConnectionStatus.OK){
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_location_subsector_remove_selected_xml($1::integer[], $2::boolean) AS return;",  ValuesArray);
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var filas in this.Result_FieldName(ref Resultado)){
+Retorno = filas["return"].Value;
+}
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+}
+return Retorno;
+}
+
+public string fun_location_subsector_edit_xml_from_hashmap(HashMap<string, string> data, bool fieldtextasbase64 = true){
+string RetornoX = "";
+int id = 0;
+int idsector = 0;
+string name = "";
+string ts = "1990-01-01";
+if(data.has_key("idsubsector")){
+id = int.parse(data["idsubsector"]);
+}
+if(data.has_key("idsector")){
+idsector = int.parse(data["idsector"]);
+}
+if(data.has_key("name")){
+name = data["name"];
+}
+if(data.has_key("ts")){
+ts = data["ts"];
+}
+
+var  Conexion = Postgres.connect_db (this.ConnString());
+if(Conexion.get_status () == ConnectionStatus.OK){
+string[] valuesin = {idsector.to_string(), id.to_string(), name, ts, fieldtextasbase64.to_string()};
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_location_subsector_edit_xml($1::integer, $2::integer, $3::text, $4::timestamp without time zone, $5::boolean) AS return", valuesin);
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
+}
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+return RetornoX;
+}
+
+public string fun_view_subsector_by_idsector_xml(int idsector, bool fieldtextasbase64 = true){
+string RetornoX = "";
+var  Conexion = Postgres.connect_db (this.ConnString());
+if(Conexion.get_status () == ConnectionStatus.OK){
+string[] valuesin = {idsector.to_string(), fieldtextasbase64.to_string()};
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_view_subsector_by_idsector_xml($1::integer, $2::boolean) AS return", valuesin);
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
+}
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+return RetornoX;
+}
+}
+
+
+public class TableCountry:PostgreSQLConnection{
+
+
+public string fun_location_country_remove_selected_xml(string ids, bool fieldtextasbase64 = true){
+
+string Retorno = "";
+
+string[] ValuesArray = {"{"+ids+"}", fieldtextasbase64.to_string()};
+//GLib.print("Llega hasta aqui 3 \n");
+var  Conexion = Postgres.connect_db (this.ConnString());
+
+if(Conexion.get_status () == ConnectionStatus.OK){
+
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_location_country_remove_selected_xml($1::integer[], $2::boolean) AS return;",  ValuesArray);
+
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var filas in this.Result_FieldName(ref Resultado)){
+Retorno = filas["return"].Value;
+}
+
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}
+return Retorno;
+}
+
+public string fun_location_country_edit_xml_from_hashmap(HashMap<string, string> data, bool fieldtextasbase64 = true){
+
+string RetornoX = "";
+int id = 0;
+string name = "";
+string code = "";
+string ts = "1990-01-01";
+
+if(data.has_key("idcountry")){
+id = int.parse(data["idcountry"]);
+}
+
+if(data.has_key("name")){
+name = data["name"];
+}
+
+if(data.has_key("code")){
+code = data["code"];
+}
+
+if(data.has_key("ts")){
+ts = data["ts"];
+}
+
+var  Conexion = Postgres.connect_db (this.ConnString());
+
+if(Conexion.get_status () == ConnectionStatus.OK){
+
+string[] valuesin = {id.to_string(), name, code, ts, fieldtextasbase64.to_string()};
+
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_location_country_edit_xml($1::integer, $2::text, $3::text, $4::timestamp without time zone, $5::boolean) AS return", valuesin);
+
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
+}
+
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+return RetornoX;
+}
+
+public string fun_view_country_xml(bool fieldtextasbase64 = true){
+
+string RetornoX = "";
+
+var  Conexion = Postgres.connect_db (this.ConnString());
+
+if(Conexion.get_status () == ConnectionStatus.OK){
+
+string[] valuesin = {fieldtextasbase64.to_string()};
+
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_view_country_xml($1::boolean) AS return", valuesin);
+
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
+}
+
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+return RetornoX;
+}
+
+}
 
 
 public class TableIncomingCalls:PostgreSQLConnection{
 
 
 public TableIncomingCalls(){
+
 
 }
 

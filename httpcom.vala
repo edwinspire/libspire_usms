@@ -55,6 +55,29 @@ Retorno["get_address_byid.usms"] = "/get_address_byid.usms";
 Retorno["fun_address_edit.usms"] = "/fun_address_edit.usms";
 Retorno["fun_contact_address_edit.usms"] = "/fun_contact_address_edit.usms";
 Retorno["fun_phone_address_edit.usms"] = "/fun_phone_address_edit.usms";
+Retorno["fun_view_country_xml.usms"] = "/fun_view_country_xml.usms";
+Retorno["fun_location_country_edit_xml_from_hashmap.usms"] = "/fun_location_country_edit_xml_from_hashmap.usms";
+Retorno["fun_location_country_remove_selected_xml.usms"] = "/fun_location_country_remove_selected_xml.usms";
+
+Retorno["fun_view_state_by_idcountry_xml.usms"] = "/fun_view_state_by_idcountry_xml.usms";
+Retorno["fun_location_state_edit_xml_from_hashmap.usms"] = "/fun_location_state_edit_xml_from_hashmap.usms";
+Retorno["fun_location_state_remove_selected_xml.usms"] = "/fun_location_state_remove_selected_xml.usms";
+
+Retorno["fun_view_city_by_idstate_xml.usms"] = "/fun_view_city_by_idstate_xml.usms";
+Retorno["fun_location_city_edit_xml_from_hashmap.usms"] = "/fun_location_city_edit_xml_from_hashmap.usms";
+Retorno["fun_location_city_remove_selected_xml.usms"] = "/fun_location_city_remove_selected_xml.usms";
+
+Retorno["fun_view_sector_by_idcity_xml.usms"] = "/fun_view_sector_by_idcity_xml.usms";
+Retorno["fun_location_sector_edit_xml_from_hashmap.usms"] = "/fun_location_sector_edit_xml_from_hashmap.usms";
+Retorno["fun_location_sector_remove_selected_xml.usms"] = "/fun_location_sector_remove_selected_xml.usms";
+
+Retorno["fun_view_subsector_by_idsector_xml.usms"] = "/fun_view_subsector_by_idsector_xml.usms";
+Retorno["fun_location_subsector_edit_xml_from_hashmap.usms"] = "/fun_location_subsector_edit_xml_from_hashmap.usms";
+Retorno["fun_location_subsector_remove_selected_xml.usms"] = "/fun_location_subsector_remove_selected_xml.usms";
+
+
+//Retorno["xxxxxxxxxxxxxxxxx.usms"] = "/xxxxxxxxxxxxxxxx.usms";
+
 
 return Retorno;
 }
@@ -132,11 +155,301 @@ case "/fun_phone_address_edit.usms":
 response = ResponsePhoneAddressTableEdit(request);
 break;
 
+case "/fun_view_country_xml.usms":
+response = response_fun_view_country_xml(request);
+break;
+
+case "/fun_location_country_edit_xml_from_hashmap.usms":
+response = response_fun_location_country_edit_xml_from_hashmap(request);
+break;
+
+case "/fun_location_country_remove_selected_xml.usms":
+response = response_fun_location_country_remove_selected_xml(request);
+break;
+
+case "/fun_view_state_by_idcountry_xml.usms":
+response = response_fun_view_state_by_idcountry_xml(request);
+break;
+
+case "/fun_location_state_edit_xml_from_hashmap.usms":
+response = response_fun_location_state_edit_xml_from_hashmap(request);
+break;
+
+case "/fun_location_state_remove_selected_xml.usms":
+response = response_fun_location_state_remove_selected_xml(request);
+break;
+
+//------------------
+case "/fun_view_city_by_idstate_xml.usms":
+response = response_fun_view_city_by_idstate_xml(request);
+break;
+case "/fun_location_city_edit_xml_from_hashmap.usms":
+response = response_fun_location_city_edit_xml_from_hashmap(request);
+break;
+case "/fun_location_city_remove_selected_xml.usms":
+response = response_fun_location_city_remove_selected_xml(request);
+break;
+
+//------------------
+case "/fun_view_sector_by_idcity_xml.usms":
+response = response_fun_view_sector_by_idcity_xml(request);
+break;
+case "/fun_location_sector_edit_xml_from_hashmap.usms":
+response = response_fun_location_sector_edit_xml_from_hashmap(request);
+break;
+case "/fun_location_sector_remove_selected_xml.usms":
+response = response_fun_location_sector_remove_selected_xml(request);
+break;
+
+//------------------
+case "/fun_view_subsector_by_idsector_xml.usms":
+response = response_fun_view_subsector_by_idsector_xml(request);
+break;
+case "/fun_location_subsector_edit_xml_from_hashmap.usms":
+response = response_fun_location_subsector_edit_xml_from_hashmap(request);
+break;
+case "/fun_location_subsector_remove_selected_xml.usms":
+response = response_fun_location_subsector_remove_selected_xml(request);
+break;
+
+/*
+case "/xxxxxxxxxxxxxxxxxxxxxx.usms":
+response = xxxxxxxxxxxxxxxxxxxxxxx(request);
+break;
+*/
+
 default:
       response.Header.Status = StatusCode.NOT_FOUND;
 break;
 }
 return response;
+}
+
+
+//----------------------------------------------------------------------------------------------
+private static uHttp.Response response_fun_location_subsector_remove_selected_xml(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+TableSubSector Tabla = new TableSubSector();
+Tabla.GetParamCnx();
+string ids = "";
+if(request.Form.has_key("ids")){
+ids = request.Form["ids"];
+}
+
+    Retorno.Data =  Tabla.fun_location_subsector_remove_selected_xml(ids, true).data;
+return Retorno;
+}
+
+private static uHttp.Response response_fun_location_subsector_edit_xml_from_hashmap(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+TableSubSector Tabla = new TableSubSector();
+Tabla.GetParamCnx();
+    Retorno.Data =  Tabla.fun_location_subsector_edit_xml_from_hashmap(request.Form).data;
+return Retorno;
+}
+
+private static uHttp.Response response_fun_view_subsector_by_idsector_xml(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+TableSubSector Tabla = new TableSubSector();
+Tabla.GetParamCnx();
+
+int id = 0;
+
+if(request.Query.has_key("idsector")){
+id = int.parse(request.Query["idsector"]);
+}
+
+    Retorno.Data =  Tabla.fun_view_subsector_by_idsector_xml(id, true).data;
+return Retorno;
+}
+
+
+//----------------------------------------------------------------------------------------------
+private static uHttp.Response response_fun_location_sector_remove_selected_xml(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+TableSector Tabla = new TableSector();
+Tabla.GetParamCnx();
+string ids = "";
+if(request.Form.has_key("ids")){
+ids = request.Form["ids"];
+}
+
+    Retorno.Data =  Tabla.fun_location_sector_remove_selected_xml(ids, true).data;
+return Retorno;
+}
+
+private static uHttp.Response response_fun_location_sector_edit_xml_from_hashmap(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+TableSector Tabla = new TableSector();
+Tabla.GetParamCnx();
+    Retorno.Data =  Tabla.fun_location_sector_edit_xml_from_hashmap(request.Form).data;
+return Retorno;
+}
+
+private static uHttp.Response response_fun_view_sector_by_idcity_xml(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+TableSector Tabla = new TableSector();
+Tabla.GetParamCnx();
+
+int id = 0;
+
+if(request.Query.has_key("idcity")){
+id = int.parse(request.Query["idcity"]);
+}
+
+    Retorno.Data =  Tabla.fun_view_sector_by_idcity_xml(id, true).data;
+return Retorno;
+}
+
+
+//---------------------------------------------------------
+private static uHttp.Response response_fun_location_city_remove_selected_xml(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+TableCity Tabla = new TableCity();
+Tabla.GetParamCnx();
+string ids = "";
+if(request.Form.has_key("ids")){
+ids = request.Form["ids"];
+}
+
+    Retorno.Data =  Tabla.fun_location_city_remove_selected_xml(ids, true).data;
+return Retorno;
+}
+
+private static uHttp.Response response_fun_location_city_edit_xml_from_hashmap(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+TableCity Tabla = new TableCity();
+Tabla.GetParamCnx();
+    Retorno.Data =  Tabla.fun_location_city_edit_xml_from_hashmap(request.Form).data;
+return Retorno;
+}
+
+private static uHttp.Response response_fun_view_city_by_idstate_xml(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+TableCity Tabla = new TableCity();
+Tabla.GetParamCnx();
+
+int idstate = 0;
+
+if(request.Query.has_key("idstate")){
+idstate = int.parse(request.Query["idstate"]);
+}
+
+    Retorno.Data =  Tabla.fun_view_city_by_idstate_xml(idstate, true).data;
+return Retorno;
+}
+
+//-------------------------
+private static uHttp.Response response_fun_location_state_remove_selected_xml(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+TableState Tabla = new TableState();
+Tabla.GetParamCnx();
+string ids = "";
+if(request.Form.has_key("ids")){
+ids = request.Form["ids"];
+}
+
+    Retorno.Data =  Tabla.fun_location_state_remove_selected_xml(ids, true).data;
+return Retorno;
+}
+
+private static uHttp.Response response_fun_location_state_edit_xml_from_hashmap(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+TableState Tabla = new TableState();
+Tabla.GetParamCnx();
+    Retorno.Data =  Tabla.fun_location_state_edit_xml_from_hashmap(request.Form).data;
+return Retorno;
+}
+
+private static uHttp.Response response_fun_view_state_by_idcountry_xml(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+TableState Tabla = new TableState();
+Tabla.GetParamCnx();
+
+int idcountry = 0;
+
+if(request.Query.has_key("idcountry")){
+idcountry = int.parse(request.Query["idcountry"]);
+}
+
+    Retorno.Data =  Tabla.fun_view_state_by_idcountry_xml(idcountry, true).data;
+return Retorno;
+}
+
+
+//------------------------------------
+private static uHttp.Response response_fun_location_country_remove_selected_xml(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+TableCountry Tabla = new TableCountry();
+Tabla.GetParamCnx();
+string ids = "";
+if(request.Form.has_key("ids")){
+ids = request.Form["ids"];
+}
+
+    Retorno.Data =  Tabla.fun_location_country_remove_selected_xml(ids, true).data;
+return Retorno;
+}
+
+private static uHttp.Response response_fun_location_country_edit_xml_from_hashmap(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+TableCountry Tabla = new TableCountry();
+Tabla.GetParamCnx();
+    Retorno.Data =  Tabla.fun_location_country_edit_xml_from_hashmap(request.Form).data;
+return Retorno;
+}
+
+private static uHttp.Response response_fun_view_country_xml(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+TableCountry Tabla = new TableCountry();
+Tabla.GetParamCnx();
+    Retorno.Data =  Tabla.fun_view_country_xml(true).data;
+return Retorno;
 }
 
 private static uHttp.Response ResponseContactAddressTableEdit(Request request){
