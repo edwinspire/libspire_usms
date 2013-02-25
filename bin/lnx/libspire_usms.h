@@ -252,16 +252,27 @@ typedef struct _edwinspireuSMSTableSubSector edwinspireuSMSTableSubSector;
 typedef struct _edwinspireuSMSTableSubSectorClass edwinspireuSMSTableSubSectorClass;
 typedef struct _edwinspireuSMSTableSubSectorPrivate edwinspireuSMSTableSubSectorPrivate;
 
-#define EDWINSPIRE_USMS_TYPE_TABLE_COUNTRY (edwinspire_usms_table_country_get_type ())
-#define EDWINSPIRE_USMS_TABLE_COUNTRY(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_TABLE_COUNTRY, edwinspireuSMSTableCountry))
-#define EDWINSPIRE_USMS_TABLE_COUNTRY_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_TABLE_COUNTRY, edwinspireuSMSTableCountryClass))
-#define EDWINSPIRE_USMS_IS_TABLE_COUNTRY(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_TABLE_COUNTRY))
-#define EDWINSPIRE_USMS_IS_TABLE_COUNTRY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_TABLE_COUNTRY))
-#define EDWINSPIRE_USMS_TABLE_COUNTRY_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_TABLE_COUNTRY, edwinspireuSMSTableCountryClass))
+#define EDWINSPIRE_USMS_TYPE_LOCATION_LEVEL (edwinspire_usms_location_level_get_type ())
+#define EDWINSPIRE_USMS_LOCATION_LEVEL(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_LOCATION_LEVEL, edwinspireuSMSLocationLevel))
+#define EDWINSPIRE_USMS_LOCATION_LEVEL_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_LOCATION_LEVEL, edwinspireuSMSLocationLevelClass))
+#define EDWINSPIRE_USMS_IS_LOCATION_LEVEL(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_LOCATION_LEVEL))
+#define EDWINSPIRE_USMS_IS_LOCATION_LEVEL_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_LOCATION_LEVEL))
+#define EDWINSPIRE_USMS_LOCATION_LEVEL_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_LOCATION_LEVEL, edwinspireuSMSLocationLevelClass))
 
-typedef struct _edwinspireuSMSTableCountry edwinspireuSMSTableCountry;
-typedef struct _edwinspireuSMSTableCountryClass edwinspireuSMSTableCountryClass;
-typedef struct _edwinspireuSMSTableCountryPrivate edwinspireuSMSTableCountryPrivate;
+typedef struct _edwinspireuSMSLocationLevel edwinspireuSMSLocationLevel;
+typedef struct _edwinspireuSMSLocationLevelClass edwinspireuSMSLocationLevelClass;
+typedef struct _edwinspireuSMSLocationLevelPrivate edwinspireuSMSLocationLevelPrivate;
+
+#define EDWINSPIRE_USMS_TYPE_TABLE_LOCATION_LEVEL1 (edwinspire_usms_table_location_level1_get_type ())
+#define EDWINSPIRE_USMS_TABLE_LOCATION_LEVEL1(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_TABLE_LOCATION_LEVEL1, edwinspireuSMSTableLocationLevel1))
+#define EDWINSPIRE_USMS_TABLE_LOCATION_LEVEL1_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_TABLE_LOCATION_LEVEL1, edwinspireuSMSTableLocationLevel1Class))
+#define EDWINSPIRE_USMS_IS_TABLE_LOCATION_LEVEL1(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_TABLE_LOCATION_LEVEL1))
+#define EDWINSPIRE_USMS_IS_TABLE_LOCATION_LEVEL1_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_TABLE_LOCATION_LEVEL1))
+#define EDWINSPIRE_USMS_TABLE_LOCATION_LEVEL1_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_TABLE_LOCATION_LEVEL1, edwinspireuSMSTableLocationLevel1Class))
+
+typedef struct _edwinspireuSMSTableLocationLevel1 edwinspireuSMSTableLocationLevel1;
+typedef struct _edwinspireuSMSTableLocationLevel1Class edwinspireuSMSTableLocationLevel1Class;
+typedef struct _edwinspireuSMSTableLocationLevel1Private edwinspireuSMSTableLocationLevel1Private;
 
 #define EDWINSPIRE_USMS_TYPE_TABLE_INCOMING_CALLS (edwinspire_usms_table_incoming_calls_get_type ())
 #define EDWINSPIRE_USMS_TABLE_INCOMING_CALLS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_TABLE_INCOMING_CALLS, edwinspireuSMSTableIncomingCalls))
@@ -572,12 +583,21 @@ struct _edwinspireuSMSTableSubSectorClass {
 	edwinspireuSMSPostgreSQLConnectionClass parent_class;
 };
 
-struct _edwinspireuSMSTableCountry {
+struct _edwinspireuSMSLocationLevel {
 	edwinspireuSMSPostgreSQLConnection parent_instance;
-	edwinspireuSMSTableCountryPrivate * priv;
+	edwinspireuSMSLocationLevelPrivate * priv;
 };
 
-struct _edwinspireuSMSTableCountryClass {
+struct _edwinspireuSMSLocationLevelClass {
+	edwinspireuSMSPostgreSQLConnectionClass parent_class;
+};
+
+struct _edwinspireuSMSTableLocationLevel1 {
+	edwinspireuSMSPostgreSQLConnection parent_instance;
+	edwinspireuSMSTableLocationLevel1Private * priv;
+};
+
+struct _edwinspireuSMSTableLocationLevel1Class {
 	edwinspireuSMSPostgreSQLConnectionClass parent_class;
 };
 
@@ -858,12 +878,18 @@ gchar* edwinspire_usms_table_sub_sector_fun_location_subsector_edit_xml_from_has
 gchar* edwinspire_usms_table_sub_sector_fun_view_subsector_by_idsector_xml (edwinspireuSMSTableSubSector* self, gint idsector, gboolean fieldtextasbase64);
 edwinspireuSMSTableSubSector* edwinspire_usms_table_sub_sector_new (void);
 edwinspireuSMSTableSubSector* edwinspire_usms_table_sub_sector_construct (GType object_type);
-GType edwinspire_usms_table_country_get_type (void) G_GNUC_CONST;
-gchar* edwinspire_usms_table_country_fun_location_country_remove_selected_xml (edwinspireuSMSTableCountry* self, const gchar* ids, gboolean fieldtextasbase64);
-gchar* edwinspire_usms_table_country_fun_location_country_edit_xml_from_hashmap (edwinspireuSMSTableCountry* self, GeeHashMap* data, gboolean fieldtextasbase64);
-gchar* edwinspire_usms_table_country_fun_view_country_xml (edwinspireuSMSTableCountry* self, gboolean fieldtextasbase64);
-edwinspireuSMSTableCountry* edwinspire_usms_table_country_new (void);
-edwinspireuSMSTableCountry* edwinspire_usms_table_country_construct (GType object_type);
+GType edwinspire_usms_location_level_get_type (void) G_GNUC_CONST;
+gchar* edwinspire_usms_location_level_fun_location_level_edit_xml_from_hashmap (edwinspireuSMSLocationLevel* self, GeeHashMap* data, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_location_level_fun_view_location_level_xml (edwinspireuSMSLocationLevel* self, GeeHashMap* data, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_location_level_fun_location_level_remove_selected_xml (edwinspireuSMSLocationLevel* self, gint level, const gchar* ids, gboolean fieldtextasbase64);
+edwinspireuSMSLocationLevel* edwinspire_usms_location_level_new (void);
+edwinspireuSMSLocationLevel* edwinspire_usms_location_level_construct (GType object_type);
+GType edwinspire_usms_table_location_level1_get_type (void) G_GNUC_CONST;
+gchar* edwinspire_usms_table_location_level1_fun_location_level1_remove_selected_xml (edwinspireuSMSTableLocationLevel1* self, const gchar* ids, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_table_location_level1_fun_location_level1_edit_xml_from_hashmap (edwinspireuSMSTableLocationLevel1* self, GeeHashMap* data, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_table_location_level1_fun_view_location_level1_xml (edwinspireuSMSTableLocationLevel1* self, gboolean fieldtextasbase64);
+edwinspireuSMSTableLocationLevel1* edwinspire_usms_table_location_level1_new (void);
+edwinspireuSMSTableLocationLevel1* edwinspire_usms_table_location_level1_construct (GType object_type);
 GType edwinspire_usms_table_incoming_calls_get_type (void) G_GNUC_CONST;
 edwinspireuSMSTableIncomingCalls* edwinspire_usms_table_incoming_calls_new (void);
 edwinspireuSMSTableIncomingCalls* edwinspire_usms_table_incoming_calls_construct (GType object_type);

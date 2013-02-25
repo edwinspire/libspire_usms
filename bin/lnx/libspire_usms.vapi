@@ -22,6 +22,13 @@ namespace edwinspire {
 			public edwinspire.uSMS.ProcessCtrl Ctrl { get; set; }
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
+		public class LocationLevel : edwinspire.uSMS.PostgreSQLConnection {
+			public LocationLevel ();
+			public string fun_location_level_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
+			public string fun_location_level_remove_selected_xml (int level, string ids, bool fieldtextasbase64 = true);
+			public string fun_view_location_level_xml (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
 		public class PhoneTable : edwinspire.uSMS.PostgreSQLConnection {
 			public PhoneTable ();
 			public static edwinspire.uSMS.XmlRow PhoneTableRowNodeXml (edwinspire.uSMS.PhoneTableRow row);
@@ -132,16 +139,16 @@ namespace edwinspire {
 			public string fun_contacts_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
-		public class TableCountry : edwinspire.uSMS.PostgreSQLConnection {
-			public TableCountry ();
-			public string fun_location_country_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
-			public string fun_location_country_remove_selected_xml (string ids, bool fieldtextasbase64 = true);
-			public string fun_view_country_xml (bool fieldtextasbase64 = true);
-		}
-		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TableIncomingCalls : edwinspire.uSMS.PostgreSQLConnection {
 			public TableIncomingCalls ();
 			public string fun_view_incomingcalls_xml (string datestart, string dateend, bool fieldtextasbase64 = true);
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
+		public class TableLocationLevel1 : edwinspire.uSMS.PostgreSQLConnection {
+			public TableLocationLevel1 ();
+			public string fun_location_level1_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
+			public string fun_location_level1_remove_selected_xml (string ids, bool fieldtextasbase64 = true);
+			public string fun_view_location_level1_xml (bool fieldtextasbase64 = true);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TablePostgres : GLib.Object {
