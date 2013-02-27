@@ -5,7 +5,7 @@ namespace edwinspire {
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class AddressTable : edwinspire.uSMS.PostgreSQLConnection {
 			public AddressTable ();
-			public string fun_address_edit_xml (int inidaddress, string inidlocation, double ingeox, double ingeoy, string inmstreet, string insstreet, string inother, string innote, string ints, bool fieldtextasbase64 = true);
+			public string fun_address_edit_xml (int inidaddress, string inidlocation, double ingeox, double ingeoy, string f1, string f2, string f3, string f4, string f5, string f6, string f7, string f8, string f9, string f10, string ints, bool fieldtextasbase64 = true);
 			public string fun_address_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
 			public string fun_view_address_byid_xml (int idaddress, bool fieldtextasbase64 = true);
 		}

@@ -1471,10 +1471,17 @@ int inidaddress = 0;
 string inidlocation = "";
 double ingeox = 0;
 double ingeoy = 0;
-string inmstreet = "";
-string insstreet = ""; 
-string inother = "";
-string innote = "";
+string f1 = "";
+string f2 = ""; 
+string f3 = "";
+string f4 = "";
+string f5 = "";
+string f6 = ""; 
+string f7 = "";
+string f8 = "";
+string f9 = "";
+string f10 = "";
+
 string ints = "1990-01-01";
 
 if(data.has_key("idaddress")){
@@ -1494,36 +1501,61 @@ ingeoy = double.parse(data["geoy"]);
 }
 
 
-if(data.has_key("main_street")){
-inmstreet = data["main_street"];
+if(data.has_key("f1")){
+f1 = data["f1"];
 }
 
-if(data.has_key("secundary_street")){
-insstreet = data["secundary_street"];
+if(data.has_key("f2")){
+f2 = data["f2"];
 }
 
-if(data.has_key("other")){
-inother = data["other"];
+if(data.has_key("f3")){
+f3 = data["f3"];
 }
 
-if(data.has_key("note")){
-innote = data["note"];
+if(data.has_key("f4")){
+f4 = data["f4"];
 }
+
+if(data.has_key("f5")){
+f5 = data["f5"];
+}
+
+if(data.has_key("f6")){
+f6 = data["f6"];
+}
+
+if(data.has_key("f7")){
+f7 = data["f7"];
+}
+
+if(data.has_key("f8")){
+f8 = data["f8"];
+}
+
+if(data.has_key("f9")){
+f9 = data["f9"];
+}
+
+if(data.has_key("f10")){
+f10 = data["f10"];
+}
+
 
 if(data.has_key("ts")){
 ints = data["ts"];
 }
 
-return fun_address_edit_xml(inidaddress, inidlocation, ingeox, ingeoy, inmstreet, insstreet, inother, innote, ints, fieldtextasbase64);
+return fun_address_edit_xml(inidaddress, inidlocation, ingeox, ingeoy, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, ints, fieldtextasbase64);
 }
 
 
-public string fun_address_edit_xml(int inidaddress, string inidlocation, double ingeox, double ingeoy, string inmstreet, string insstreet,  string inother, string innote, string ints, bool fieldtextasbase64 = true){
+public string fun_address_edit_xml(int inidaddress, string inidlocation, double ingeox, double ingeoy, string f1, string f2, string f3, string f4, string f5, string f6, string f7, string f8, string f9, string f10, string ints, bool fieldtextasbase64 = true){
 string RetornoX = "";
 var  Conexion = Postgres.connect_db (this.ConnString());
 if(Conexion.get_status () == ConnectionStatus.OK){
-string[] valuesin = {inidaddress.to_string(), inidlocation, ingeox.to_string(), ingeoy.to_string(), inmstreet, insstreet, inother, innote, ints, fieldtextasbase64.to_string()};
-var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_address_edit_xml($1::integer, $2::text, $3::double precision, $4::double precision, $5::text, $6::text,  $7::text, $8::text, $9::timestamp without time zone, $10::boolean) AS return;", valuesin);
+string[] valuesin = {inidaddress.to_string(), inidlocation, ingeox.to_string(), ingeoy.to_string(), f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, ints, fieldtextasbase64.to_string()};
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_address_edit_xml($1::integer, $2::text, $3::double precision, $4::double precision, $5::text, $6::text,  $7::text, $8::text, $9::text, $10::text, $11::text, $12::text, $13::text, $14::text, $15::timestamp without time zone, $16::boolean) AS return;", valuesin);
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 foreach(var reg in this.Result_FieldName(ref Resultado)){
 RetornoX = reg["return"].Value;
