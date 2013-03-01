@@ -51,10 +51,10 @@ Retorno["usms_provider_listidname_xml"] = "/usms_provider_listidname_xml";
 Retorno["usms_gettableincomingcalls_xml"] = "/usms_gettableincomingcalls_xml";
 Retorno["usms_viewprovidertable_xml"] = "/usms_viewprovidertable_xml";
 Retorno["providereditxml.usms"] = "/providereditxml.usms";
-Retorno["get_address_byid.usms"] = "/get_address_byid.usms";
-Retorno["fun_address_edit.usms"] = "/fun_address_edit.usms";
-Retorno["fun_contact_address_edit.usms"] = "/fun_contact_address_edit.usms";
-Retorno["fun_phone_address_edit.usms"] = "/fun_phone_address_edit.usms";
+Retorno["fun_view_address_byid_xml.usms"] = "/fun_view_address_byid_xml.usms";
+Retorno["fun_address_edit_xml.usms"] = "/fun_address_edit_xml.usms";
+Retorno["fun_contact_address_edit_xml.usms"] = "/fun_contact_address_edit_xml.usms";
+Retorno["fun_phones_address_edit_xml.usms"] = "/fun_phones_address_edit_xml.usms";
 Retorno["fun_view_location_level_xml.usms"] = "/fun_view_location_level_xml.usms";
 Retorno["fun_location_level_edit_xml_from_hashmap.usms"] = "/fun_location_level_edit_xml_from_hashmap.usms";
 Retorno["fun_location_level_remove_selected_xml.usms"] = "/fun_location_level_remove_selected_xml.usms";
@@ -141,18 +141,19 @@ case "/providereditxml.usms":
 response = ResponseProviderEditXml(request);
 break;
 
-case "/get_address_byid.usms":
-response = ResponseGetAddressById(request);
+case "/fun_view_address_byid_xml.usms":
+response = response_fun_view_address_byid_xml(request);
 break;
 
-case "/fun_address_edit.usms":
-response = ResponseAddressTableEdit(request);
+case "/fun_address_edit_xml.usms":
+response = response_fun_address_edit_xml(request);
 break;
-case "/fun_contact_address_edit.usms":
-response = ResponseContactAddressTableEdit(request);
+
+case "/fun_contact_address_edit_xml.usms":
+response = response_fun_contact_address_edit_xml(request);
 break;
-case "/fun_phone_address_edit.usms":
-response = ResponsePhoneAddressTableEdit(request);
+case "/fun_phones_address_edit_xml.usms":
+response = response_fun_phones_address_edit_xml(request);
 break;
 
 case "/fun_view_location_level_xml.usms":
@@ -457,7 +458,8 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
-private static uHttp.Response ResponseContactAddressTableEdit(Request request){
+
+private static uHttp.Response response_fun_contact_address_edit_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -468,18 +470,19 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
-private static uHttp.Response ResponsePhoneAddressTableEdit(Request request){
+private static uHttp.Response response_fun_phones_address_edit_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
     Retorno.Header.Status = StatusCode.OK;
 PhoneTable Tabla = new PhoneTable();
 Tabla.GetParamCnx();
-    Retorno.Data =  Tabla.fun_phone_address_edit_xml_from_hashmap(request.Form, true).data;
+    Retorno.Data =  Tabla.fun_phones_address_edit_xml_from_hashmap(request.Form, true).data;
 return Retorno;
 }
 
-private static uHttp.Response ResponseAddressTableEdit(Request request){
+
+private static uHttp.Response response_fun_address_edit_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -490,7 +493,7 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
-private static uHttp.Response ResponseGetAddressById(Request request){
+private static uHttp.Response response_fun_view_address_byid_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
