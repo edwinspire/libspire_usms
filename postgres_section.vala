@@ -852,85 +852,13 @@ public TableContacts(){
 public string  fun_contact_address_edit_xml_from_hashmap(HashMap<string, string> data, bool fieldtextasbase64 = true){ 
 
 int idcontact = 0;
-string inidlocation = "";
-double ingeox = 0;
-double ingeoy = 0;
-string f1 = "";
-string f2 = ""; 
-string f3 = "";
-string f4 = "";
-string f5 = "";
-string f6 = ""; 
-string f7 = "";
-string f8 = "";
-string f9 = "";
-string f10 = "";
-
-string ints = "1990-01-01";
 
 if(data.has_key("idcontact")){
 idcontact = int.parse(data["idcontact"]);
 }
+AddressRowData RowData = AddressTable.rowdata_from_hashmap(data);
 
-if(data.has_key("idlocation")){
-inidlocation = data["idlocation"];
-}
-
-if(data.has_key("geox")){
-ingeox = double.parse(data["geox"]);
-}
-
-if(data.has_key("geoy")){
-ingeoy = double.parse(data["geoy"]);
-}
-
-
-if(data.has_key("f1")){
-f1 = data["f1"];
-}
-
-if(data.has_key("f2")){
-f2 = data["f2"];
-}
-
-if(data.has_key("f3")){
-f3 = data["f3"];
-}
-
-if(data.has_key("f4")){
-f4 = data["f4"];
-}
-
-if(data.has_key("f5")){
-f5 = data["f5"];
-}
-
-if(data.has_key("f6")){
-f6 = data["f6"];
-}
-
-if(data.has_key("f7")){
-f7 = data["f7"];
-}
-
-if(data.has_key("f8")){
-f8 = data["f8"];
-}
-
-if(data.has_key("f9")){
-f9 = data["f9"];
-}
-
-if(data.has_key("f10")){
-f10 = data["f10"];
-}
-
-
-if(data.has_key("ts")){
-ints = data["ts"];
-}
-
-return fun_contact_address_edit_xml(idcontact,  inidlocation, ingeox, ingeoy, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, ints, fieldtextasbase64);
+return fun_contact_address_edit_xml(idcontact, RowData.idlocation, RowData.geox, RowData.geoy, RowData.f1, RowData.f2, RowData.f3, RowData.f4, RowData.f5, RowData.f6, RowData.f7, RowData.f8, RowData.f9, RowData.f10, RowData.ts, fieldtextasbase64);
 }
 
 public string  fun_contact_address_edit_xml(int idcontact, string inidlocation, double ingeox, double ingeoy, string f1, string f2, string f3, string f4, string f5, string f6, string f7, string f8, string f9, string f10, string ints, bool fieldtextasbase64 = true){
@@ -1492,13 +1420,121 @@ return RetornoX;
 
 }
 
+public struct AddressRowData{
+int idaddress;
+string idlocation;
+double geox;
+double geoy;
+string f1;
+string f2; 
+string f3;
+string f4;
+string f5;
+string f6; 
+string f7;
+string f8;
+string f9;
+string f10;
+string ts;
+public AddressRowData.default(){
+this.idaddress = 0;
+this.idlocation = "";
+this.geox = 0;
+this.geoy = 0;
+this.f1 = "";
+this.f2 = ""; 
+this.f3 = "";
+this.f4 = "";
+this.f5 = "";
+this.f6 = ""; 
+this.f7 = "";
+this.f8 = "";
+this.f9 = "";
+this.f10 = "";
+this.ts = "1990-01-01";
+}
+}
+
 
 public class AddressTable:PostgreSQLConnection{
 
 //fun_address_edit_xml(inidaddress integer, inidlocation text, ingeox real, ingeoy real, inmstreet text, insstreet text, inother text, innote text, ints timestamp without time zone, fieldtextasbase64 boolean)
 
+public static AddressRowData rowdata_from_hashmap(HashMap<string, string> data){
+
+AddressRowData DataRow = AddressRowData.default();
+
+if(data.has_key("idaddress")){
+DataRow.idaddress = int.parse(data["idaddress"]);
+}
+
+if(data.has_key("idlocation")){
+DataRow.idlocation = data["idlocation"];
+}
+
+if(data.has_key("geox")){
+DataRow.geox = double.parse(data["geox"]);
+}
+
+if(data.has_key("geoy")){
+DataRow.geoy = double.parse(data["geoy"]);
+}
+
+
+if(data.has_key("f1")){
+DataRow.f1 = data["f1"];
+}
+
+if(data.has_key("f2")){
+DataRow.f2 = data["f2"];
+}
+
+if(data.has_key("f3")){
+DataRow.f3 = data["f3"];
+}
+
+if(data.has_key("f4")){
+DataRow.f4 = data["f4"];
+}
+
+if(data.has_key("f5")){
+DataRow.f5 = data["f5"];
+}
+
+if(data.has_key("f6")){
+DataRow.f6 = data["f6"];
+}
+
+if(data.has_key("f7")){
+DataRow.f7 = data["f7"];
+}
+
+if(data.has_key("f8")){
+DataRow.f8 = data["f8"];
+}
+
+if(data.has_key("f9")){
+DataRow.f9 = data["f9"];
+}
+
+if(data.has_key("f10")){
+DataRow.f10 = data["f10"];
+}
+
+
+if(data.has_key("ts")){
+DataRow.ts = data["ts"];
+}
+
+return DataRow;
+}
+
+
 public string fun_address_edit_xml_from_hashmap(HashMap<string, string> data, bool fieldtextasbase64 = true){ 
 
+
+
+/*
 int inidaddress = 0;
 string inidlocation = "";
 double ingeox = 0;
@@ -1578,7 +1614,11 @@ if(data.has_key("ts")){
 ints = data["ts"];
 }
 
-return fun_address_edit_xml(inidaddress, inidlocation, ingeox, ingeoy, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, ints, fieldtextasbase64);
+*/
+
+AddressRowData RowData = AddressTable.rowdata_from_hashmap(data);
+
+return fun_address_edit_xml(RowData.idaddress, RowData.idlocation, RowData.geox, RowData.geoy, RowData.f1, RowData.f2, RowData.f3, RowData.f4, RowData.f5, RowData.f6, RowData.f7, RowData.f8, RowData.f9, RowData.f10, RowData.ts, fieldtextasbase64);
 }
 
 
@@ -1704,85 +1744,14 @@ return RetornoX;
 public string  fun_phones_address_edit_xml_from_hashmap(HashMap<string, string> data, bool fieldtextasbase64 = true){ 
 
 int idphone = 0;
-string inidlocation = "";
-double ingeox = 0;
-double ingeoy = 0;
-string f1 = "";
-string f2 = ""; 
-string f3 = "";
-string f4 = "";
-string f5 = "";
-string f6 = ""; 
-string f7 = "";
-string f8 = "";
-string f9 = "";
-string f10 = "";
-
-string ints = "1990-01-01";
 
 if(data.has_key("idphone")){
 idphone = int.parse(data["idphone"]);
 }
 
-if(data.has_key("idlocation")){
-inidlocation = data["idlocation"];
-}
+AddressRowData RowData = AddressTable.rowdata_from_hashmap(data);
 
-if(data.has_key("geox")){
-ingeox = double.parse(data["geox"]);
-}
-
-if(data.has_key("geoy")){
-ingeoy = double.parse(data["geoy"]);
-}
-
-
-if(data.has_key("f1")){
-f1 = data["f1"];
-}
-
-if(data.has_key("f2")){
-f2 = data["f2"];
-}
-
-if(data.has_key("f3")){
-f3 = data["f3"];
-}
-
-if(data.has_key("f4")){
-f4 = data["f4"];
-}
-
-if(data.has_key("f5")){
-f5 = data["f5"];
-}
-
-if(data.has_key("f6")){
-f6 = data["f6"];
-}
-
-if(data.has_key("f7")){
-f7 = data["f7"];
-}
-
-if(data.has_key("f8")){
-f8 = data["f8"];
-}
-
-if(data.has_key("f9")){
-f9 = data["f9"];
-}
-
-if(data.has_key("f10")){
-f10 = data["f10"];
-}
-
-
-if(data.has_key("ts")){
-ints = data["ts"];
-}
-
-return fun_contact_phones_edit_xml(idphone,  inidlocation, ingeox, ingeoy, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, ints, fieldtextasbase64);
+return fun_contact_phones_edit_xml(idphone, RowData.idlocation, RowData.geox, RowData.geoy, RowData.f1, RowData.f2, RowData.f3, RowData.f4, RowData.f5, RowData.f6, RowData.f7, RowData.f8, RowData.f9, RowData.f10, RowData.ts, fieldtextasbase64);
 }
 
 public string  fun_contact_phones_edit_xml(int idphone, string inidlocation, double ingeox, double ingeoy, string f1, string f2, string f3, string f4, string f5, string f6, string f7, string f8, string f9, string f10, string ints, bool fieldtextasbase64 = true){

@@ -332,6 +332,9 @@ typedef struct _edwinspireuSMSProviderTable edwinspireuSMSProviderTable;
 typedef struct _edwinspireuSMSProviderTableClass edwinspireuSMSProviderTableClass;
 typedef struct _edwinspireuSMSProviderTablePrivate edwinspireuSMSProviderTablePrivate;
 
+#define EDWINSPIRE_USMS_TYPE_ADDRESS_ROW_DATA (edwinspire_usms_address_row_data_get_type ())
+typedef struct _edwinspireuSMSAddressRowData edwinspireuSMSAddressRowData;
+
 #define EDWINSPIRE_USMS_TYPE_ADDRESS_TABLE (edwinspire_usms_address_table_get_type ())
 #define EDWINSPIRE_USMS_ADDRESS_TABLE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_ADDRESS_TABLE, edwinspireuSMSAddressTable))
 #define EDWINSPIRE_USMS_ADDRESS_TABLE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_ADDRESS_TABLE, edwinspireuSMSAddressTableClass))
@@ -663,6 +666,24 @@ struct _edwinspireuSMSProviderTableClass {
 	edwinspireuSMSPostgreSQLConnectionClass parent_class;
 };
 
+struct _edwinspireuSMSAddressRowData {
+	gint idaddress;
+	gchar* idlocation;
+	gdouble geox;
+	gdouble geoy;
+	gchar* f1;
+	gchar* f2;
+	gchar* f3;
+	gchar* f4;
+	gchar* f5;
+	gchar* f6;
+	gchar* f7;
+	gchar* f8;
+	gchar* f9;
+	gchar* f10;
+	gchar* ts;
+};
+
 struct _edwinspireuSMSAddressTable {
 	edwinspireuSMSPostgreSQLConnection parent_instance;
 	edwinspireuSMSAddressTablePrivate * priv;
@@ -929,7 +950,14 @@ gchar* edwinspire_usms_provider_table_fun_view_provider_table_xml (edwinspireuSM
 gchar* edwinspire_usms_provider_table_idname_Xml (edwinspireuSMSProviderTable* self, gboolean fieldtextasbase64);
 edwinspireuSMSProviderTable* edwinspire_usms_provider_table_new (void);
 edwinspireuSMSProviderTable* edwinspire_usms_provider_table_construct (GType object_type);
+GType edwinspire_usms_address_row_data_get_type (void) G_GNUC_CONST;
+edwinspireuSMSAddressRowData* edwinspire_usms_address_row_data_dup (const edwinspireuSMSAddressRowData* self);
+void edwinspire_usms_address_row_data_free (edwinspireuSMSAddressRowData* self);
+void edwinspire_usms_address_row_data_copy (const edwinspireuSMSAddressRowData* self, edwinspireuSMSAddressRowData* dest);
+void edwinspire_usms_address_row_data_destroy (edwinspireuSMSAddressRowData* self);
+void edwinspire_usms_address_row_data_init_default (edwinspireuSMSAddressRowData *self);
 GType edwinspire_usms_address_table_get_type (void) G_GNUC_CONST;
+void edwinspire_usms_address_table_rowdata_from_hashmap (GeeHashMap* data, edwinspireuSMSAddressRowData* result);
 gchar* edwinspire_usms_address_table_fun_address_edit_xml_from_hashmap (edwinspireuSMSAddressTable* self, GeeHashMap* data, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_address_table_fun_address_edit_xml (edwinspireuSMSAddressTable* self, gint inidaddress, const gchar* inidlocation, gdouble ingeox, gdouble ingeoy, const gchar* f1, const gchar* f2, const gchar* f3, const gchar* f4, const gchar* f5, const gchar* f6, const gchar* f7, const gchar* f8, const gchar* f9, const gchar* f10, const gchar* ints, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_address_table_fun_view_address_byid_xml (edwinspireuSMSAddressTable* self, gint idaddress, gboolean fieldtextasbase64);

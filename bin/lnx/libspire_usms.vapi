@@ -8,6 +8,7 @@ namespace edwinspire {
 			public string fun_address_edit_xml (int inidaddress, string inidlocation, double ingeox, double ingeoy, string f1, string f2, string f3, string f4, string f5, string f6, string f7, string f8, string f9, string f10, string ints, bool fieldtextasbase64 = true);
 			public string fun_address_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
 			public string fun_view_address_byid_xml (int idaddress, bool fieldtextasbase64 = true);
+			public static edwinspire.uSMS.AddressRowData rowdata_from_hashmap (Gee.HashMap<string,string> data);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class Device : edwinspire.GSM.MODEM.ModemGSM {
@@ -257,6 +258,25 @@ namespace edwinspire {
 			public static edwinspire.uHttp.Response ResponseToVirtualRequest (edwinspire.uHttp.Request request);
 			public void Run ();
 			public static Gee.HashMap<string,string> VirtualUrls ();
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
+		public struct AddressRowData {
+			public int idaddress;
+			public string idlocation;
+			public double geox;
+			public double geoy;
+			public string f1;
+			public string f2;
+			public string f3;
+			public string f4;
+			public string f5;
+			public string f6;
+			public string f7;
+			public string f8;
+			public string f9;
+			public string f10;
+			public string ts;
+			public AddressRowData.@default ();
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public struct PhoneTableRow {
