@@ -74,6 +74,8 @@ Retorno["fun_location_sector_remove_selected_xml.usms"] = "/fun_location_sector_
 Retorno["fun_view_subsector_by_idsector_xml.usms"] = "/fun_view_subsector_by_idsector_xml.usms";
 Retorno["fun_location_subsector_edit_xml_from_hashmap.usms"] = "/fun_location_subsector_edit_xml_from_hashmap.usms";
 Retorno["fun_location_subsector_remove_selected_xml.usms"] = "/fun_location_subsector_remove_selected_xml.usms";
+Retorno["fun_view_locations_ids_from_idlocation_xml.usms"] = "/fun_view_locations_ids_from_idlocation_xml.usms";
+
 
 
 //Retorno["xxxxxxxxxxxxxxxxx.usms"] = "/xxxxxxxxxxxxxxxx.usms";
@@ -212,6 +214,9 @@ break;
 case "/fun_location_subsector_remove_selected_xml.usms":
 response = response_fun_location_subsector_remove_selected_xml(request);
 break;
+case "/fun_view_locations_ids_from_idlocation_xml.usms":
+response = response_fun_view_locations_ids_from_idlocation_xml(request);
+break;
 
 /*
 case "/xxxxxxxxxxxxxxxxxxxxxx.usms":
@@ -226,6 +231,23 @@ break;
 return response;
 }
 
+
+//------------------------------------
+private static uHttp.Response response_fun_view_locations_ids_from_idlocation_xml(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+LocationLevel Tabla = new LocationLevel();
+Tabla.GetParamCnx();
+int id = 0;
+if(request.Query.has_key("idlocation")){
+id = int.parse(request.Query["idlocation"]);
+}
+
+    Retorno.Data =  Tabla.fun_view_locations_ids_from_idlocation_xml(id).data;
+return Retorno;
+}
 
 //----------------------------------------------------------------------------------------------
 private static uHttp.Response response_fun_location_subsector_remove_selected_xml(Request request){

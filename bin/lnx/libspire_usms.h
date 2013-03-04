@@ -668,7 +668,7 @@ struct _edwinspireuSMSProviderTableClass {
 
 struct _edwinspireuSMSAddressRowData {
 	gint idaddress;
-	gchar* idlocation;
+	gint idlocation;
 	gdouble geox;
 	gdouble geoy;
 	gchar* f1;
@@ -903,6 +903,7 @@ GType edwinspire_usms_location_level_get_type (void) G_GNUC_CONST;
 gchar* edwinspire_usms_location_level_fun_location_level_edit_xml_from_hashmap (edwinspireuSMSLocationLevel* self, GeeHashMap* data, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_location_level_fun_view_location_level_xml (edwinspireuSMSLocationLevel* self, GeeHashMap* data, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_location_level_fun_location_level_remove_selected_xml (edwinspireuSMSLocationLevel* self, gint level, const gchar* ids, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_location_level_fun_view_locations_ids_from_idlocation_xml (edwinspireuSMSLocationLevel* self, gint idlocation);
 edwinspireuSMSLocationLevel* edwinspire_usms_location_level_new (void);
 edwinspireuSMSLocationLevel* edwinspire_usms_location_level_construct (GType object_type);
 GType edwinspire_usms_table_location_level1_get_type (void) G_GNUC_CONST;
@@ -919,7 +920,7 @@ GType edwinspire_usms_table_contacts_get_type (void) G_GNUC_CONST;
 edwinspireuSMSTableContacts* edwinspire_usms_table_contacts_new (void);
 edwinspireuSMSTableContacts* edwinspire_usms_table_contacts_construct (GType object_type);
 gchar* edwinspire_usms_table_contacts_fun_contact_address_edit_xml_from_hashmap (edwinspireuSMSTableContacts* self, GeeHashMap* data, gboolean fieldtextasbase64);
-gchar* edwinspire_usms_table_contacts_fun_contact_address_edit_xml (edwinspireuSMSTableContacts* self, gint idcontact, const gchar* inidlocation, gdouble ingeox, gdouble ingeoy, const gchar* f1, const gchar* f2, const gchar* f3, const gchar* f4, const gchar* f5, const gchar* f6, const gchar* f7, const gchar* f8, const gchar* f9, const gchar* f10, const gchar* ints, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_table_contacts_fun_contact_address_edit_xml (edwinspireuSMSTableContacts* self, gint idcontact, gint inidlocation, gdouble ingeox, gdouble ingeoy, const gchar* f1, const gchar* f2, const gchar* f3, const gchar* f4, const gchar* f5, const gchar* f6, const gchar* f7, const gchar* f8, const gchar* f9, const gchar* f10, const gchar* ints, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_table_contacts_fun_contacts_edit_xml_from_hashmap (edwinspireuSMSTableContacts* self, GeeHashMap* data, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_table_contacts_fun_contacts_edit_xml (edwinspireuSMSTableContacts* self, gint inidcontact, gboolean inenable, const gchar* intitle, const gchar* infirstname, const gchar* inlastname, gint ingender, const gchar* inbirthday, gint intypeofid, const gchar* inidentification, const gchar* inweb, const gchar* inemail1, const gchar* inemail2, gint inidaddress, const gchar* innote, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_table_contacts_byId_Xml (edwinspireuSMSTableContacts* self, gint idcontact, gboolean fieldtextasbase64);
@@ -959,13 +960,13 @@ void edwinspire_usms_address_row_data_init_default (edwinspireuSMSAddressRowData
 GType edwinspire_usms_address_table_get_type (void) G_GNUC_CONST;
 void edwinspire_usms_address_table_rowdata_from_hashmap (GeeHashMap* data, edwinspireuSMSAddressRowData* result);
 gchar* edwinspire_usms_address_table_fun_address_edit_xml_from_hashmap (edwinspireuSMSAddressTable* self, GeeHashMap* data, gboolean fieldtextasbase64);
-gchar* edwinspire_usms_address_table_fun_address_edit_xml (edwinspireuSMSAddressTable* self, gint inidaddress, const gchar* inidlocation, gdouble ingeox, gdouble ingeoy, const gchar* f1, const gchar* f2, const gchar* f3, const gchar* f4, const gchar* f5, const gchar* f6, const gchar* f7, const gchar* f8, const gchar* f9, const gchar* f10, const gchar* ints, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_address_table_fun_address_edit_xml (edwinspireuSMSAddressTable* self, gint inidaddress, gint inidlocation, gdouble ingeox, gdouble ingeoy, const gchar* f1, const gchar* f2, const gchar* f3, const gchar* f4, const gchar* f5, const gchar* f6, const gchar* f7, const gchar* f8, const gchar* f9, const gchar* f10, const gchar* ints, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_address_table_fun_view_address_byid_xml (edwinspireuSMSAddressTable* self, gint idaddress, gboolean fieldtextasbase64);
 edwinspireuSMSAddressTable* edwinspire_usms_address_table_new (void);
 edwinspireuSMSAddressTable* edwinspire_usms_address_table_construct (GType object_type);
 GType edwinspire_usms_phone_table_get_type (void) G_GNUC_CONST;
 gchar* edwinspire_usms_phone_table_fun_phones_address_edit_xml_from_hashmap (edwinspireuSMSPhoneTable* self, GeeHashMap* data, gboolean fieldtextasbase64);
-gchar* edwinspire_usms_phone_table_fun_contact_phones_edit_xml (edwinspireuSMSPhoneTable* self, gint idphone, const gchar* inidlocation, gdouble ingeox, gdouble ingeoy, const gchar* f1, const gchar* f2, const gchar* f3, const gchar* f4, const gchar* f5, const gchar* f6, const gchar* f7, const gchar* f8, const gchar* f9, const gchar* f10, const gchar* ints, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_phone_table_fun_contact_phones_edit_xml (edwinspireuSMSPhoneTable* self, gint idphone, gint inidlocation, gdouble ingeox, gdouble ingeoy, const gchar* f1, const gchar* f2, const gchar* f3, const gchar* f4, const gchar* f5, const gchar* f6, const gchar* f7, const gchar* f8, const gchar* f9, const gchar* f10, const gchar* ints, gboolean fieldtextasbase64);
 edwinspireuSMSXmlRow* edwinspire_usms_phone_table_PhoneTableRowNodeXml (edwinspireuSMSPhoneTableRow* row);
 gchar* edwinspire_usms_phone_table_fun_phones_table_xml_from_hashmap (edwinspireuSMSPhoneTable* self, GeeHashMap* data, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_phone_table_fun_phones_table_xml (edwinspireuSMSPhoneTable* self, gint inidphone, gint inidcontact, gboolean inenable, const gchar* inphone, gint intypephone, gint inidprovider, const gchar* inphone_ext, gint inidaddress, gint inubiphone, const gchar* innote, const gchar* ints, gboolean fieldtextasbase64);
