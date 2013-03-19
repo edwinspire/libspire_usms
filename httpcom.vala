@@ -17,13 +17,13 @@ private  HashSet<string> PuertosUnicos = new HashSet<string>();
 
 public uSMSServer(){
 
-S.Index = "usms.html";
+//S.Index = "usms.html";
 
 print("Start uSMSd Version: %s\n", edwinspire.uSMS.VERSION);
 print("Licence: LGPL\n");
 print("Contact: edwinspire@gmail.com\n");
 
-S.Port = 8080;
+//S.Port = 8080;
 
 foreach(var U in VirtualUrls().entries){
 S.VirtualUrl[U.key] = U.value;  
@@ -75,8 +75,6 @@ Retorno["fun_view_subsector_by_idsector_xml.usms"] = "/fun_view_subsector_by_ids
 Retorno["fun_location_subsector_edit_xml_from_hashmap.usms"] = "/fun_location_subsector_edit_xml_from_hashmap.usms";
 Retorno["fun_location_subsector_remove_selected_xml.usms"] = "/fun_location_subsector_remove_selected_xml.usms";
 Retorno["fun_view_locations_ids_from_idlocation_xml.usms"] = "/fun_view_locations_ids_from_idlocation_xml.usms";
-
-
 
 //Retorno["xxxxxxxxxxxxxxxxx.usms"] = "/xxxxxxxxxxxxxxxx.usms";
 
@@ -843,7 +841,7 @@ Dispositivos.add(de);
 // Inicia y corre el servidor asincronicamente
 public void Run(){
 ResetAndLoadDevices();
-print("Connect: http://localhost:%s\n", S.Port.to_string());
+print("Connect: http://localhost:%s\n", S.Config.Port.to_string());
     S.run();
 }
 
