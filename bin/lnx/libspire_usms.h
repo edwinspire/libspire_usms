@@ -703,7 +703,7 @@ struct _edwinspireuSMSPhoneTableClass {
 };
 
 
-#define EDWINSPIRE_USMS_VERSION "0.1.2012.10.22"
+#define EDWINSPIRE_USMS_VERSION "0.1.2013.03.22"
 GType edwinspire_usms_call_action_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_process_ctrl_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_process_sms_out_get_type (void) G_GNUC_CONST;

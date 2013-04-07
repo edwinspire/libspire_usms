@@ -8,7 +8,7 @@ using Sqlite;
 
 namespace edwinspire.uSMS{
 
-public const string VERSION = "0.1.2012.10.22";
+public const string VERSION = "0.1.2013.03.22";
 
 
 public enum CallAction{

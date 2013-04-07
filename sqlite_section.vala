@@ -88,22 +88,22 @@ datos.Id = id;
 datos.Enable = true;
 
 if(Form.size>0){
-datos.Parameters.Host = Form["pgHost"];
-datos.Parameters.Port = (uint)int.parse(Form["pgPort"]);
-datos.Parameters.db =  Form["pgDataBase"];
-datos.Parameters.User = Form["pgUser"];
-datos.Parameters.Pwd = Form["pgPwd"];
+datos.Parameters.Host = Form["host"];
+datos.Parameters.Port = (uint)int.parse(Form["port"]);
+datos.Parameters.db =  Form["db"];
+datos.Parameters.User = Form["user"];
+datos.Parameters.Pwd = Form["pwd"];
 
 //print(">>>>>>>>>>>>>>>>>>>>> FormpgSSL %s\n", Form["pgSSL"]);
 
-if(Form["pgSSL"] != null && Form["pgSSL"] == "on"){
+if(Form["ssl"] != null && Form["ssl"] == "true"){
 datos.Parameters.SSL = true;
 }else{
 datos.Parameters.SSL = false;
 }
 
 datos.Parameters.TimeOut = 0;
-datos.Note = Form["pgNote"];
+datos.Note = Form["note"];
 
 }else{
 id = 0;
@@ -164,22 +164,20 @@ return Retorno;
 
 // Obtiene los datos de conexion en formato Xml
 public static string LastRowEnabledXML(){
-
 var Datos = LastRowEnabled();
 
-XmlRow Fila = new XmlRow();
-Fila.Name = "postgres";
-Fila.addFieldString("host", Datos.Parameters.Host, true);
-Fila.addFieldUint("port", Datos.Parameters.Port);
-Fila.addFieldUint("timeout", Datos.Parameters.TimeOut);
-Fila.addFieldString("db", Datos.Parameters.db, true);
-Fila.addFieldString("user", Datos.Parameters.User, true);
-Fila.addFieldString("pwd", Datos.Parameters.Pwd, true);
-Fila.addFieldBool("ssl", Datos.Parameters.SSL);
-Fila.addFieldString("note", Datos.Note, true);
-Fila.addFieldInt64("id", Datos.Id);
-
-return XmlDatas.XmlDocToString(Fila.Row());
+var Retorno = new StringBuilder("<usmsdata><postgres>");
+Retorno.append_printf("<host>%s</host>", Base64.encode(Datos.Parameters.Host.data));
+Retorno.append_printf("<port>%s</port>", Datos.Parameters.Port.to_string());
+Retorno.append_printf("<timeout>%s</timeout>", Datos.Parameters.TimeOut.to_string());
+Retorno.append_printf("<db>%s</db>", Base64.encode(Datos.Parameters.db.data));
+Retorno.append_printf("<pwd>%s</pwd>", Base64.encode(Datos.Parameters.Pwd.data));
+Retorno.append_printf("<ssl>%s</ssl>", Datos.Parameters.SSL.to_string());
+Retorno.append_printf("<id>%s</id>", Datos.Id.to_string());
+Retorno.append_printf("<user>%s</user>", Base64.encode(Datos.Parameters.User.data));
+Retorno.append_printf("<note>%s</note>", Base64.encode(Datos.Note.data));
+Retorno.append("</postgres></usmsdata>");
+return Retorno.str;
 }
 
 public static TableRowPostgres LastRowEnabled(){
