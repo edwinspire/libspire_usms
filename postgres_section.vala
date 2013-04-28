@@ -927,13 +927,13 @@ return RetornoX;
 }
 
 public string fun_contacts_edit_xml_from_hashmap(HashMap<string, string> data, bool fieldtextasbase64 = true){
-int inidcontact = -1;
+int inidcontact = 0;
 bool inenable = false;
 string intitle = "";
 string infirstname = "";
 string inlastname = "";
 int ingender = 0;
-string inbirthday = "";
+string inbirthday = "1990-01-01";
 int intypeofid = 0;
 string inidentification = "";
 string inweb = "";
