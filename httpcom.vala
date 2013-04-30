@@ -68,9 +68,9 @@ Retorno["usms_getcontactslistidcontactname_xml"] = "/usms_getcontactslistidconta
 Retorno["getcontactbyid_xml.usms"] = "/getcontactbyid_xml.usms";
 Retorno["contacts_table_edit.usms"] = "/contacts_table_edit.usms";
 Retorno["usms_simplifiedviewofphonesbyidcontact_xml"] = "/usms_simplifiedviewofphonesbyidcontact_xml";
-Retorno["usms_getphonebyid_xml"] = "/usms_getphonebyid_xml";
-Retorno["usms_phonetable_xml"] = "/usms_phonetable_xml";
-Retorno["usms_provider_listidname_xml"] = "/usms_provider_listidname_xml";
+Retorno["getphonebyid_xml.usms"] = "/getphonebyid_xml.usms";
+Retorno["phonetable_xml.usms"] = "/phonetable_xml.usms";
+Retorno["provider_listidname_xml.usms"] = "/provider_listidname_xml.usms";
 Retorno["usms_gettableincomingcalls_xml"] = "/usms_gettableincomingcalls_xml";
 Retorno["usms_viewprovidertable_xml"] = "/usms_viewprovidertable_xml";
 Retorno["providereditxml.usms"] = "/providereditxml.usms";
@@ -138,13 +138,13 @@ break;
 case "/usms_simplifiedviewofphonesbyidcontact_xml":
 response = ResponseSimplifiedViewOfPhonesByIdContact(request);
 break;
-case "/usms_getphonebyid_xml":
+case "/getphonebyid_xml.usms":
 response = ResponsePhoneById(request);
 break;
-case "/usms_phonetable_xml":
+case "/phonetable_xml.usms":
 response = ResponsePhoneTable(request);
 break;
-case "/usms_provider_listidname_xml":
+case "/provider_listidname_xml.usms":
 response = ResponseProviderListIdNameXml(request);
 break;
 
