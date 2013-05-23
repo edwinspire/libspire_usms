@@ -739,17 +739,10 @@ return Retorno;
 // Recibe los datos y los actualiza en la base de datos.
 private static uHttp.Response ResponseUpdateTableSerialPort(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/plain";
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
 
 var XmlRetorno = new StringBuilder("<table>");
-/*
-<table><row>
-  <outpgmsg>UmVnaXN0cm8gYWN0dWFsaXphZG8=</outpgmsg>
-  <outreturn>1</outreturn>
-</row>
-
-</table>
-*/
 
 if(TableSerialPort.InsertUpdateFromWeb(request.Form)>0){
 XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("Registro guardado".data), "true");
