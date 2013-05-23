@@ -670,46 +670,46 @@ print("[%s] => %s\n", D.key, D.value);
 */
 
 
-if(postData.has_key("fieldid")){
-Puerto.Id = int.parse(postData["fieldid"]);
+if(postData.has_key("idport")){
+Puerto.Id = int.parse(postData["idport"]);
 }
 
 
 if(Puerto.Id >= 0){
 // Si es > 0 es actualizacion o insercion
-if(postData.has_key("fieldport")){
-Puerto.Port = postData["fieldport"];
+if(postData.has_key("port")){
+Puerto.Port = postData["port"];
 }
 
-if(postData.has_key("fieldenable")){
+if(postData.has_key("enable")){
 Puerto.Enable = true;
 }else{
 Puerto.Enable = false;
 }
 
-if(postData.has_key("fieldbr")){
-Puerto.BaudRate = int.parse(postData["fieldbr"]);
+if(postData.has_key("baudrate")){
+Puerto.BaudRate = int.parse(postData["baudrate"]);
 }
 
-if(postData.has_key("fielddb")){
-Puerto.DataBits = int.parse(postData["fielddb"]);
+if(postData.has_key("databits")){
+Puerto.DataBits = int.parse(postData["databits"]);
 }
 
-if(postData.has_key("fieldparity")){
-Puerto.Parityp = (Ports.Parity)int.parse(postData["fieldparity"]);
+if(postData.has_key("parity")){
+Puerto.Parityp = (Ports.Parity)int.parse(postData["parity"]);
 }
-if(postData.has_key("fieldstb")){
-Puerto.StopBitsp = (Ports.StopBits)int.parse(postData["fieldstb"]);
-}
-
-
-
-if(postData.has_key("fieldhsk")){
-Puerto.HandShake = (Ports.HandShaking)int.parse(postData["fieldhsk"]);
+if(postData.has_key("stopbits")){
+Puerto.StopBitsp = (Ports.StopBits)int.parse(postData["stopbits"]);
 }
 
-if(postData.has_key("fieldnote")){
-Puerto.Note = postData["fieldnote"];
+
+
+if(postData.has_key("handshake")){
+Puerto.HandShake = (Ports.HandShaking)int.parse(postData["handshake"]);
+}
+
+if(postData.has_key("note")){
+Puerto.Note = postData["note"];
 }
 
 Retorno = InsertUpdate(Puerto);
