@@ -537,6 +537,14 @@ public TableSerialPort(){
 
 public static string AllXml(){
 
+var Retorno = new StringBuilder("<table>");
+
+foreach(var Datos in All()){
+Retorno.append_printf("<row><idport>%i</idport><port>%s</port><enable>%s</enable><baudrate>%i</baudrate><databits>%i</databits>%i<stopbits></stopbits><parity>%i</parity><handshake>%i</handshake><note>%s</note></row>", Datos.Id, Base64.encode(Datos.Port.data), Datos.Enable.to_string(), (int)Datos.BaudRate, (int)Datos.DataBits, (int)Datos.StopBitsp, (int)Datos.Parityp, (int)Datos.HandShake, Base64.encode(Datos.Note.data));
+}
+
+
+/*
 var XmlDatasTable = XmlDatas.Node("serialport");
 //SMSData.Name = "smsout";
 
@@ -557,7 +565,9 @@ Fila.addFieldString("note", Datos.Note, true);
 XmlDatasTable->add_child(Fila.Row());
 }
 
-return XmlDatas.XmlDocToString(XmlDatasTable);
+return XmlDatas.XmlDocToString(XmlDatasTable);*/
+Retorno.append("</table>");
+return Retorno.str;
 }
 
 //***********************************************
