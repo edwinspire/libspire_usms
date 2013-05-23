@@ -682,9 +682,7 @@ Puerto.Port = postData["port"];
 }
 
 if(postData.has_key("enable")){
-Puerto.Enable = true;
-}else{
-Puerto.Enable = false;
+Puerto.Enable = bool.parse(postData["port"]);
 }
 
 if(postData.has_key("baudrate")){
