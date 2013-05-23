@@ -752,9 +752,9 @@ var XmlRetorno = new StringBuilder("<table>");
 */
 
 if(TableSerialPort.InsertUpdateFromWeb(request.Form)>0){
-XmlRetorno.append_printf("<row><outpgmsg>%s</outpgmsg><response>%s</response></row>", Base64.encode("Registro guardado".data), "true");
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("Registro guardado".data), "true");
 }else{
-XmlRetorno.append_printf("<row><outpgmsg>%s</outpgmsg><response>%s</response></row>", Base64.encode("El registro no pudo ser guardado".data), "false");
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("El registro no pudo ser guardado".data), "false");
 }
 
 XmlRetorno.append("</table>");
