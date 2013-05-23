@@ -741,14 +741,24 @@ private static uHttp.Response ResponseUpdateTableSerialPort(Request request){
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/plain";
 
+var XmlRetorno = new StringBuilder("<table>");
+/*
+<table><row>
+  <outpgmsg>UmVnaXN0cm8gYWN0dWFsaXphZG8=</outpgmsg>
+  <outreturn>1</outreturn>
+</row>
+
+</table>
+*/
 
 if(TableSerialPort.InsertUpdateFromWeb(request.Form)>0){
-    Retorno.Header.Status = StatusCode.OK;
+XmlRetorno.append_printf("<row><outpgmsg>%s</outpgmsg><response>%s</response></row>", Base64.encode("Registro guardado".data), "true");
 }else{
-    Retorno.Header.Status = StatusCode.NOT_FOUND;
+XmlRetorno.append_printf("<row><outpgmsg>%s</outpgmsg><response>%s</response></row>", Base64.encode("El registro no pudo ser guardado".data), "false");
 }
 
-    Retorno.Data =  "".data;
+XmlRetorno.append("</table>");
+    Retorno.Data =  XmlRetorno.str.data;
 
 return Retorno;
 }
