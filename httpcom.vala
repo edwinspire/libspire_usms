@@ -63,7 +63,7 @@ Retorno["usms_smsinviewtablefilter"] = "/usms_smsinviewtablefilter";
 Retorno["getpostgresconf"] = "/getpostgresconf";
 Retorno["postpostgresconf"] = "/postpostgresconf";
 Retorno["gettableserialport.usms"] = "/gettableserialport.usms";
-Retorno["posttableserialport"] = "/posttableserialport";
+Retorno["serialportedit.usms"] = "/serialportedit.usms";
 Retorno["getcontactslistidcontactname_xml.usms"] = "/getcontactslistidcontactname_xml.usms";  
 Retorno["getcontactbyid_xml.usms"] = "/getcontactbyid_xml.usms";
 Retorno["contacts_table_edit.usms"] = "/contacts_table_edit.usms";
@@ -123,7 +123,7 @@ break;
 case "/gettableserialport.usms":
 response = ResponseSerialPortTable(request);
 break;
-case "/posttableserialport":
+case "/serialportedit.usms":
 response = ResponseUpdateTableSerialPort(request);
 break;
 case "/getcontactslistidcontactname_xml.usms":
