@@ -722,19 +722,6 @@ Retorno = 0;
 }
 }
 
-/*
-Puerto.Id = stmt.column_int(0);
-Puerto.Port =  stmt.column_text(1);
-Puerto.Enable = (bool)stmt.column_int(2);
-Puerto.BaudRate = stmt.column_int(3);
-Puerto.DataBits = stmt.column_int(4);
-Puerto.Parityp = (Ports.Parity)stmt.column_int(5);
-Puerto.StopBitsp = (Ports.StopBits)stmt.column_int(6);
-Puerto.HandShake = (Ports.HandShaking)stmt.column_int(7);
-Puerto.Note = stmt.column_text(8);
-Puerto.LogLevel = StringToArrayListLogLevel(stmt.column_text(9));
-*/
-
 return Retorno;
 }
 

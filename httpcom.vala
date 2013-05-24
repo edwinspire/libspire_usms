@@ -745,10 +745,43 @@ uHttp.Response Retorno = new uHttp.Response();
 var XmlRetorno = new StringBuilder("<table>");
 
 if(TableSerialPort.InsertUpdateFromWeb(request.Form)>0){
-XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("Registro guardado".data), "true");
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("Los cambios han sido aplicados".data), "true");
 }else{
 XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("El registro no pudo ser guardado".data), "false");
 }
+
+XmlRetorno.append("</table>");
+    Retorno.Data =  XmlRetorno.str.data;
+
+return Retorno;
+}
+
+private static uHttp.Response response_tableserialport_delete(Request request){
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+
+var XmlRetorno = new StringBuilder("<table>");
+//TODO: Se tiene que buscar la forma de mejorar esta funcion para que el delete se haga en una sola funcion y no se tenga que hacer una solicitud por cada idport
+if(request.Form.has_key("idports")){
+
+var idports = request.Form["idports"].split(",");
+int del = 0;
+
+foreach(var id in idports){
+int idp = int.parse(id).abs();
+if(idp > 0 && TableSerialPort.Delete(idp)){
+del++;
+}
+}
+
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode(("Se han eliminado "+del.to_string()+" registros.").data), "true");
+
+
+}else{
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("No se ha recibido el campo idports con la lista de idport para eliminarlos".data), "false");
+}
+
 
 XmlRetorno.append("</table>");
     Retorno.Data =  XmlRetorno.str.data;
