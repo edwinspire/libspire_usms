@@ -98,7 +98,7 @@ Retorno["fun_view_subsector_by_idsector_xml.usms"] = "/fun_view_subsector_by_ids
 Retorno["fun_location_subsector_edit_xml_from_hashmap.usms"] = "/fun_location_subsector_edit_xml_from_hashmap.usms";
 Retorno["fun_location_subsector_remove_selected_xml.usms"] = "/fun_location_subsector_remove_selected_xml.usms";
 Retorno["fun_view_locations_ids_from_idlocation_xml.usms"] = "/fun_view_locations_ids_from_idlocation_xml.usms";
-
+Retorno["tableserialport_delete.usms"] = "/tableserialport_delete.usms";
 //Retorno["xxxxxxxxxxxxxxxxx.usms"] = "/xxxxxxxxxxxxxxxx.usms";
 
 
@@ -238,7 +238,9 @@ break;
 case "/fun_view_locations_ids_from_idlocation_xml.usms":
 response = response_fun_view_locations_ids_from_idlocation_xml(request);
 break;
-
+case "/tableserialport_delete.usms":
+response = response_tableserialport_delete(request);
+break;
 /*
 case "/xxxxxxxxxxxxxxxxxxxxxx.usms":
 response = xxxxxxxxxxxxxxxxxxxxxxx(request);
