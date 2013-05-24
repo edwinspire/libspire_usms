@@ -746,11 +746,27 @@ uHttp.Response Retorno = new uHttp.Response();
 
 var XmlRetorno = new StringBuilder("<table>");
 
+
+if(request.Form.has_key("port")){
+
+if(request.Form["port"]){
+
 if(TableSerialPort.InsertUpdateFromWeb(request.Form)>0){
 XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("Los cambios han sido aplicados".data), "true");
 }else{
 XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("El registro no pudo ser guardado".data), "false");
 }
+
+
+}else{
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("El campo port no puede estar vacio".data), "false");
+}
+
+}else{
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("No existe el campo port".data), "false");
+}
+
+
 
 XmlRetorno.append("</table>");
     Retorno.Data =  XmlRetorno.str.data;
