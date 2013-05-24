@@ -749,7 +749,7 @@ var XmlRetorno = new StringBuilder("<table>");
 
 if(request.Form.has_key("port")){
 
-if(request.Form["port"]){
+if(request.Form["port"].length > 2){
 
 if(TableSerialPort.InsertUpdateFromWeb(request.Form)>0){
 XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("Los cambios han sido aplicados".data), "true");
