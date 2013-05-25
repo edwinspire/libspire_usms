@@ -99,6 +99,8 @@ Retorno["fun_location_subsector_edit_xml_from_hashmap.usms"] = "/fun_location_su
 Retorno["fun_location_subsector_remove_selected_xml.usms"] = "/fun_location_subsector_remove_selected_xml.usms";
 Retorno["fun_view_locations_ids_from_idlocation_xml.usms"] = "/fun_view_locations_ids_from_idlocation_xml.usms";
 Retorno["tableserialport_delete.usms"] = "/tableserialport_delete.usms";
+Retorno["test_conexion_pg.usms"] = "/test_conexion_pg.usms";
+
 //Retorno["xxxxxxxxxxxxxxxxx.usms"] = "/xxxxxxxxxxxxxxxx.usms";
 
 
@@ -241,6 +243,12 @@ break;
 case "/tableserialport_delete.usms":
 response = response_tableserialport_delete(request);
 break;
+case "/test_conexion_pg.usms":
+response = response_test_conexion_pg(request);
+break;
+
+
+
 /*
 case "/xxxxxxxxxxxxxxxxxxxxxx.usms":
 response = xxxxxxxxxxxxxxxxxxxxxxx(request);
@@ -734,6 +742,33 @@ id = int.parse(request.Query["idcontact"]);
 TableContacts Tabla = new TableContacts();
 Tabla.GetParamCnx();
     Retorno.Data =  Tabla.byId_Xml(id, true).data;
+
+return Retorno;
+}
+
+//TestConnection
+
+// Recibe los datos y los actualiza en la base de datos.
+private static uHttp.Response response_test_conexion_pg(Request request){
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+
+var XmlRetorno = new StringBuilder("<table>");
+
+var pg = new PostgresuSMS();
+
+
+if(pg.TestConnection()){
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("Conexión exitosa con la base de datos.".data), "true");
+}else{
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("No existe el campo port.".data), "false");
+}
+
+
+
+XmlRetorno.append("</table>");
+    Retorno.Data =  XmlRetorno.str.data;
 
 return Retorno;
 }
