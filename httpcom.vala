@@ -60,8 +60,8 @@ public static HashMap<string, string> VirtualUrls(){
 var Retorno = new HashMap<string, string>();
 Retorno["usms_smsoutviewtablefilter"] = "/usms_smsoutviewtablefilter";
 Retorno["usms_smsinviewtablefilter"] = "/usms_smsinviewtablefilter";
-Retorno["getpostgresconf"] = "/getpostgresconf";
-Retorno["postpostgresconf"] = "/postpostgresconf";
+Retorno["getpostgresql.usms"] = "/getpostgresql.usms";
+Retorno["savepostgresql.usms"] = "/savepostgresql.usms";
 Retorno["gettableserialport.usms"] = "/gettableserialport.usms";
 Retorno["serialportedit.usms"] = "/serialportedit.usms";
 Retorno["getcontactslistidcontactname_xml.usms"] = "/getcontactslistidcontactname_xml.usms";  
@@ -111,10 +111,10 @@ public static uHttp.Response ResponseToVirtualRequest( Request request){
    response.Data =  "".data;
 
 switch(request.Path){
-case  "/getpostgresconf":
-response = ResponseGetPostgresConf(request);
+case  "/getpostgresql.usms":
+response = response_getpostgresql(request);
 break;
-case "/postpostgresconf":
+case "/savepostgresql.usms":
 response = ResponseUpdatePostgresConf(request);
 break;
 case "/usms_smsoutviewtablefilter":
@@ -866,16 +866,40 @@ return Retorno;
 // Recibe los datos y los actualiza en la base de datos.
 private static uHttp.Response ResponseUpdatePostgresConf(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/plain";
-
-
-if(TablePostgres.UpdateFromWeb(request.Form)>0){
     Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header.ContentType = "text/xml";
+
+
+var XmlRetorno = new StringBuilder("<table>");
+
+
+if(request.Form.has_key("host")){
+
+if(request.Form["host"].length >= 5){
+
+int64 id = TablePostgres.UpdateFromWeb(request.Form);
+
+if(id>0){
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode(("Los cambios han sido aplicados (id: "+id.to_string()+")").data), "true");
 }else{
-    Retorno.Header.Status = StatusCode.NOT_MODIFIED;
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("El registro no pudo ser guardado".data), "false");
 }
 
-    Retorno.Data =  "".data;
+
+}else{
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("El campo Host no puede estar vacio o ser menor que 5 caracteres. Ingrese la IP o dirección donde se encuentra el servidor PostgreSQL.".data), "false");
+}
+
+}else{
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("No existe el campo Host".data), "false");
+}
+
+
+
+XmlRetorno.append("</table>");
+    Retorno.Data =  XmlRetorno.str.data;
+
+
 
 return Retorno;
 }
@@ -883,7 +907,7 @@ return Retorno;
 
 
 // Solicita los datos de conexion a postgres
-private static uHttp.Response ResponseGetPostgresConf(Request request){
+private static uHttp.Response response_getpostgresql(Request request){
 uHttp.Response Retorno = new uHttp.Response();
     Retorno.Header.Status = StatusCode.OK;
   Retorno.Header.ContentType = "text/xml";
@@ -892,7 +916,7 @@ uHttp.Response Retorno = new uHttp.Response();
 
     Retorno.Data =  TablePostgres.LastRowEnabledXML().data;
 
-print("Envia los datos a la web xml\n%s\n", TablePostgres.LastRowEnabledXML());
+//print("Envia los datos a la web xml\n%s\n", TablePostgres.LastRowEnabledXML());
 
 return Retorno;
 }
