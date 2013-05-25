@@ -178,7 +178,11 @@ stmt.step();
 db.exec("COMMIT");
         //printerr ("SQL changes del: %d, %i\n", rc, db.changes ());
 if(db.changes ()>0){
-Retorno = db.last_insert_rowid ();
+//Retorno = db.last_insert_rowid ();
+Retorno = row.Id;
+//print(">>> %s >> %s\n", Retorno.to_string(), row.Id.to_string());
+}else{
+Retorno = 0;
 }
 }
 return Retorno;
