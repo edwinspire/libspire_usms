@@ -757,12 +757,12 @@ uHttp.Response Retorno = new uHttp.Response();
 var XmlRetorno = new StringBuilder("<table>");
 
 var pg = new PostgresuSMS();
-
+pg.GetParamCnx();
 
 if(pg.TestConnection()){
 XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("Conexión exitosa con la base de datos.".data), "true");
 }else{
-XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("No existe el campo port.".data), "false");
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("No se pudo hacer la conexión con la base de datos con los parámetros especificados.".data), "false");
 }
 
 
