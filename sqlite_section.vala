@@ -118,8 +118,6 @@ datos.Parameters.db =  Form["db"];
 datos.Parameters.User = Form["user"];
 datos.Parameters.Pwd = Form["pwd"];
 
-//print(">>>>>>>>>>>>>>>>>>>>> FormpgSSL %s\n", Form["pgSSL"]);
-
 if(Form["ssl"] != null && Form["ssl"] == "true"){
 datos.Parameters.SSL = true;
 }else{
@@ -146,7 +144,7 @@ return id;
 
 public static int64 UpdateRow(TableRowPostgres row){
 
-int64 Retorno = 0;
+int64 Retorno = row.Id;
     Database db;
     Statement stmt;
     int rc = 0;
