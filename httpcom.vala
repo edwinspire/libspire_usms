@@ -72,7 +72,7 @@ Retorno["getphonebyid_xml.usms"] = "/getphonebyid_xml.usms";
 Retorno["phonetable_xml.usms"] = "/phonetable_xml.usms";
 Retorno["provider_listidname_xml.usms"] = "/provider_listidname_xml.usms";
 Retorno["usms_gettableincomingcalls_xml"] = "/usms_gettableincomingcalls_xml";
-Retorno["usms_viewprovidertable_xml"] = "/usms_viewprovidertable_xml";
+Retorno["viewprovidertable_xml.usms"] = "/viewprovidertable_xml.usms";
 Retorno["providereditxml.usms"] = "/providereditxml.usms";
 Retorno["fun_view_address_byid_xml.usms"] = "/fun_view_address_byid_xml.usms";
 Retorno["fun_address_edit_xml.usms"] = "/fun_address_edit_xml.usms";
@@ -154,7 +154,7 @@ case "/usms_gettableincomingcalls_xml":
 response = ResponseGridIncomingCallsXml(request);
 break;
 
-case "/usms_viewprovidertable_xml":
+case "/viewprovidertable_xml.usms":
 response = ResponseViewProviderTableXml(request);
 break;
 
