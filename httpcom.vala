@@ -59,7 +59,7 @@ S.RequestVirtualUrl.connect(RequestVirtualPageHandler);
 public static HashMap<string, string> VirtualUrls(){
 var Retorno = new HashMap<string, string>();
 Retorno["usms_smsoutviewtablefilter"] = "/usms_smsoutviewtablefilter";
-Retorno["usms_smsinviewtablefilter"] = "/usms_smsinviewtablefilter";
+Retorno["view_smsin_datefilter.usms"] = "/view_smsin_datefilter.usms";
 Retorno["getpostgresql.usms"] = "/getpostgresql.usms";
 Retorno["savepostgresql.usms"] = "/savepostgresql.usms";
 Retorno["gettableserialport.usms"] = "/gettableserialport.usms";
@@ -158,7 +158,7 @@ case "/viewprovidertable_xml.usms":
 response = ResponseViewProviderTableXml(request);
 break;
 
-case "/usms_smsinviewtablefilter":
+case "/view_smsin_datefilter.usms":
 response = ResponseSMSInViewTableFilter(request);
 break;
 
