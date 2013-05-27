@@ -273,8 +273,8 @@ uHttp.Response Retorno = new uHttp.Response();
 
 int idaccount = 0;
 
-if(request.Query.has_key("idaccount")){
-idaccount = int.parse(request.Query["idaccount"]); 
+if(request.Query.has_key("idaddress")){
+idaccount = int.parse(request.Query["idaddress"]); 
 }
 
 var retornoHtml = uHttpServer.ReadFile(S.PathLocalFile("usms_map.html")).replace("data-usms-idaddress=\"0\"", "data-usms-idaddress=\""+idaccount.to_string()+"\"");
