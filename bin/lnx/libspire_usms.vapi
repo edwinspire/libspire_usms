@@ -259,6 +259,7 @@ namespace edwinspire {
 			public edwinspire.uHttp.Response ResponseToVirtualRequest (edwinspire.uHttp.Request request);
 			public void Run ();
 			public static Gee.HashMap<string,string> VirtualUrls ();
+			public Gee.HashMap<string,string> VirtualUrl { get; set; }
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public struct AddressRowData {

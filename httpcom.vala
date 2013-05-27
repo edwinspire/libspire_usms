@@ -56,6 +56,16 @@ S.RequestVirtualUrl.connect(RequestVirtualPageHandler);
 
 }
 
+public HashMap<string, string> VirtualUrl{
+
+get{
+return S.VirtualUrl;
+}
+set{
+S.VirtualUrl = value;
+}
+}
+
 public static HashMap<string, string> VirtualUrls(){
 var Retorno = new HashMap<string, string>();
 Retorno["usms_smsoutviewtablefilter"] = "/usms_smsoutviewtablefilter";
