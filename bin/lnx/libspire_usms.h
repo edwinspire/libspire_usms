@@ -758,7 +758,7 @@ gchar* edwinspire_usms_usms_server_PathLocalFile (edwinspireuSMSuSMSServer* self
 GeeHashMap* edwinspire_usms_usms_server_VirtualUrls (void);
 edwinspireuHttpResponse* edwinspire_usms_usms_server_ResponseToVirtualRequest (edwinspireuSMSuSMSServer* self, edwinspireuHttpRequest* request);
 void edwinspire_usms_usms_server_RequestVirtualPageHandler (edwinspireuSMSuSMSServer* self, edwinspireuHttpuHttpServer* server, edwinspireuHttpRequest* request, GDataOutputStream* dos);
-void edwinspire_usms_usms_server_Run (edwinspireuSMSuSMSServer* self);
+void edwinspire_usms_usms_server_Run (edwinspireuSMSuSMSServer* self, gboolean connect_pagehandler);
 GeeHashMap* edwinspire_usms_usms_server_get_VirtualUrl (edwinspireuSMSuSMSServer* self);
 void edwinspire_usms_usms_server_set_VirtualUrl (edwinspireuSMSuSMSServer* self, GeeHashMap* value);
 #define EDWINSPIRE_USMS_FILECONF "usmsd.sqlite"

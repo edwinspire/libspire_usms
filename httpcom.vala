@@ -1003,14 +1003,17 @@ Dispositivos.add(de);
 
 }
 // Inicia y corre el servidor asincronicamente
-public void Run(){
+//connect_pagehandler para que en uSAGA no se haga automaticamente la conexion ya que de otra forma no se podia acceder a todas las paginas virtuales de uSAGA pero si de uSMS.
+public void Run(bool connect_pagehandler = true){
 ResetAndLoadDevices();
 print("Connect: http://localhost:%s\n", S.Config.Port.to_string());
 foreach(var U in VirtualUrls().entries){
 S.VirtualUrl[U.key] = U.value;  
 }
-
+if(connect_pagehandler){
 S.RequestVirtualUrl.connect(RequestVirtualPageHandler);
+}
+
     S.run();
 }
 

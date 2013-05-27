@@ -258,7 +258,7 @@ namespace edwinspire {
 			public string PathLocalFile (string file);
 			public void RequestVirtualPageHandler (edwinspire.uHttp.uHttpServer server, edwinspire.uHttp.Request request, GLib.DataOutputStream dos);
 			public edwinspire.uHttp.Response ResponseToVirtualRequest (edwinspire.uHttp.Request request);
-			public void Run ();
+			public void Run (bool connect_pagehandler = true);
 			public static Gee.HashMap<string,string> VirtualUrls ();
 			public Gee.HashMap<string,string> VirtualUrl { get; set; }
 		}
