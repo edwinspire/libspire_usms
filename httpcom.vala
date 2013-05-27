@@ -48,12 +48,6 @@ print("Contact: edwinspire@gmail.com\n");
 
 //S.Port = 8080;
 
-foreach(var U in VirtualUrls().entries){
-S.VirtualUrl[U.key] = U.value;  
-}
-
-S.RequestVirtualUrl.connect(RequestVirtualPageHandler);
-
 }
 
 public HashMap<string, string> VirtualUrl{
@@ -1008,6 +1002,11 @@ Dispositivos.add(de);
 public void Run(){
 ResetAndLoadDevices();
 print("Connect: http://localhost:%s\n", S.Config.Port.to_string());
+foreach(var U in VirtualUrls().entries){
+S.VirtualUrl[U.key] = U.value;  
+}
+
+S.RequestVirtualUrl.connect(RequestVirtualPageHandler);
     S.run();
 }
 
