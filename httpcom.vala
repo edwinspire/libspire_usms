@@ -50,6 +50,10 @@ print("Contact: edwinspire@gmail.com\n");
 
 }
 
+public string PathLocalFile(string file){
+return S.PathLocalFile(file);
+}
+
 public HashMap<string, string> VirtualUrl{
 
 get{

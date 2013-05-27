@@ -255,6 +255,7 @@ namespace edwinspire {
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class uSMSServer : GLib.Object {
 			public uSMSServer ();
+			public string PathLocalFile (string file);
 			public void RequestVirtualPageHandler (edwinspire.uHttp.uHttpServer server, edwinspire.uHttp.Request request, GLib.DataOutputStream dos);
 			public edwinspire.uHttp.Response ResponseToVirtualRequest (edwinspire.uHttp.Request request);
 			public void Run ();
