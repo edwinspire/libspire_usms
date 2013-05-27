@@ -67,7 +67,7 @@ Retorno["serialportedit.usms"] = "/serialportedit.usms";
 Retorno["getcontactslistidcontactname_xml.usms"] = "/getcontactslistidcontactname_xml.usms";  
 Retorno["getcontactbyid_xml.usms"] = "/getcontactbyid_xml.usms";
 Retorno["contacts_table_edit.usms"] = "/contacts_table_edit.usms";
-Retorno["usms_simplifiedviewofphonesbyidcontact_xml"] = "/usms_simplifiedviewofphonesbyidcontact_xml";
+Retorno["simplifiedviewofphonesbyidcontact_xml.usms"] = "/simplifiedviewofphonesbyidcontact_xml.usms";
 Retorno["getphonebyid_xml.usms"] = "/getphonebyid_xml.usms";
 Retorno["phonetable_xml.usms"] = "/phonetable_xml.usms";
 Retorno["provider_listidname_xml.usms"] = "/provider_listidname_xml.usms";
@@ -137,7 +137,7 @@ break;
 case "/contacts_table_edit.usms":
 response = ResponseFunctionContactEditTable(request);
 break;
-case "/usms_simplifiedviewofphonesbyidcontact_xml":
+case "/simplifiedviewofphonesbyidcontact_xml.usms":
 response = ResponseSimplifiedViewOfPhonesByIdContact(request);
 break;
 case "/getphonebyid_xml.usms":
