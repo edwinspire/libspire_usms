@@ -256,7 +256,7 @@ namespace edwinspire {
 		public class uSMSServer : GLib.Object {
 			public uSMSServer ();
 			public void RequestVirtualPageHandler (edwinspire.uHttp.uHttpServer server, edwinspire.uHttp.Request request, GLib.DataOutputStream dos);
-			public static edwinspire.uHttp.Response ResponseToVirtualRequest (edwinspire.uHttp.Request request);
+			public edwinspire.uHttp.Response ResponseToVirtualRequest (edwinspire.uHttp.Request request);
 			public void Run ();
 			public static Gee.HashMap<string,string> VirtualUrls ();
 		}

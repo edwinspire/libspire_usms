@@ -755,7 +755,7 @@ GType edwinspire_usms_usms_server_get_type (void) G_GNUC_CONST;
 edwinspireuSMSuSMSServer* edwinspire_usms_usms_server_new (void);
 edwinspireuSMSuSMSServer* edwinspire_usms_usms_server_construct (GType object_type);
 GeeHashMap* edwinspire_usms_usms_server_VirtualUrls (void);
-edwinspireuHttpResponse* edwinspire_usms_usms_server_ResponseToVirtualRequest (edwinspireuHttpRequest* request);
+edwinspireuHttpResponse* edwinspire_usms_usms_server_ResponseToVirtualRequest (edwinspireuSMSuSMSServer* self, edwinspireuHttpRequest* request);
 void edwinspire_usms_usms_server_RequestVirtualPageHandler (edwinspireuSMSuSMSServer* self, edwinspireuHttpuHttpServer* server, edwinspireuHttpRequest* request, GDataOutputStream* dos);
 void edwinspire_usms_usms_server_Run (edwinspireuSMSuSMSServer* self);
 #define EDWINSPIRE_USMS_FILECONF "usmsd.sqlite"
