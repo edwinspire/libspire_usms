@@ -31,28 +31,18 @@ using edwinspire.uHttp;
 
 namespace edwinspire.uSMS{
 
-public class uSMSServer:GLib.Object{
+public class uSMSServer:uHttpServer{
 
-private uHttpServer S = new uHttpServer ();
+//private uHttpServer S = new uHttpServer ();
 
 private ArrayList<Device> Dispositivos = new ArrayList<Device>();
 private  HashSet<string> PuertosUnicos = new HashSet<string>();
 
-public uSMSServer(){
-
-//S.Index = "usms.html";
-
-print("Start uSMSd Version: %s\n", edwinspire.uSMS.VERSION);
-print("Licence: LGPL\n");
-print("Contact: edwinspire@gmail.com\n");
-
-//S.Port = 8080;
-
-}
-
+/*
 public string PathLocalFile(string file){
 return S.PathLocalFile(file);
 }
+
 
 public HashMap<string, string> VirtualUrl{
 
@@ -63,7 +53,8 @@ set{
 S.VirtualUrl = value;
 }
 }
-
+*/
+/*
 public static HashMap<string, string> VirtualUrls(){
 var Retorno = new HashMap<string, string>();
 Retorno["usms_smsoutviewtablefilter"] = "/usms_smsoutviewtablefilter";
@@ -114,7 +105,7 @@ Retorno["usms_map.usms"] = "/usms_map.usms";
 
 return Retorno;
 }
-
+*/
 public uHttp.Response ResponseToVirtualRequest( Request request){
    uHttp.Response response = new uHttp.Response();
       response.Header.Status = StatusCode.OK;
@@ -285,7 +276,7 @@ if(request.Query.has_key("idaddress")){
 idaccount = int.parse(request.Query["idaddress"]); 
 }
 
-var retornoHtml = uHttpServer.ReadFile(S.PathLocalFile("usms_map.html")).replace("data-usms-idaddress=\"0\"", "data-usms-idaddress=\""+idaccount.to_string()+"\"");
+var retornoHtml = uHttpServer.ReadFile(this.PathLocalFile("usms_map.html")).replace("data-usms-idaddress=\"0\"", "data-usms-idaddress=\""+idaccount.to_string()+"\"");
 
 Retorno.Data = retornoHtml.data;
 return Retorno;
@@ -633,10 +624,11 @@ Tabla.GetParamCnx();
 
 return Retorno;
 }
-
+/*
 public void RequestVirtualPageHandler(uHttpServer server, Request request, DataOutputStream dos){
     server.serve_response( ResponseToVirtualRequest(request), dos );
 }
+*/
 
 private uHttp.Response ResponseViewProviderTableXml(Request request){
 
@@ -1004,17 +996,9 @@ Dispositivos.add(de);
 }
 // Inicia y corre el servidor asincronicamente
 //connect_pagehandler para que en uSAGA no se haga automaticamente la conexion ya que de otra forma no se podia acceder a todas las paginas virtuales de uSAGA pero si de uSMS.
-public void Run(bool connect_pagehandler = true){
+public override void run(){
 ResetAndLoadDevices();
-print("Connect: http://localhost:%s\n", S.Config.Port.to_string());
-foreach(var U in VirtualUrls().entries){
-S.VirtualUrl[U.key] = U.value;  
-}
-if(connect_pagehandler){
-S.RequestVirtualUrl.connect(RequestVirtualPageHandler);
-}
-
-    S.run();
+    base.run();
 }
 
 

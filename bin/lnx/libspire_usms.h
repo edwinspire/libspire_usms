@@ -16,7 +16,6 @@
 #include <math.h>
 #include <gee.h>
 #include "libspire_uhttp.h"
-#include <gio/gio.h>
 #include "libspire_pg.h"
 #include "libspire_pdu.h"
 
@@ -439,12 +438,12 @@ struct _edwinspireuSMSuSMSDataBaseClass {
 };
 
 struct _edwinspireuSMSuSMSServer {
-	GObject parent_instance;
+	edwinspireuHttpuHttpServer parent_instance;
 	edwinspireuSMSuSMSServerPrivate * priv;
 };
 
 struct _edwinspireuSMSuSMSServerClass {
-	GObjectClass parent_class;
+	edwinspireuHttpuHttpServerClass parent_class;
 };
 
 struct _edwinspireuSMSTableRowPostgres {
@@ -752,15 +751,9 @@ void edwinspire_usms_usms_data_base_Open (edwinspireuSMSuSMSDataBase* self);
 gint64 edwinspire_usms_usms_data_base_Insert (edwinspireuSMSuSMSDataBase* self, edwinspireuSMSSerialPortConf* row);
 gboolean edwinspire_usms_usms_data_base_get_isOpen (edwinspireuSMSuSMSDataBase* self);
 GType edwinspire_usms_usms_server_get_type (void) G_GNUC_CONST;
+edwinspireuHttpResponse* edwinspire_usms_usms_server_ResponseToVirtualRequest (edwinspireuSMSuSMSServer* self, edwinspireuHttpRequest* request);
 edwinspireuSMSuSMSServer* edwinspire_usms_usms_server_new (void);
 edwinspireuSMSuSMSServer* edwinspire_usms_usms_server_construct (GType object_type);
-gchar* edwinspire_usms_usms_server_PathLocalFile (edwinspireuSMSuSMSServer* self, const gchar* file);
-GeeHashMap* edwinspire_usms_usms_server_VirtualUrls (void);
-edwinspireuHttpResponse* edwinspire_usms_usms_server_ResponseToVirtualRequest (edwinspireuSMSuSMSServer* self, edwinspireuHttpRequest* request);
-void edwinspire_usms_usms_server_RequestVirtualPageHandler (edwinspireuSMSuSMSServer* self, edwinspireuHttpuHttpServer* server, edwinspireuHttpRequest* request, GDataOutputStream* dos);
-void edwinspire_usms_usms_server_Run (edwinspireuSMSuSMSServer* self, gboolean connect_pagehandler);
-GeeHashMap* edwinspire_usms_usms_server_get_VirtualUrl (edwinspireuSMSuSMSServer* self);
-void edwinspire_usms_usms_server_set_VirtualUrl (edwinspireuSMSuSMSServer* self, GeeHashMap* value);
 #define EDWINSPIRE_USMS_FILECONF "usmsd.sqlite"
 GType edwinspire_usms_table_row_postgres_get_type (void) G_GNUC_CONST;
 edwinspireuSMSTableRowPostgres* edwinspire_usms_table_row_postgres_dup (const edwinspireuSMSTableRowPostgres* self);

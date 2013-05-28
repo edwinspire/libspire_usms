@@ -253,14 +253,10 @@ namespace edwinspire {
 			public bool isOpen { get; private set; }
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
-		public class uSMSServer : GLib.Object {
+		public class uSMSServer : edwinspire.uHttp.uHttpServer {
 			public uSMSServer ();
-			public string PathLocalFile (string file);
-			public void RequestVirtualPageHandler (edwinspire.uHttp.uHttpServer server, edwinspire.uHttp.Request request, GLib.DataOutputStream dos);
 			public edwinspire.uHttp.Response ResponseToVirtualRequest (edwinspire.uHttp.Request request);
-			public void Run (bool connect_pagehandler = true);
-			public static Gee.HashMap<string,string> VirtualUrls ();
-			public Gee.HashMap<string,string> VirtualUrl { get; set; }
+			public override void run ();
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public struct AddressRowData {
