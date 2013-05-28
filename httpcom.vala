@@ -106,6 +106,20 @@ Retorno["usms_map.usms"] = "/usms_map.usms";
 return Retorno;
 }
 */
+
+ public virtual bool connection_handler_virtual_usms(Request request, DataOutputStream dos){
+
+ edwinspire.uHttp.Response response = new edwinspire.uHttp.Response();
+      response.Header.Status = StatusCode.NOT_FOUND;
+ response.Data = edwinspire.uHttp.Response.HtmErrorPage("uHTTP WebServer", "404 - Página no encontrada").data;
+  response.Header.ContentType = "text/html";
+
+this.serve_response( response, dos );
+
+return false;
+}
+
+
 public override bool connection_handler_virtual(Request request, DataOutputStream dos){
    uHttp.Response response = new uHttp.Response();
       response.Header.Status = StatusCode.OK;
@@ -114,158 +128,188 @@ public override bool connection_handler_virtual(Request request, DataOutputStrea
 switch(request.Path){
 case  "/getpostgresql.usms":
 response = response_getpostgresql(request);
+this.serve_response( response, dos ); 
 break;
 case "/savepostgresql.usms":
 response = ResponseUpdatePostgresConf(request);
+this.serve_response( response, dos ); 
 break;
 case "/usms_smsoutviewtablefilter":
 response = ResponseSMSOutViewTableFilter(request);
+this.serve_response( response, dos ); 
 break;
 case "/gettableserialport.usms":
 response = ResponseSerialPortTable(request);
+this.serve_response( response, dos ); 
 break;
 case "/serialportedit.usms":
 response = ResponseUpdateTableSerialPort(request);
+this.serve_response( response, dos ); 
 break;
 case "/getcontactslistidcontactname_xml.usms":
 response = ResponseContactsListNameAndId(request);
+this.serve_response( response, dos ); 
 break;
 case "/getcontactbyid_xml.usms":
 response = ResponseContactById(request);
+this.serve_response( response, dos ); 
 break;
 case "/contacts_table_edit.usms":
 response = ResponseFunctionContactEditTable(request);
+this.serve_response( response, dos ); 
 break;
 case "/simplifiedviewofphonesbyidcontact_xml.usms":
 response = ResponseSimplifiedViewOfPhonesByIdContact(request);
+this.serve_response( response, dos ); 
 break;
 case "/getphonebyid_xml.usms":
 response = ResponsePhoneById(request);
+this.serve_response( response, dos ); 
 break;
 case "/phonetable_xml.usms":
 response = ResponsePhoneTable(request);
+this.serve_response( response, dos ); 
 break;
 case "/provider_listidname_xml.usms":
 response = ResponseProviderListIdNameXml(request);
+this.serve_response( response, dos ); 
 break;
-
 case "/view_incomingcalls_xml.usms":
 response = ResponseGridIncomingCallsXml(request);
+this.serve_response( response, dos ); 
 break;
-
 case "/viewprovidertable_xml.usms":
 response = ResponseViewProviderTableXml(request);
+this.serve_response( response, dos ); 
 break;
-
 case "/view_smsin_datefilter.usms":
 response = ResponseSMSInViewTableFilter(request);
+this.serve_response( response, dos ); 
 break;
-
 case "/providereditxml.usms":
 response = ResponseProviderEditXml(request);
+this.serve_response( response, dos ); 
 break;
 
 case "/fun_view_address_byid_xml.usms":
 response = response_fun_view_address_byid_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 case "/fun_address_edit_xml.usms":
 response = response_fun_address_edit_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 case "/fun_contact_address_edit_xml.usms":
 response = response_fun_contact_address_edit_xml(request);
+this.serve_response( response, dos ); 
 break;
 case "/fun_phones_address_edit_xml.usms":
 response = response_fun_phones_address_edit_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 case "/fun_view_location_level_xml.usms":
 response = response_fun_view_location_level_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 case "/fun_location_level_edit_xml_from_hashmap.usms":
 response = response_fun_location_level_edit_xml_from_hashmap(request);
+this.serve_response( response, dos ); 
 break;
 
 case "/fun_location_level_remove_selected_xml.usms":
 response = response_fun_location_level_remove_selected_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 case "/fun_view_state_by_level1_xml.usms":
 response = response_fun_view_state_by_idl1_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 case "/fun_location_state_edit_xml_from_hashmap.usms":
 response = response_fun_location_state_edit_xml_from_hashmap(request);
+this.serve_response( response, dos ); 
 break;
 
 case "/fun_location_state_remove_selected_xml.usms":
 response = response_fun_location_state_remove_selected_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 //------------------
 case "/fun_view_city_by_idstate_xml.usms":
 response = response_fun_view_city_by_idstate_xml(request);
+this.serve_response( response, dos ); 
 break;
 case "/fun_location_city_edit_xml_from_hashmap.usms":
 response = response_fun_location_city_edit_xml_from_hashmap(request);
+this.serve_response( response, dos ); 
 break;
 case "/fun_location_city_remove_selected_xml.usms":
 response = response_fun_location_city_remove_selected_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 //------------------
 case "/fun_view_sector_by_idcity_xml.usms":
 response = response_fun_view_sector_by_idcity_xml(request);
+this.serve_response( response, dos ); 
 break;
 case "/fun_location_sector_edit_xml_from_hashmap.usms":
 response = response_fun_location_sector_edit_xml_from_hashmap(request);
+this.serve_response( response, dos ); 
 break;
 case "/fun_location_sector_remove_selected_xml.usms":
 response = response_fun_location_sector_remove_selected_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 //------------------
 case "/fun_view_subsector_by_idsector_xml.usms":
 response = response_fun_view_subsector_by_idsector_xml(request);
+this.serve_response( response, dos ); 
 break;
 case "/fun_location_subsector_edit_xml_from_hashmap.usms":
 response = response_fun_location_subsector_edit_xml_from_hashmap(request);
+this.serve_response( response, dos ); 
 break;
 case "/fun_location_subsector_remove_selected_xml.usms":
 response = response_fun_location_subsector_remove_selected_xml(request);
+this.serve_response( response, dos ); 
 break;
 case "/fun_view_locations_ids_from_idlocation_xml.usms":
 response = response_fun_view_locations_ids_from_idlocation_xml(request);
+this.serve_response( response, dos ); 
 break;
 case "/tableserialport_delete.usms":
 response = response_tableserialport_delete(request);
+this.serve_response( response, dos ); 
 break;
 case "/test_conexion_pg.usms":
 response = response_test_conexion_pg(request);
+this.serve_response( response, dos ); 
 break;
 
 
 case "/usms_map.usms":
 response = response_usms_geo_map(request);
+this.serve_response( response, dos ); 
 break;
 
 /*
 case "/xxxxxxxxxxxxxxxxxxxxxx.usms":
 response = xxxxxxxxxxxxxxxxxxxxxxx(request);
-break;
+this.serve_response( response, dos ); break;
 */
 
 default:
-      response.Header.Status = StatusCode.NOT_FOUND;
- response.Data = edwinspire.uHttp.Response.HtmErrorPage("uHTTP WebServer", "404 - Página no encontrada").data;
-  response.Header.ContentType = "text/html";
+this.connection_handler_virtual_usms(request, dos);
 break;
 }
-
-
-this.serve_response( response, dos );
 
 return false;
 }
@@ -1071,7 +1115,7 @@ if(firstblock != null){
 DatosRecibidos.append_printf("%s\n", firstblock);
 }
 if(firstblock=="\r" || firstblock == null){
-break;
+this.serve_response( response, dos ); break;
 }
 maxline--;
 }
