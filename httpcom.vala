@@ -1046,7 +1046,7 @@ Dispositivos.add(de);
 }
 // Inicia y corre el servidor asincronicamente
 //connect_pagehandler para que en uSAGA no se haga automaticamente la conexion ya que de otra forma no se podia acceder a todas las paginas virtuales de uSAGA pero si de uSMS.
-public override void run(){
+public void runuSMS(){
 ResetAndLoadDevices();
     base.run();
 }

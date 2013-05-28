@@ -257,7 +257,7 @@ namespace edwinspire {
 			public uSMSServer ();
 			public override bool connection_handler_virtual (edwinspire.uHttp.Request request, GLib.DataOutputStream dos);
 			public virtual bool connection_handler_virtual_usms (edwinspire.uHttp.Request request, GLib.DataOutputStream dos);
-			public override void run ();
+			public void runuSMS ();
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public struct AddressRowData {

@@ -754,6 +754,7 @@ gint64 edwinspire_usms_usms_data_base_Insert (edwinspireuSMSuSMSDataBase* self, 
 gboolean edwinspire_usms_usms_data_base_get_isOpen (edwinspireuSMSuSMSDataBase* self);
 GType edwinspire_usms_usms_server_get_type (void) G_GNUC_CONST;
 gboolean edwinspire_usms_usms_server_connection_handler_virtual_usms (edwinspireuSMSuSMSServer* self, edwinspireuHttpRequest* request, GDataOutputStream* dos);
+void edwinspire_usms_usms_server_runuSMS (edwinspireuSMSuSMSServer* self);
 edwinspireuSMSuSMSServer* edwinspire_usms_usms_server_new (void);
 edwinspireuSMSuSMSServer* edwinspire_usms_usms_server_construct (GType object_type);
 #define EDWINSPIRE_USMS_FILECONF "usmsd.sqlite"
