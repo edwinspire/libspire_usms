@@ -106,7 +106,7 @@ Retorno["usms_map.usms"] = "/usms_map.usms";
 return Retorno;
 }
 */
-public uHttp.Response ResponseToVirtualRequest( Request request){
+public override bool connection_handler_virtual(Request request, DataOutputStream dos){
    uHttp.Response response = new uHttp.Response();
       response.Header.Status = StatusCode.OK;
    response.Data =  "".data;
@@ -259,9 +259,15 @@ break;
 
 default:
       response.Header.Status = StatusCode.NOT_FOUND;
+ response.Data = edwinspire.uHttp.Response.HtmErrorPage("uHTTP WebServer", "404 - Página no encontrada").data;
+  response.Header.ContentType = "text/html";
 break;
 }
-return response;
+
+
+this.serve_response( response, dos );
+
+return false;
 }
 
 

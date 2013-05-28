@@ -751,7 +751,6 @@ void edwinspire_usms_usms_data_base_Open (edwinspireuSMSuSMSDataBase* self);
 gint64 edwinspire_usms_usms_data_base_Insert (edwinspireuSMSuSMSDataBase* self, edwinspireuSMSSerialPortConf* row);
 gboolean edwinspire_usms_usms_data_base_get_isOpen (edwinspireuSMSuSMSDataBase* self);
 GType edwinspire_usms_usms_server_get_type (void) G_GNUC_CONST;
-edwinspireuHttpResponse* edwinspire_usms_usms_server_ResponseToVirtualRequest (edwinspireuSMSuSMSServer* self, edwinspireuHttpRequest* request);
 edwinspireuSMSuSMSServer* edwinspire_usms_usms_server_new (void);
 edwinspireuSMSuSMSServer* edwinspire_usms_usms_server_construct (GType object_type);
 #define EDWINSPIRE_USMS_FILECONF "usmsd.sqlite"

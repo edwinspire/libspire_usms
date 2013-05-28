@@ -255,7 +255,7 @@ namespace edwinspire {
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class uSMSServer : edwinspire.uHttp.uHttpServer {
 			public uSMSServer ();
-			public edwinspire.uHttp.Response ResponseToVirtualRequest (edwinspire.uHttp.Request request);
+			public override bool connection_handler_virtual (edwinspire.uHttp.Request request, GLib.DataOutputStream dos);
 			public override void run ();
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
