@@ -57,7 +57,7 @@ S.VirtualUrl = value;
 /*
 public static HashMap<string, string> VirtualUrls(){
 var Retorno = new HashMap<string, string>();
-Retorno["usms_smsoutviewtablefilter"] = "/usms_smsoutviewtablefilter";
+Retorno["view_smsout_datefilter.usms"] = "/view_smsout_datefilter.usms";
 Retorno["view_smsin_datefilter.usms"] = "/view_smsin_datefilter.usms";
 Retorno["getpostgresql.usms"] = "/getpostgresql.usms";
 Retorno["savepostgresql.usms"] = "/savepostgresql.usms";
@@ -134,7 +134,7 @@ case "/savepostgresql.usms":
 response = ResponseUpdatePostgresConf(request);
 this.serve_response( response, dos ); 
 break;
-case "/usms_smsoutviewtablefilter":
+case "/view_smsout_datefilter.usms":
 response = ResponseSMSOutViewTableFilter(request);
 this.serve_response( response, dos ); 
 break;
