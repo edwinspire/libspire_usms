@@ -91,6 +91,7 @@ private StringBuilder TempLog = new StringBuilder();
 private bool LlamadaDetectadayAlmacenada = false;
 private PostgresuSMS DBaseGeneral = new PostgresuSMS();
 public int IdPort = 0;
+public int IdSIM = 0;
 
 public void SetPort(SerialPortConf sp){
 
@@ -159,7 +160,20 @@ this.Run();
 }
 }
 
-
+public void get_idsim(){
+// Seleccionamos el PhoneBook de la SIM
+this.CPBS_Set(PhoneBookMemoryStorage.SM);
+// Buscamos el primer contacto usms y el numero telefónico almacenados en los contactos de la SIM
+foreach(var x in this.CPBF("usms")){
+stdout.printf ("PB: Index: %i - Number: %s - Type: %i - Name: %s\n", x.Index, x.Number, x.Type, x.Name);
+// Segun el numero telefonico buscamos en la base de datos el idsim, si no existe se lo crea.
+this.IdSIM = DBaseGeneral.fun_get_idsim(x.Number);
+break;
+}
+if(this.IdSIM <= 0){
+warning("IdSIM no se pudo obtener de los contactos de la tarjeta SIM");
+}
+}
 
 public void Kill(){
 this.Ctrl = ProcessCtrl.Kill;
@@ -288,16 +302,8 @@ DBaseSMSOut.GetParamCnx();
 
 this.log(LogLevelFlags.LEVEL_MESSAGE, "Test conection Postgres: "+(DBaseSMSOut.TestConnection()).to_string());
 //DBase.fun_smsout_insert(int inidphone, string inphone, string inmessage "", int inidprovider = 0, int inidsmstype = 0, int inpriority = 5, bool inretryonfail = false, DateTime indatetosend = new DateTime.now_local(), string innote = "")
-/*
-DBaseSMSOut.fun_smsout_insert(0, "082786003", "mensaje de texto de prueba", 5);
-DBaseSMSOut.fun_smsout_insert(0, "09824548598", " OTRO mensaje de texto de prueba desde usmsd", 5);
-DBaseSMSOut.fun_smsout_insert(3, "09144553099", " OTRO mensaje de texto de prueba", 8);
-DBaseSMSOut.fun_smsout_insert(0, "09824458598", " Auto mensaje de texto de prueba", 5);
-DBaseSMSOut.fun_smsout_insert(0, "0988888", " Mas Auto mensaje de texto de prueba", 0);
-*/
 
 //DBase.fun_smsout_insert(0, 0, 3, 9, "", new DateTime.now_local(), """Mensaje de texto tiee caracteres mamá papá ñaño, 'select' viasta \ddd ok ss""", "Nota de mensaje");
-
 
 YaFueRun = true;
 //print("Inicia\n");
@@ -312,6 +318,7 @@ while(this.Ctrl!=ProcessCtrl.Kill){
 
 print("[%s %s]\n", this.Port, this.Ctrl.to_string());
 this.Open();
+
 ActionOnIncomingCall();
 this.log(LogLevelFlags.LEVEL_MESSAGE, "Openning Port");
 if(this.IsOpen){
@@ -323,7 +330,7 @@ round = 0;
 
 // Cada 20 vueltas obtiene las caracteristica del modem y demas datos
 if(round == 0){
-
+this.get_idsim();
 this.StringInit();
 this.GetFeatures();
 this.CLIP(true);

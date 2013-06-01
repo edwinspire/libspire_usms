@@ -394,6 +394,7 @@ struct _edwinspireuSMSDevice {
 	edwinspireuSMSDevicePrivate * priv;
 	guint TimeWindowSleep;
 	gint IdPort;
+	gint IdSIM;
 };
 
 struct _edwinspireuSMSDeviceClass {
@@ -712,6 +713,7 @@ GType edwinspire_usms_device_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_serial_port_conf_get_type (void) G_GNUC_CONST;
 void edwinspire_usms_device_SetPort (edwinspireuSMSDevice* self, edwinspireuSMSSerialPortConf* sp);
 void edwinspire_usms_device_DetectCallID (edwinspireuSMSDevice* self, const gchar* phone);
+void edwinspire_usms_device_get_idsim (edwinspireuSMSDevice* self);
 void edwinspire_usms_device_Kill (edwinspireuSMSDevice* self);
 gint64 edwinspire_usms_device_log (edwinspireuSMSDevice* self, GLogLevelFlags level, const gchar* log);
 edwinspireuSMSDevice* edwinspire_usms_device_new (void);
@@ -807,6 +809,7 @@ edwinspireuSMSPostgreSQLConnection* edwinspire_usms_postgre_sql_connection_const
 GType edwinspire_usms_postgresu_sms_get_type (void) G_GNUC_CONST;
 edwinspireuSMSPostgresuSMS* edwinspire_usms_postgresu_sms_new (void);
 edwinspireuSMSPostgresuSMS* edwinspire_usms_postgresu_sms_construct (GType object_type);
+gint edwinspire_usms_postgresu_sms_fun_get_idsim (edwinspireuSMSPostgresuSMS* self, const gchar* phone);
 gboolean edwinspire_usms_postgresu_sms_fun_portmodem_update (edwinspireuSMSPostgresuSMS* self, gint inidport, const gchar* inport, const gchar* incimi, const gchar* inimei, const gchar* inmanufacturer, const gchar* inmodel, const gchar* inrevision);
 gint edwinspire_usms_postgresu_sms_fun_currentportsproviders_insertupdate (edwinspireuSMSPostgresuSMS* self, gint inidport, const gchar* inport, const gchar* incimi, const gchar* inimei);
 GType edwinspire_usms_table_provider_get_type (void) G_GNUC_CONST;

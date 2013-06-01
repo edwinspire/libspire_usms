@@ -61,10 +61,60 @@ this.ParamCnx = TablePostgres.LastRowEnabled().Parameters;
 }
 
 
+public class TableSIM:PostgresuSMS{
+
+
+public string fun_view_sim_xml(bool fieldtextasbase64 = true){
+string Retorno = "";
+string[] ValuesArray = {fieldtextasbase64.to_string()};
+var  Conexion = Postgres.connect_db (this.ConnString());
+if(Conexion.get_status () == ConnectionStatus.OK){
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_view_sim_xml($1::boolean) AS return;",  ValuesArray);
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var filas in this.Result_FieldName(ref Resultado)){
+Retorno = filas["return"].Value;
+}
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+}
+return Retorno;
+}
+
+}
+
+
+
 public class PostgresuSMS:PostgreSQLConnection{
 public PostgresuSMS(){
 }
 
+
+public int fun_get_idsim(string phone){
+
+string[] valuessms = {phone};
+int Retorno = -1;
+var  Conexion = Postgres.connect_db (this.ConnString());
+
+if(Conexion.get_status () == ConnectionStatus.OK){
+
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT fun_get_idsim($1::text) as retorno;",  valuessms);
+
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+
+foreach(var filas in this.Result_FieldName(ref Resultado)){
+Retorno = filas["retorno"].as_int();
+}
+
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}
+
+
+return Retorno;
+}
 
 //fun_portmodem_update(inidport integer, inport text, incimi text, inimei text, inmanufacturer text, inmodel text, inrevision text)
 

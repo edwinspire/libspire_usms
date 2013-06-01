@@ -13,11 +13,13 @@ namespace edwinspire {
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class Device : edwinspire.GSM.MODEM.ModemGSM {
 			public int IdPort;
+			public int IdSIM;
 			public uint TimeWindowSleep;
 			public Device ();
 			public void DetectCallID (string phone);
 			public void Kill ();
 			public void SetPort (edwinspire.uSMS.SerialPortConf sp);
+			public void get_idsim ();
 			[Description (blurb = "Inserta un evento en la bitacora del proceso", nick = "log")]
 			public int64 log (GLib.LogLevelFlags level, string log);
 			public edwinspire.uSMS.ProcessCtrl Ctrl { get; set; }
@@ -52,6 +54,7 @@ namespace edwinspire {
 		public class PostgresuSMS : edwinspire.uSMS.PostgreSQLConnection {
 			public PostgresuSMS ();
 			public int fun_currentportsproviders_insertupdate (int inidport, string inport, string incimi, string inimei);
+			public int fun_get_idsim (string phone);
 			public bool fun_portmodem_update (int inidport, string inport, string incimi, string inimei, string inmanufacturer, string inmodel, string inrevision);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
