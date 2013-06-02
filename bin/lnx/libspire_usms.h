@@ -175,6 +175,17 @@ typedef struct _edwinspireuSMSPostgresuSMS edwinspireuSMSPostgresuSMS;
 typedef struct _edwinspireuSMSPostgresuSMSClass edwinspireuSMSPostgresuSMSClass;
 typedef struct _edwinspireuSMSPostgresuSMSPrivate edwinspireuSMSPostgresuSMSPrivate;
 
+#define EDWINSPIRE_USMS_TYPE_TABLE_SIM (edwinspire_usms_table_sim_get_type ())
+#define EDWINSPIRE_USMS_TABLE_SIM(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_TABLE_SIM, edwinspireuSMSTableSIM))
+#define EDWINSPIRE_USMS_TABLE_SIM_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_TABLE_SIM, edwinspireuSMSTableSIMClass))
+#define EDWINSPIRE_USMS_IS_TABLE_SIM(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_TABLE_SIM))
+#define EDWINSPIRE_USMS_IS_TABLE_SIM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_TABLE_SIM))
+#define EDWINSPIRE_USMS_TABLE_SIM_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_TABLE_SIM, edwinspireuSMSTableSIMClass))
+
+typedef struct _edwinspireuSMSTableSIM edwinspireuSMSTableSIM;
+typedef struct _edwinspireuSMSTableSIMClass edwinspireuSMSTableSIMClass;
+typedef struct _edwinspireuSMSTableSIMPrivate edwinspireuSMSTableSIMPrivate;
+
 #define EDWINSPIRE_USMS_TYPE_TABLE_PROVIDER (edwinspire_usms_table_provider_get_type ())
 #define EDWINSPIRE_USMS_TABLE_PROVIDER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_TABLE_PROVIDER, edwinspireuSMSTableProvider))
 #define EDWINSPIRE_USMS_TABLE_PROVIDER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_TABLE_PROVIDER, edwinspireuSMSTableProviderClass))
@@ -525,6 +536,15 @@ struct _edwinspireuSMSPostgresuSMSClass {
 	edwinspireuSMSPostgreSQLConnectionClass parent_class;
 };
 
+struct _edwinspireuSMSTableSIM {
+	edwinspireuSMSPostgresuSMS parent_instance;
+	edwinspireuSMSTableSIMPrivate * priv;
+};
+
+struct _edwinspireuSMSTableSIMClass {
+	edwinspireuSMSPostgresuSMSClass parent_class;
+};
+
 struct _edwinspireuSMSTableProvider {
 	edwinspireuSMSPostgresuSMS parent_instance;
 	edwinspireuSMSTableProviderPrivate * priv;
@@ -807,6 +827,10 @@ void edwinspire_usms_postgre_sql_connection_GetParamCnx (edwinspireuSMSPostgreSQ
 edwinspireuSMSPostgreSQLConnection* edwinspire_usms_postgre_sql_connection_new (void);
 edwinspireuSMSPostgreSQLConnection* edwinspire_usms_postgre_sql_connection_construct (GType object_type);
 GType edwinspire_usms_postgresu_sms_get_type (void) G_GNUC_CONST;
+GType edwinspire_usms_table_sim_get_type (void) G_GNUC_CONST;
+gchar* edwinspire_usms_table_sim_fun_view_sim_xml (edwinspireuSMSTableSIM* self, gboolean fieldtextasbase64);
+edwinspireuSMSTableSIM* edwinspire_usms_table_sim_new (void);
+edwinspireuSMSTableSIM* edwinspire_usms_table_sim_construct (GType object_type);
 edwinspireuSMSPostgresuSMS* edwinspire_usms_postgresu_sms_new (void);
 edwinspireuSMSPostgresuSMS* edwinspire_usms_postgresu_sms_construct (GType object_type);
 gint edwinspire_usms_postgresu_sms_fun_get_idsim (edwinspireuSMSPostgresuSMS* self, const gchar* phone);

@@ -81,6 +81,92 @@ Retorno = filas["return"].Value;
 return Retorno;
 }
 
+public string fun_sim_table_edit_xml(int idsim, int idprovider, bool enable, string phone, bool smsout_request_reports, int smsout_retryonfail, int smsout_max_length, int smsout_max_lifetime, bool smsout_enabled_other_providers, int idmodem, int on_incommingcall, string note, bool fieldtextasbase64 = true){
+string Retorno = "";
+string[] ValuesArray = {idsim.to_string(), idprovider.to_string(), enable.to_string(), phone, smsout_request_reports.to_string(), smsout_retryonfail.to_string(), smsout_max_length.to_string(), smsout_max_lifetime.to_string(), smsout_enabled_other_providers.to_string(), idmodem.to_string(), on_incommingcall.to_string(), note, fieldtextasbase64.to_string()};
+var  Conexion = Postgres.connect_db (this.ConnString());
+if(Conexion.get_status () == ConnectionStatus.OK){
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_view_sim_xml($1::integer, $2::integer, $3::boolean, $4::text, $5::boolean, $6::integer, $7::integer, $8::integer, $9::boolean, $10::integer, $11::integer, $12::text, $13::boolean) AS return;",  ValuesArray);
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var filas in this.Result_FieldName(ref Resultado)){
+Retorno = filas["return"].Value;
+}
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+}
+return Retorno;
+
+}
+
+public string fun_sim_table_edit_xml_from_hashmap(HashMap<string, string> Form){
+
+int idsim = 0;
+int idprovider = 0;
+bool enable = false;
+string phone = "";
+bool smsout_request_reports = false;
+int smsout_retryonfail = 0;
+int smsout_max_length = 0;
+int smsout_max_lifetime = 0;
+bool smsout_enabled_other_providers = false;
+int idmodem = 0;
+int on_incommingcall = 0;
+string note = "";
+
+if(Form.has_key("idsim")){
+idsim = int.parse(Form["idsim"]);
+}
+
+if(Form.has_key("idprovider")){
+idprovider = int.parse(Form["idprovider"]);
+}
+
+if(Form.has_key("enable")){
+enable = bool.parse(Form["enable"]);
+}
+
+if(Form.has_key("phone")){
+phone = Form["phone"];
+}
+
+if(Form.has_key("smsout_request_reports")){
+smsout_request_reports = bool.parse(Form["smsout_request_reports"]);
+}
+
+if(Form.has_key("smsout_retryonfail")){
+smsout_retryonfail = int.parse(Form["smsout_retryonfail"]);
+}
+
+if(Form.has_key("smsout_max_length")){
+smsout_max_length = int.parse(Form["smsout_max_length"]);
+}
+
+if(Form.has_key("smsout_max_lifetime")){
+ smsout_max_lifetime = int.parse(Form["smsout_max_lifetime"]);
+}
+
+if(Form.has_key("smsout_enabled_other_providers")){
+smsout_enabled_other_providers = bool.parse(Form["smsout_enabled_other_providers"]);
+}
+
+if(Form.has_key("idmodem")){
+idmodem = int.parse(Form["idmodem"]);
+}
+
+if(Form.has_key("on_incommingcall")){
+on_incommingcall = int.parse(Form["on_incommingcall"]);
+}
+
+if(Form.has_key("note")){
+note = Form["note"];
+}
+
+return fun_sim_table_edit_xml(idsim, idprovider, enable, phone, smsout_request_reports, smsout_retryonfail, smsout_max_length, smsout_max_lifetime, smsout_enabled_other_providers, idmodem, on_incommingcall, note);
+}
+
+
+
 }
 
 

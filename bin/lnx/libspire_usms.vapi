@@ -180,6 +180,11 @@ namespace edwinspire {
 			public int IdProviderFromCIMI (string cimi);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
+		public class TableSIM : edwinspire.uSMS.PostgresuSMS {
+			public TableSIM ();
+			public string fun_view_sim_xml (bool fieldtextasbase64 = true);
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TableSMSIn : edwinspire.uSMS.PostgreSQLConnection {
 			public TableSMSIn ();
 			public int fun_smsin_insert (int inidport, edwinspire.GSM.MODEM.SMS_Status instatus, edwinspire.PDU.Datetime indatesms, string inphone, string inmsj, string innote = "");
