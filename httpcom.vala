@@ -302,9 +302,13 @@ break;
 
 case "/fun_view_sim_xml.usms":
 response = response_fun_view_sim_xml(request);
-this.serve_response( response, dos ); break;
+this.serve_response( response, dos ); 
+break;
 
-
+case "/fun_sim_table_edit_xml.usms":
+response = response_fun_sim_table_edit_xml(request);
+this.serve_response( response, dos ); 
+break;
 
 
 
@@ -323,6 +327,16 @@ return false;
 }
 
 
+private uHttp.Response response_fun_sim_table_edit_xml(Request request){
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+
+TableSIM Tabla = new TableSIM();
+Tabla.GetParamCnx();
+Retorno.Data = Tabla.fun_sim_table_edit_xml_from_hashmap(request.Form).data;
+return Retorno;
+}
 
 private uHttp.Response response_fun_view_sim_xml(Request request){
 uHttp.Response Retorno = new uHttp.Response();
@@ -331,7 +345,7 @@ uHttp.Response Retorno = new uHttp.Response();
 
 TableSIM Tabla = new TableSIM();
 Tabla.GetParamCnx();
-Retorno.Data = Tabla.fun_view_sim_xml().data;;
+Retorno.Data = Tabla.fun_view_sim_xml().data;
 return Retorno;
 }
 
