@@ -118,8 +118,6 @@ datos.Parameters.db =  Form["db"];
 datos.Parameters.User = Form["user"];
 datos.Parameters.Pwd = Form["pwd"];
 
-//print(">>>>>>>>>>>>>>>>>>>>> FormpgSSL %s\n", Form["pgSSL"]);
-
 if(Form["ssl"] != null && Form["ssl"] == "true"){
 datos.Parameters.SSL = true;
 }else{
@@ -146,7 +144,7 @@ return id;
 
 public static int64 UpdateRow(TableRowPostgres row){
 
-int64 Retorno = 0;
+int64 Retorno = row.Id;
     Database db;
     Statement stmt;
     int rc = 0;
@@ -180,7 +178,11 @@ stmt.step();
 db.exec("COMMIT");
         //printerr ("SQL changes del: %d, %i\n", rc, db.changes ());
 if(db.changes ()>0){
-Retorno = db.last_insert_rowid ();
+//Retorno = db.last_insert_rowid ();
+Retorno = row.Id;
+//print(">>> %s >> %s\n", Retorno.to_string(), row.Id.to_string());
+}else{
+Retorno = 0;
 }
 }
 return Retorno;
@@ -537,6 +539,14 @@ public TableSerialPort(){
 
 public static string AllXml(){
 
+var Retorno = new StringBuilder("<table>");
+
+foreach(var Datos in All()){
+Retorno.append_printf("<row><idport>%i</idport><port>%s</port><enable>%s</enable><baudrate>%i</baudrate><databits>%i</databits><stopbits>%i</stopbits><parity>%i</parity><handshake>%i</handshake><note>%s</note></row>", Datos.Id, Base64.encode(Datos.Port.data), Datos.Enable.to_string(), (int)Datos.BaudRate, (int)Datos.DataBits, (int)Datos.StopBitsp, (int)Datos.Parityp, (int)Datos.HandShake, Base64.encode(Datos.Note.data));
+}
+
+
+/*
 var XmlDatasTable = XmlDatas.Node("serialport");
 //SMSData.Name = "smsout";
 
@@ -557,7 +567,9 @@ Fila.addFieldString("note", Datos.Note, true);
 XmlDatasTable->add_child(Fila.Row());
 }
 
-return XmlDatas.XmlDocToString(XmlDatasTable);
+return XmlDatas.XmlDocToString(XmlDatasTable);*/
+Retorno.append("</table>");
+return Retorno.str;
 }
 
 //***********************************************
@@ -660,46 +672,44 @@ print("[%s] => %s\n", D.key, D.value);
 */
 
 
-if(postData.has_key("fieldid")){
-Puerto.Id = int.parse(postData["fieldid"]);
+if(postData.has_key("idport")){
+Puerto.Id = int.parse(postData["idport"]);
 }
 
 
 if(Puerto.Id >= 0){
 // Si es > 0 es actualizacion o insercion
-if(postData.has_key("fieldport")){
-Puerto.Port = postData["fieldport"];
+if(postData.has_key("port")){
+Puerto.Port = postData["port"];
 }
 
-if(postData.has_key("fieldenable")){
-Puerto.Enable = true;
-}else{
-Puerto.Enable = false;
+if(postData.has_key("enable")){
+Puerto.Enable = bool.parse(postData["enable"]);
 }
 
-if(postData.has_key("fieldbr")){
-Puerto.BaudRate = int.parse(postData["fieldbr"]);
+if(postData.has_key("baudrate")){
+Puerto.BaudRate = int.parse(postData["baudrate"]);
 }
 
-if(postData.has_key("fielddb")){
-Puerto.DataBits = int.parse(postData["fielddb"]);
+if(postData.has_key("databits")){
+Puerto.DataBits = int.parse(postData["databits"]);
 }
 
-if(postData.has_key("fieldparity")){
-Puerto.Parityp = (Ports.Parity)int.parse(postData["fieldparity"]);
+if(postData.has_key("parity")){
+Puerto.Parityp = (Ports.Parity)int.parse(postData["parity"]);
 }
-if(postData.has_key("fieldstb")){
-Puerto.StopBitsp = (Ports.StopBits)int.parse(postData["fieldstb"]);
-}
-
-
-
-if(postData.has_key("fieldhsk")){
-Puerto.HandShake = (Ports.HandShaking)int.parse(postData["fieldhsk"]);
+if(postData.has_key("stopbits")){
+Puerto.StopBitsp = (Ports.StopBits)int.parse(postData["stopbits"]);
 }
 
-if(postData.has_key("fieldnote")){
-Puerto.Note = postData["fieldnote"];
+
+
+if(postData.has_key("handshake")){
+Puerto.HandShake = (Ports.HandShaking)int.parse(postData["handshake"]);
+}
+
+if(postData.has_key("note")){
+Puerto.Note = postData["note"];
 }
 
 Retorno = InsertUpdate(Puerto);
@@ -713,19 +723,6 @@ Retorno = iddel;
 Retorno = 0;
 }
 }
-
-/*
-Puerto.Id = stmt.column_int(0);
-Puerto.Port =  stmt.column_text(1);
-Puerto.Enable = (bool)stmt.column_int(2);
-Puerto.BaudRate = stmt.column_int(3);
-Puerto.DataBits = stmt.column_int(4);
-Puerto.Parityp = (Ports.Parity)stmt.column_int(5);
-Puerto.StopBitsp = (Ports.StopBits)stmt.column_int(6);
-Puerto.HandShake = (Ports.HandShaking)stmt.column_int(7);
-Puerto.Note = stmt.column_text(8);
-Puerto.LogLevel = StringToArrayListLogLevel(stmt.column_text(9));
-*/
 
 return Retorno;
 }

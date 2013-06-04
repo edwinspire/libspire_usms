@@ -31,47 +31,50 @@ using edwinspire.uHttp;
 
 namespace edwinspire.uSMS{
 
-public class uSMSServer:GLib.Object{
+public class uSMSServer:uHttpServer{
 
-private uHttpServer S = new uHttpServer ();
+//private uHttpServer S = new uHttpServer ();
 
 private ArrayList<Device> Dispositivos = new ArrayList<Device>();
 private  HashSet<string> PuertosUnicos = new HashSet<string>();
 
-public uSMSServer(){
-
-//S.Index = "usms.html";
-
-print("Start uSMSd Version: %s\n", edwinspire.uSMS.VERSION);
-print("Licence: LGPL\n");
-print("Contact: edwinspire@gmail.com\n");
-
-//S.Port = 8080;
-
-foreach(var U in VirtualUrls().entries){
-S.VirtualUrl[U.key] = U.value;  
+/*
+public string PathLocalFile(string file){
+return S.PathLocalFile(file);
 }
 
-S.RequestVirtualUrl.connect(RequestVirtualPageHandler);
 
+public HashMap<string, string> VirtualUrl{
+
+get{
+return S.VirtualUrl;
 }
-
+set{
+S.VirtualUrl = value;
+}
+}
+*/
+/*
 public static HashMap<string, string> VirtualUrls(){
 var Retorno = new HashMap<string, string>();
-Retorno["usms_smsoutviewtablefilter"] = "/usms_smsoutviewtablefilter";
-Retorno["usms_smsinviewtablefilter"] = "/usms_smsinviewtablefilter";
-Retorno["getpostgresconf"] = "/getpostgresconf";
-Retorno["postpostgresconf"] = "/postpostgresconf";
-Retorno["gettableserialport"] = "/gettableserialport";
-Retorno["posttableserialport"] = "/posttableserialport";
-Retorno["usms_getcontactslistidcontactname_xml"] = "/usms_getcontactslistidcontactname_xml";  
+Retorno["view_sms_outgoing_datefilter.usms"] = "/view_sms_outgoing_datefilter.usms";
+Retorno["view_smsin_datefilter.usms"] = "/view_smsin_datefilter.usms";
+Retorno["getpostgresql.usms"] = "/getpostgresql.usms";
+Retorno["savepostgresql.usms"] = "/savepostgresql.usms";
+Retorno["gettableserialport.usms"] = "/gettableserialport.usms";
+Retorno["serialportedit.usms"] = "/serialportedit.usms";
+Retorno["getcontactslistidcontactname_xml.usms"] = "/getcontactslistidcontactname_xml.usms";  
 Retorno["getcontactbyid_xml.usms"] = "/getcontactbyid_xml.usms";
 Retorno["contacts_table_edit.usms"] = "/contacts_table_edit.usms";
-Retorno["usms_simplifiedviewofphonesbyidcontact_xml"] = "/usms_simplifiedviewofphonesbyidcontact_xml";
+Retorno["simplifiedviewofphonesbyidcontact_xml.usms"] = "/simplifiedviewofphonesbyidcontact_xml.usms";
 Retorno["getphonebyid_xml.usms"] = "/getphonebyid_xml.usms";
 Retorno["phonetable_xml.usms"] = "/phonetable_xml.usms";
 Retorno["provider_listidname_xml.usms"] = "/provider_listidname_xml.usms";
+<<<<<<< HEAD
 Retorno["usms_gettableincomingcalls_xml"] = "/usms_gettableincomingcalls_xml";
+=======
+Retorno["view_incomingcalls_xml.usms"] = "/view_incomingcalls_xml.usms";
+>>>>>>> develop
 Retorno["viewprovidertable_xml.usms"] = "/viewprovidertable_xml.usms";
 Retorno["providereditxml.usms"] = "/providereditxml.usms";
 Retorno["fun_view_address_byid_xml.usms"] = "/fun_view_address_byid_xml.usms";
@@ -98,163 +101,285 @@ Retorno["fun_view_subsector_by_idsector_xml.usms"] = "/fun_view_subsector_by_ids
 Retorno["fun_location_subsector_edit_xml_from_hashmap.usms"] = "/fun_location_subsector_edit_xml_from_hashmap.usms";
 Retorno["fun_location_subsector_remove_selected_xml.usms"] = "/fun_location_subsector_remove_selected_xml.usms";
 Retorno["fun_view_locations_ids_from_idlocation_xml.usms"] = "/fun_view_locations_ids_from_idlocation_xml.usms";
-
+Retorno["tableserialport_delete.usms"] = "/tableserialport_delete.usms";
+Retorno["test_conexion_pg.usms"] = "/test_conexion_pg.usms";
+Retorno["usms_map.usms"] = "/usms_map.usms";
 //Retorno["xxxxxxxxxxxxxxxxx.usms"] = "/xxxxxxxxxxxxxxxx.usms";
 
 
 return Retorno;
 }
+*/
 
-public static uHttp.Response ResponseToVirtualRequest( Request request){
+ public virtual bool connection_handler_virtual_usms(Request request, DataOutputStream dos){
+
+ edwinspire.uHttp.Response response = new edwinspire.uHttp.Response();
+      response.Header.Status = StatusCode.NOT_FOUND;
+ response.Data = edwinspire.uHttp.Response.HtmErrorPage("uHTTP WebServer", "404 - Página no encontrada").data;
+  response.Header.ContentType = "text/html";
+
+this.serve_response( response, dos );
+
+return false;
+}
+
+
+public override bool connection_handler_virtual(Request request, DataOutputStream dos){
    uHttp.Response response = new uHttp.Response();
       response.Header.Status = StatusCode.OK;
    response.Data =  "".data;
 
 switch(request.Path){
-case  "/getpostgresconf":
-response = ResponseGetPostgresConf(request);
+case  "/getpostgresql.usms":
+response = response_getpostgresql(request);
+this.serve_response( response, dos ); 
 break;
-case "/postpostgresconf":
+case "/savepostgresql.usms":
 response = ResponseUpdatePostgresConf(request);
+this.serve_response( response, dos ); 
 break;
-case "/usms_smsoutviewtablefilter":
-response = ResponseSMSOutViewTableFilter(request);
+case "/view_sms_outgoing_datefilter.usms":
+response = response_fun_view_outgoing_view_filter_xml(request);
+this.serve_response( response, dos ); 
 break;
-case "/gettableserialport":
+case "/gettableserialport.usms":
 response = ResponseSerialPortTable(request);
+this.serve_response( response, dos ); 
 break;
-case "/posttableserialport":
+case "/serialportedit.usms":
 response = ResponseUpdateTableSerialPort(request);
+this.serve_response( response, dos ); 
 break;
-case "/usms_getcontactslistidcontactname_xml":
+case "/getcontactslistidcontactname_xml.usms":
 response = ResponseContactsListNameAndId(request);
+this.serve_response( response, dos ); 
 break;
 case "/getcontactbyid_xml.usms":
 response = ResponseContactById(request);
+this.serve_response( response, dos ); 
 break;
 case "/contacts_table_edit.usms":
 response = ResponseFunctionContactEditTable(request);
+this.serve_response( response, dos ); 
 break;
-case "/usms_simplifiedviewofphonesbyidcontact_xml":
+case "/simplifiedviewofphonesbyidcontact_xml.usms":
 response = ResponseSimplifiedViewOfPhonesByIdContact(request);
+this.serve_response( response, dos ); 
 break;
 case "/getphonebyid_xml.usms":
 response = ResponsePhoneById(request);
+this.serve_response( response, dos ); 
 break;
 case "/phonetable_xml.usms":
 response = ResponsePhoneTable(request);
+this.serve_response( response, dos ); 
 break;
 case "/provider_listidname_xml.usms":
 response = ResponseProviderListIdNameXml(request);
+this.serve_response( response, dos ); 
 break;
-
-case "/usms_gettableincomingcalls_xml":
+case "/view_incomingcalls_xml.usms":
 response = ResponseGridIncomingCallsXml(request);
+this.serve_response( response, dos ); 
 break;
+<<<<<<< HEAD
 
+=======
+>>>>>>> develop
 case "/viewprovidertable_xml.usms":
 response = ResponseViewProviderTableXml(request);
+this.serve_response( response, dos ); 
 break;
-
-case "/usms_smsinviewtablefilter":
+case "/view_smsin_datefilter.usms":
 response = ResponseSMSInViewTableFilter(request);
+this.serve_response( response, dos ); 
 break;
-
 case "/providereditxml.usms":
 response = ResponseProviderEditXml(request);
+this.serve_response( response, dos ); 
 break;
 
 case "/fun_view_address_byid_xml.usms":
 response = response_fun_view_address_byid_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 case "/fun_address_edit_xml.usms":
 response = response_fun_address_edit_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 case "/fun_contact_address_edit_xml.usms":
 response = response_fun_contact_address_edit_xml(request);
+this.serve_response( response, dos ); 
 break;
 case "/fun_phones_address_edit_xml.usms":
 response = response_fun_phones_address_edit_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 case "/fun_view_location_level_xml.usms":
 response = response_fun_view_location_level_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 case "/fun_location_level_edit_xml_from_hashmap.usms":
 response = response_fun_location_level_edit_xml_from_hashmap(request);
+this.serve_response( response, dos ); 
 break;
 
 case "/fun_location_level_remove_selected_xml.usms":
 response = response_fun_location_level_remove_selected_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 case "/fun_view_state_by_level1_xml.usms":
 response = response_fun_view_state_by_idl1_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 case "/fun_location_state_edit_xml_from_hashmap.usms":
 response = response_fun_location_state_edit_xml_from_hashmap(request);
+this.serve_response( response, dos ); 
 break;
 
 case "/fun_location_state_remove_selected_xml.usms":
 response = response_fun_location_state_remove_selected_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 //------------------
 case "/fun_view_city_by_idstate_xml.usms":
 response = response_fun_view_city_by_idstate_xml(request);
+this.serve_response( response, dos ); 
 break;
 case "/fun_location_city_edit_xml_from_hashmap.usms":
 response = response_fun_location_city_edit_xml_from_hashmap(request);
+this.serve_response( response, dos ); 
 break;
 case "/fun_location_city_remove_selected_xml.usms":
 response = response_fun_location_city_remove_selected_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 //------------------
 case "/fun_view_sector_by_idcity_xml.usms":
 response = response_fun_view_sector_by_idcity_xml(request);
+this.serve_response( response, dos ); 
 break;
 case "/fun_location_sector_edit_xml_from_hashmap.usms":
 response = response_fun_location_sector_edit_xml_from_hashmap(request);
+this.serve_response( response, dos ); 
 break;
 case "/fun_location_sector_remove_selected_xml.usms":
 response = response_fun_location_sector_remove_selected_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 //------------------
 case "/fun_view_subsector_by_idsector_xml.usms":
 response = response_fun_view_subsector_by_idsector_xml(request);
+this.serve_response( response, dos ); 
 break;
 case "/fun_location_subsector_edit_xml_from_hashmap.usms":
 response = response_fun_location_subsector_edit_xml_from_hashmap(request);
+this.serve_response( response, dos ); 
 break;
 case "/fun_location_subsector_remove_selected_xml.usms":
 response = response_fun_location_subsector_remove_selected_xml(request);
+this.serve_response( response, dos ); 
 break;
 case "/fun_view_locations_ids_from_idlocation_xml.usms":
 response = response_fun_view_locations_ids_from_idlocation_xml(request);
+this.serve_response( response, dos ); 
+break;
+case "/tableserialport_delete.usms":
+response = response_tableserialport_delete(request);
+this.serve_response( response, dos ); 
+break;
+case "/test_conexion_pg.usms":
+response = response_test_conexion_pg(request);
+this.serve_response( response, dos ); 
+break;
+
+
+case "/usms_map.usms":
+response = response_usms_geo_map(request);
+this.serve_response( response, dos ); 
+break;
+
+case "/fun_view_sim_xml.usms":
+response = response_fun_view_sim_xml(request);
+this.serve_response( response, dos ); 
+break;
+
+case "/fun_sim_table_edit_xml.usms":
+response = response_fun_sim_table_edit_xml(request);
+this.serve_response( response, dos ); 
 break;
 
 /*
 case "/xxxxxxxxxxxxxxxxxxxxxx.usms":
 response = xxxxxxxxxxxxxxxxxxxxxxx(request);
-break;
+this.serve_response( response, dos ); break;
+*/
+
+/*
+case "/xxxxxxxxxxxxxxxxxxxxxx.usms":
+response = xxxxxxxxxxxxxxxxxxxxxxx(request);
+this.serve_response( response, dos ); break;
 */
 
 default:
-      response.Header.Status = StatusCode.NOT_FOUND;
+this.connection_handler_virtual_usms(request, dos);
 break;
 }
-return response;
+
+return false;
 }
 
 
+private uHttp.Response response_fun_sim_table_edit_xml(Request request){
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+
+TableSIM Tabla = new TableSIM();
+Tabla.GetParamCnx();
+Retorno.Data = Tabla.fun_sim_table_edit_xml_from_hashmap(request.Form).data;
+return Retorno;
+}
+
+private uHttp.Response response_fun_view_sim_xml(Request request){
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+
+TableSIM Tabla = new TableSIM();
+Tabla.GetParamCnx();
+Retorno.Data = Tabla.fun_view_sim_xml().data;
+return Retorno;
+}
+
+private uHttp.Response response_usms_geo_map(Request request){
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/html";
+    Retorno.Header.Status = StatusCode.OK;
+
+int idaccount = 0;
+
+if(request.Query.has_key("idaddress")){
+idaccount = int.parse(request.Query["idaddress"]); 
+}
+
+var retornoHtml = uHttpServer.ReadFile(this.PathLocalFile("usms_map.html")).replace("data-usms-idaddress=\"0\"", "data-usms-idaddress=\""+idaccount.to_string()+"\"");
+
+Retorno.Data = retornoHtml.data;
+return Retorno;
+}
+
 //------------------------------------
-private static uHttp.Response response_fun_view_locations_ids_from_idlocation_xml(Request request){
+private uHttp.Response response_fun_view_locations_ids_from_idlocation_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -271,7 +396,7 @@ return Retorno;
 }
 
 //----------------------------------------------------------------------------------------------
-private static uHttp.Response response_fun_location_subsector_remove_selected_xml(Request request){
+private uHttp.Response response_fun_location_subsector_remove_selected_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -287,7 +412,7 @@ ids = request.Form["ids"];
 return Retorno;
 }
 
-private static uHttp.Response response_fun_location_subsector_edit_xml_from_hashmap(Request request){
+private uHttp.Response response_fun_location_subsector_edit_xml_from_hashmap(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -298,7 +423,7 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
-private static uHttp.Response response_fun_view_subsector_by_idsector_xml(Request request){
+private uHttp.Response response_fun_view_subsector_by_idsector_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -318,7 +443,7 @@ return Retorno;
 
 
 //----------------------------------------------------------------------------------------------
-private static uHttp.Response response_fun_location_sector_remove_selected_xml(Request request){
+private uHttp.Response response_fun_location_sector_remove_selected_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -334,7 +459,7 @@ ids = request.Form["ids"];
 return Retorno;
 }
 
-private static uHttp.Response response_fun_location_sector_edit_xml_from_hashmap(Request request){
+private uHttp.Response response_fun_location_sector_edit_xml_from_hashmap(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -345,7 +470,7 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
-private static uHttp.Response response_fun_view_sector_by_idcity_xml(Request request){
+private uHttp.Response response_fun_view_sector_by_idcity_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -365,7 +490,7 @@ return Retorno;
 
 
 //---------------------------------------------------------
-private static uHttp.Response response_fun_location_city_remove_selected_xml(Request request){
+private uHttp.Response response_fun_location_city_remove_selected_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -381,7 +506,7 @@ ids = request.Form["ids"];
 return Retorno;
 }
 
-private static uHttp.Response response_fun_location_city_edit_xml_from_hashmap(Request request){
+private uHttp.Response response_fun_location_city_edit_xml_from_hashmap(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -392,7 +517,7 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
-private static uHttp.Response response_fun_view_city_by_idstate_xml(Request request){
+private uHttp.Response response_fun_view_city_by_idstate_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -411,7 +536,7 @@ return Retorno;
 }
 
 //-------------------------
-private static uHttp.Response response_fun_location_state_remove_selected_xml(Request request){
+private uHttp.Response response_fun_location_state_remove_selected_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -427,7 +552,7 @@ ids = request.Form["ids"];
 return Retorno;
 }
 
-private static uHttp.Response response_fun_location_state_edit_xml_from_hashmap(Request request){
+private uHttp.Response response_fun_location_state_edit_xml_from_hashmap(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -438,7 +563,7 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
-private static uHttp.Response response_fun_view_state_by_idl1_xml(Request request){
+private uHttp.Response response_fun_view_state_by_idl1_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -458,7 +583,7 @@ return Retorno;
 
 
 //------------------------------------
-private static uHttp.Response response_fun_location_level_remove_selected_xml(Request request){
+private uHttp.Response response_fun_location_level_remove_selected_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -479,7 +604,7 @@ level = int.parse(request.Form["level"]);
 return Retorno;
 }
 
-private static uHttp.Response response_fun_location_level_edit_xml_from_hashmap(Request request){
+private uHttp.Response response_fun_location_level_edit_xml_from_hashmap(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -490,7 +615,7 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
-private static uHttp.Response response_fun_view_location_level_xml(Request request){
+private uHttp.Response response_fun_view_location_level_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -502,7 +627,7 @@ return Retorno;
 }
 
 
-private static uHttp.Response response_fun_contact_address_edit_xml(Request request){
+private uHttp.Response response_fun_contact_address_edit_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -513,7 +638,7 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
-private static uHttp.Response response_fun_phones_address_edit_xml(Request request){
+private uHttp.Response response_fun_phones_address_edit_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -525,7 +650,7 @@ return Retorno;
 }
 
 
-private static uHttp.Response response_fun_address_edit_xml(Request request){
+private uHttp.Response response_fun_address_edit_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -536,7 +661,7 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
-private static uHttp.Response response_fun_view_address_byid_xml(Request request){
+private uHttp.Response response_fun_view_address_byid_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -554,7 +679,7 @@ idaddress = int.parse(request.Query["idaddress"]);
 return Retorno;
 }
 
-private static uHttp.Response ResponseProviderEditXml(Request request){
+private uHttp.Response ResponseProviderEditXml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -567,7 +692,7 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
-private static uHttp.Response ResponseSMSInViewTableFilter(Request request){
+private uHttp.Response ResponseSMSInViewTableFilter(Request request){
 uHttp.Response Retorno = new uHttp.Response();
     Retorno.Header.Status = StatusCode.OK;
   Retorno.Header.ContentType = "text/xml";
@@ -595,12 +720,13 @@ Tabla.GetParamCnx();
 
 return Retorno;
 }
-
+/*
 public void RequestVirtualPageHandler(uHttpServer server, Request request, DataOutputStream dos){
     server.serve_response( ResponseToVirtualRequest(request), dos );
 }
+*/
 
-private static uHttp.Response ResponseViewProviderTableXml(Request request){
+private uHttp.Response ResponseViewProviderTableXml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -613,7 +739,7 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
-private static uHttp.Response ResponseGridIncomingCallsXml(Request request){
+private uHttp.Response ResponseGridIncomingCallsXml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -638,7 +764,7 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
-private static uHttp.Response ResponseProviderListIdNameXml(Request request){
+private uHttp.Response ResponseProviderListIdNameXml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -651,7 +777,7 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
-private static uHttp.Response ResponsePhoneTable(Request request){
+private uHttp.Response ResponsePhoneTable(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -665,7 +791,7 @@ return Retorno;
 }
 
 
-private static uHttp.Response ResponsePhoneById(Request request){
+private uHttp.Response ResponsePhoneById(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -684,7 +810,7 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
-private static uHttp.Response ResponseSimplifiedViewOfPhonesByIdContact(Request request){
+private uHttp.Response ResponseSimplifiedViewOfPhonesByIdContact(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -703,7 +829,7 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
-private static uHttp.Response ResponseFunctionContactEditTable(Request request){
+private uHttp.Response ResponseFunctionContactEditTable(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -717,7 +843,7 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
-private static uHttp.Response ResponseContactById(Request request){
+private uHttp.Response ResponseContactById(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -736,25 +862,104 @@ Tabla.GetParamCnx();
 return Retorno;
 }
 
+//TestConnection
+
 // Recibe los datos y los actualiza en la base de datos.
-private static uHttp.Response ResponseUpdateTableSerialPort(Request request){
+private uHttp.Response response_test_conexion_pg(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/plain";
-
-
-if(TableSerialPort.InsertUpdateFromWeb(request.Form)>0){
+  Retorno.Header.ContentType = "text/xml";
     Retorno.Header.Status = StatusCode.OK;
+
+var XmlRetorno = new StringBuilder("<table>");
+
+var pg = new PostgresuSMS();
+pg.GetParamCnx();
+
+if(pg.TestConnection()){
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("Conexión exitosa con la base de datos.".data), "true");
 }else{
-    Retorno.Header.Status = StatusCode.NOT_FOUND;
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("No se pudo hacer la conexión con la base de datos con los parámetros especificados.".data), "false");
 }
 
-    Retorno.Data =  "".data;
+
+
+XmlRetorno.append("</table>");
+    Retorno.Data =  XmlRetorno.str.data;
+
+return Retorno;
+}
+
+// Recibe los datos y los actualiza en la base de datos.
+private uHttp.Response ResponseUpdateTableSerialPort(Request request){
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+
+var XmlRetorno = new StringBuilder("<table>");
+
+
+if(request.Form.has_key("port")){
+
+if(request.Form["port"].length > 2){
+
+if(TableSerialPort.InsertUpdateFromWeb(request.Form)>0){
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("Los cambios han sido aplicados".data), "true");
+}else{
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("El registro no pudo ser guardado".data), "false");
+}
+
+
+}else{
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("El campo port no puede estar vacio".data), "false");
+}
+
+}else{
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("No existe el campo port".data), "false");
+}
+
+
+
+XmlRetorno.append("</table>");
+    Retorno.Data =  XmlRetorno.str.data;
+
+return Retorno;
+}
+
+private uHttp.Response response_tableserialport_delete(Request request){
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+
+var XmlRetorno = new StringBuilder("<table>");
+//TODO: Se tiene que buscar la forma de mejorar esta funcion para que el delete se haga en una sola funcion y no se tenga que hacer una solicitud por cada idport
+if(request.Form.has_key("idports")){
+
+var idports = request.Form["idports"].split(",");
+int del = 0;
+
+foreach(var id in idports){
+int idp = int.parse(id).abs();
+if(idp > 0 && TableSerialPort.Delete(idp)){
+del++;
+}
+}
+
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode(("Se han eliminado "+del.to_string()+" registros.").data), "true");
+
+
+}else{
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("No se ha recibido el campo idports con la lista de idport para eliminarlos".data), "false");
+}
+
+
+XmlRetorno.append("</table>");
+    Retorno.Data =  XmlRetorno.str.data;
 
 return Retorno;
 }
 
 
-private static uHttp.Response ResponseContactsListNameAndId(Request request){
+private uHttp.Response ResponseContactsListNameAndId(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header.ContentType = "text/xml";
@@ -769,7 +974,7 @@ return Retorno;
 }
 
 // Recibe los datos y los actualiza en la base de datos.
-private static uHttp.Response ResponseSerialPortTable(Request request){
+private uHttp.Response ResponseSerialPortTable(Request request){
 uHttp.Response Retorno = new uHttp.Response();
     Retorno.Header.Status = StatusCode.OK;
   Retorno.Header.ContentType = "text/xml";
@@ -780,7 +985,7 @@ return Retorno;
 }
 
 // Envia la tabla
-private static uHttp.Response ResponseSMSOutViewTableFilter(Request request){
+private uHttp.Response response_fun_view_outgoing_view_filter_xml(Request request){
 uHttp.Response Retorno = new uHttp.Response();
     Retorno.Header.Status = StatusCode.OK;
   Retorno.Header.ContentType = "text/xml";
@@ -801,27 +1006,51 @@ if(request.Query.has_key("nrows")){
 rows = int.parse(request.Query["nrows"]);
 }
 
-var Tablasmsout = new TableSMSOut();
+var Tablasmsout = new TableOutgoing();
 Tablasmsout.GetParamCnx();
 
-    Retorno.Data =  Tablasmsout.fun_view_smsout_table_filter_xml(start, end, rows).data;
+    Retorno.Data =  Tablasmsout.fun_view_outgoing_view_filter_xml(start, end, rows).data;
 
 return Retorno;
 }
 
 // Recibe los datos y los actualiza en la base de datos.
-private static uHttp.Response ResponseUpdatePostgresConf(Request request){
+private uHttp.Response ResponseUpdatePostgresConf(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/plain";
-
-
-if(TablePostgres.UpdateFromWeb(request.Form)>0){
     Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header.ContentType = "text/xml";
+
+
+var XmlRetorno = new StringBuilder("<table>");
+
+
+if(request.Form.has_key("host")){
+
+if(request.Form["host"].length >= 5){
+
+int64 id = TablePostgres.UpdateFromWeb(request.Form);
+
+if(id>0){
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode(("Los cambios han sido aplicados (id: "+id.to_string()+")").data), "true");
 }else{
-    Retorno.Header.Status = StatusCode.NOT_MODIFIED;
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("El registro no pudo ser guardado".data), "false");
 }
 
-    Retorno.Data =  "".data;
+
+}else{
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("El campo Host no puede estar vacio o ser menor que 5 caracteres. Ingrese la IP o dirección donde se encuentra el servidor PostgreSQL.".data), "false");
+}
+
+}else{
+XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("No existe el campo Host".data), "false");
+}
+
+
+
+XmlRetorno.append("</table>");
+    Retorno.Data =  XmlRetorno.str.data;
+
+
 
 return Retorno;
 }
@@ -829,7 +1058,7 @@ return Retorno;
 
 
 // Solicita los datos de conexion a postgres
-private static uHttp.Response ResponseGetPostgresConf(Request request){
+private uHttp.Response response_getpostgresql(Request request){
 uHttp.Response Retorno = new uHttp.Response();
     Retorno.Header.Status = StatusCode.OK;
   Retorno.Header.ContentType = "text/xml";
@@ -838,7 +1067,7 @@ uHttp.Response Retorno = new uHttp.Response();
 
     Retorno.Data =  TablePostgres.LastRowEnabledXML().data;
 
-print("Envia los datos a la web xml\n%s\n", TablePostgres.LastRowEnabledXML());
+//print("Envia los datos a la web xml\n%s\n", TablePostgres.LastRowEnabledXML());
 
 return Retorno;
 }
@@ -862,10 +1091,10 @@ Dispositivos.add(de);
 
 }
 // Inicia y corre el servidor asincronicamente
-public void Run(){
+//connect_pagehandler para que en uSAGA no se haga automaticamente la conexion ya que de otra forma no se podia acceder a todas las paginas virtuales de uSAGA pero si de uSMS.
+public void runuSMS(){
 ResetAndLoadDevices();
-print("Connect: http://localhost:%s\n", S.Config.Port.to_string());
-    S.run();
+    base.run();
 }
 
 
@@ -932,7 +1161,7 @@ if(firstblock != null){
 DatosRecibidos.append_printf("%s\n", firstblock);
 }
 if(firstblock=="\r" || firstblock == null){
-break;
+this.serve_response( response, dos ); break;
 }
 maxline--;
 }
