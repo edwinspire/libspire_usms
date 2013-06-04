@@ -318,16 +318,16 @@ typedef struct _edwinspireuSMSTableSMSIn edwinspireuSMSTableSMSIn;
 typedef struct _edwinspireuSMSTableSMSInClass edwinspireuSMSTableSMSInClass;
 typedef struct _edwinspireuSMSTableSMSInPrivate edwinspireuSMSTableSMSInPrivate;
 
-#define EDWINSPIRE_USMS_TYPE_TABLE_SMS_OUT (edwinspire_usms_table_sms_out_get_type ())
-#define EDWINSPIRE_USMS_TABLE_SMS_OUT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_TABLE_SMS_OUT, edwinspireuSMSTableSMSOut))
-#define EDWINSPIRE_USMS_TABLE_SMS_OUT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_TABLE_SMS_OUT, edwinspireuSMSTableSMSOutClass))
-#define EDWINSPIRE_USMS_IS_TABLE_SMS_OUT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_TABLE_SMS_OUT))
-#define EDWINSPIRE_USMS_IS_TABLE_SMS_OUT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_TABLE_SMS_OUT))
-#define EDWINSPIRE_USMS_TABLE_SMS_OUT_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_TABLE_SMS_OUT, edwinspireuSMSTableSMSOutClass))
+#define EDWINSPIRE_USMS_TYPE_TABLE_OUTGOING (edwinspire_usms_table_outgoing_get_type ())
+#define EDWINSPIRE_USMS_TABLE_OUTGOING(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_TABLE_OUTGOING, edwinspireuSMSTableOutgoing))
+#define EDWINSPIRE_USMS_TABLE_OUTGOING_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_TABLE_OUTGOING, edwinspireuSMSTableOutgoingClass))
+#define EDWINSPIRE_USMS_IS_TABLE_OUTGOING(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_TABLE_OUTGOING))
+#define EDWINSPIRE_USMS_IS_TABLE_OUTGOING_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_TABLE_OUTGOING))
+#define EDWINSPIRE_USMS_TABLE_OUTGOING_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_TABLE_OUTGOING, edwinspireuSMSTableOutgoingClass))
 
-typedef struct _edwinspireuSMSTableSMSOut edwinspireuSMSTableSMSOut;
-typedef struct _edwinspireuSMSTableSMSOutClass edwinspireuSMSTableSMSOutClass;
-typedef struct _edwinspireuSMSTableSMSOutPrivate edwinspireuSMSTableSMSOutPrivate;
+typedef struct _edwinspireuSMSTableOutgoing edwinspireuSMSTableOutgoing;
+typedef struct _edwinspireuSMSTableOutgoingClass edwinspireuSMSTableOutgoingClass;
+typedef struct _edwinspireuSMSTableOutgoingPrivate edwinspireuSMSTableOutgoingPrivate;
 
 #define EDWINSPIRE_USMS_TYPE_PHONE_TABLE_ROW (edwinspire_usms_phone_table_row_get_type ())
 typedef struct _edwinspireuSMSPhoneTableRow edwinspireuSMSPhoneTableRow;
@@ -653,12 +653,12 @@ struct _edwinspireuSMSTableSMSInClass {
 	edwinspireuSMSPostgreSQLConnectionClass parent_class;
 };
 
-struct _edwinspireuSMSTableSMSOut {
+struct _edwinspireuSMSTableOutgoing {
 	edwinspireuSMSPostgresuSMS parent_instance;
-	edwinspireuSMSTableSMSOutPrivate * priv;
+	edwinspireuSMSTableOutgoingPrivate * priv;
 };
 
-struct _edwinspireuSMSTableSMSOutClass {
+struct _edwinspireuSMSTableOutgoingClass {
 	edwinspireuSMSPostgresuSMSClass parent_class;
 };
 
@@ -959,13 +959,14 @@ edwinspireuSMSTableSMSIn* edwinspire_usms_table_sms_in_new (void);
 edwinspireuSMSTableSMSIn* edwinspire_usms_table_sms_in_construct (GType object_type);
 gchar* edwinspire_usms_table_sms_in_fun_view_smsin_table_filter_xml (edwinspireuSMSTableSMSIn* self, const gchar* start, const gchar* end, gint rows, gboolean fieldtextasbase64);
 gint edwinspire_usms_table_sms_in_fun_smsin_insert (edwinspireuSMSTableSMSIn* self, gint inidport, edwinspireGSMMODEMSMS_Status instatus, edwinspirePDUDatetime* indatesms, const gchar* inphone, const gchar* inmsj, const gchar* innote);
-GType edwinspire_usms_table_sms_out_get_type (void) G_GNUC_CONST;
-edwinspireuSMSTableSMSOut* edwinspire_usms_table_sms_out_new (void);
-edwinspireuSMSTableSMSOut* edwinspire_usms_table_sms_out_construct (GType object_type);
-edwinspireuSMSSMSOutRow* edwinspire_usms_table_sms_out_ToSend (edwinspireuSMSTableSMSOut* self, gint IdProvider);
-gchar* edwinspire_usms_table_sms_out_fun_view_smsout_table_filter_xml (edwinspireuSMSTableSMSOut* self, const gchar* start, const gchar* end, gint rows, gboolean fieldtextasbase64);
-gint edwinspire_usms_table_sms_out_fun_smsout_insert (edwinspireuSMSTableSMSOut* self, gint inidphone, const gchar* inphone, const gchar* inmessage, gint inidprovider, gint inidsmstype, gint inpriority, GDateTime* indatetosend, gboolean inenablemsgclass, edwinspirePDUDCS_MESSAGE_CLASS inmsgclass, const gchar* innote);
-gint edwinspire_usms_table_sms_out_fun_smsout_updatestatus (edwinspireuSMSTableSMSOut* self, gint inidsmsout, edwinspireuSMSProcessSMSOut inprocess, gint inidprovidersent, gint inslices, gint inslicessent, const gchar* innote);
+GType edwinspire_usms_table_outgoing_get_type (void) G_GNUC_CONST;
+edwinspireuSMSTableOutgoing* edwinspire_usms_table_outgoing_new (void);
+edwinspireuSMSTableOutgoing* edwinspire_usms_table_outgoing_construct (GType object_type);
+GeeHashMap* edwinspire_usms_table_outgoing_ToSend (edwinspireuSMSTableOutgoing* self, gint IdSIM);
+gint edwinspire_usms_table_outgoing_log (edwinspireuSMSTableOutgoing* self, gint idsmsout, gint idsim, gint status, gint parts, gint part);
+gchar* edwinspire_usms_table_outgoing_fun_view_outgoing_view_filter_xml (edwinspireuSMSTableOutgoing* self, const gchar* start, const gchar* end, gint rows, gboolean fieldtextasbase64);
+gint edwinspire_usms_table_outgoing_fun_outgoing_new (edwinspireuSMSTableOutgoing* self, gint idowner, gint inidphone, const gchar* inphone, const gchar* inmsg, GDateTime* indatetosend, gint inpriority, gint inidprovider, gint inidsim, gint inidsmstype, gboolean inreport, gboolean inenablemsgclass, edwinspirePDUDCS_MESSAGE_CLASS inmsgclass, const gchar* innote);
+gint edwinspire_usms_table_outgoing_fun_outgoing_new_now (edwinspireuSMSTableOutgoing* self, gint idowner, gint inidphone, const gchar* inphone, const gchar* inmsg, gint inpriority, gint inidprovider, gint inidsim, gint inidsmstype, gboolean inreport, gboolean inenablemsgclass, edwinspirePDUDCS_MESSAGE_CLASS inmsgclass, const gchar* innote);
 GType edwinspire_usms_phone_table_row_get_type (void) G_GNUC_CONST;
 edwinspireuSMSPhoneTableRow* edwinspire_usms_phone_table_row_dup (const edwinspireuSMSPhoneTableRow* self);
 void edwinspire_usms_phone_table_row_free (edwinspireuSMSPhoneTableRow* self);

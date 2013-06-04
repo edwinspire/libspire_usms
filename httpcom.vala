@@ -57,7 +57,7 @@ S.VirtualUrl = value;
 /*
 public static HashMap<string, string> VirtualUrls(){
 var Retorno = new HashMap<string, string>();
-Retorno["view_smsout_datefilter.usms"] = "/view_smsout_datefilter.usms";
+Retorno["view_sms_outgoing_datefilter.usms"] = "/view_sms_outgoing_datefilter.usms";
 Retorno["view_smsin_datefilter.usms"] = "/view_smsin_datefilter.usms";
 Retorno["getpostgresql.usms"] = "/getpostgresql.usms";
 Retorno["savepostgresql.usms"] = "/savepostgresql.usms";
@@ -134,8 +134,8 @@ case "/savepostgresql.usms":
 response = ResponseUpdatePostgresConf(request);
 this.serve_response( response, dos ); 
 break;
-case "/view_smsout_datefilter.usms":
-response = ResponseSMSOutViewTableFilter(request);
+case "/view_sms_outgoing_datefilter.usms":
+response = response_fun_view_outgoing_view_filter_xml(request);
 this.serve_response( response, dos ); 
 break;
 case "/gettableserialport.usms":
@@ -310,7 +310,11 @@ response = response_fun_sim_table_edit_xml(request);
 this.serve_response( response, dos ); 
 break;
 
-
+/*
+case "/xxxxxxxxxxxxxxxxxxxxxx.usms":
+response = xxxxxxxxxxxxxxxxxxxxxxx(request);
+this.serve_response( response, dos ); break;
+*/
 
 /*
 case "/xxxxxxxxxxxxxxxxxxxxxx.usms":
@@ -973,7 +977,7 @@ return Retorno;
 }
 
 // Envia la tabla
-private uHttp.Response ResponseSMSOutViewTableFilter(Request request){
+private uHttp.Response response_fun_view_outgoing_view_filter_xml(Request request){
 uHttp.Response Retorno = new uHttp.Response();
     Retorno.Header.Status = StatusCode.OK;
   Retorno.Header.ContentType = "text/xml";
@@ -994,10 +998,10 @@ if(request.Query.has_key("nrows")){
 rows = int.parse(request.Query["nrows"]);
 }
 
-var Tablasmsout = new TableSMSOut();
+var Tablasmsout = new TableOutgoing();
 Tablasmsout.GetParamCnx();
 
-    Retorno.Data =  Tablasmsout.fun_view_smsout_table_filter_xml(start, end, rows).data;
+    Retorno.Data =  Tablasmsout.fun_view_outgoing_view_filter_xml(start, end, rows).data;
 
 return Retorno;
 }

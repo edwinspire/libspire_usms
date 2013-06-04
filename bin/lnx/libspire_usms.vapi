@@ -156,6 +156,15 @@ namespace edwinspire {
 			public string fun_view_location_level1_xml (bool fieldtextasbase64 = true);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
+		public class TableOutgoing : edwinspire.uSMS.PostgresuSMS {
+			public TableOutgoing ();
+			public Gee.HashMap<string,edwinspire.pgSQL.PgField> ToSend (int IdSIM);
+			public int fun_outgoing_new (int idowner, int inidphone, string inphone, string inmsg, GLib.DateTime indatetosend = new GLib.DateTime.now_local (), int inpriority = 5, int inidprovider = 0, int inidsim = 0, int inidsmstype = 0, bool inreport = false, bool inenablemsgclass = false, edwinspire.PDU.DCS_MESSAGE_CLASS inmsgclass = edwinspire.PDU.DCS_MESSAGE_CLASS.TE_SPECIFIC, string innote = "");
+			public int fun_outgoing_new_now (int idowner, int inidphone, string inphone, string inmsg, int inpriority = 5, int inidprovider = 0, int inidsim = 0, int inidsmstype = 0, bool inreport = false, bool inenablemsgclass = false, edwinspire.PDU.DCS_MESSAGE_CLASS inmsgclass = edwinspire.PDU.DCS_MESSAGE_CLASS.TE_SPECIFIC, string innote = "");
+			public string fun_view_outgoing_view_filter_xml (string start, string end, int rows, bool fieldtextasbase64 = true);
+			public int log (int idsmsout, int idsim, int status, int parts, int part);
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TablePostgres : GLib.Object {
 			public TablePostgres ();
 			public static int64 InsertRow (edwinspire.uSMS.TableRowPostgres row);
@@ -191,14 +200,6 @@ namespace edwinspire {
 			public TableSMSIn ();
 			public int fun_smsin_insert (int inidport, edwinspire.GSM.MODEM.SMS_Status instatus, edwinspire.PDU.Datetime indatesms, string inphone, string inmsj, string innote = "");
 			public string fun_view_smsin_table_filter_xml (string start, string end, int rows, bool fieldtextasbase64 = true);
-		}
-		[CCode (cheader_filename = "libspire_usms.h")]
-		public class TableSMSOut : edwinspire.uSMS.PostgresuSMS {
-			public TableSMSOut ();
-			public edwinspire.uSMS.SMSOutRow ToSend (int IdProvider);
-			public int fun_smsout_insert (int inidphone, string inphone, string inmessage, int inidprovider = 0, int inidsmstype = 0, int inpriority = 5, GLib.DateTime indatetosend = new GLib.DateTime.now_local (), bool inenablemsgclass = false, edwinspire.PDU.DCS_MESSAGE_CLASS inmsgclass = edwinspire.PDU.DCS_MESSAGE_CLASS.TE_SPECIFIC, string innote = "");
-			public int fun_smsout_updatestatus (int inidsmsout, edwinspire.uSMS.ProcessSMSOut inprocess, int inidprovidersent, int inslices, int inslicessent, string innote = "");
-			public string fun_view_smsout_table_filter_xml (string start, string end, int rows, bool fieldtextasbase64 = true);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TableSector : edwinspire.uSMS.PostgreSQLConnection {
