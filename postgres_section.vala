@@ -2196,7 +2196,9 @@ innote = data["note"];
 }
 
 if(data.has_key("ts")){
+if(data["ts"].length > 8){
 ints = data["ts"];
+}
 }
 
 return fun_phones_table_xml(inidphone, inidcontact, inenable, inphone, intypephone, inidprovider, inphone_ext, inidaddress, inubiphone, innote, ints, fieldtextasbase64);

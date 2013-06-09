@@ -111,10 +111,6 @@ case "/view_incomingcalls_xml.usms":
 response = ResponseGridIncomingCallsXml(request);
 this.serve_response( response, dos ); 
 break;
-<<<<<<< HEAD
-
-=======
->>>>>>> develop
 case "/viewprovidertable_xml.usms":
 response = ResponseViewProviderTableXml(request);
 this.serve_response( response, dos ); 
