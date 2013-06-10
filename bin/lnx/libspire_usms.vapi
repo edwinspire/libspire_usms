@@ -35,9 +35,7 @@ namespace edwinspire {
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class PhoneTable : edwinspire.uSMS.PostgreSQLConnection {
 			public PhoneTable ();
-			public static edwinspire.uSMS.XmlRow PhoneTableRowNodeXml (edwinspire.uSMS.PhoneTableRow row);
 			public edwinspire.uSMS.PhoneTableRow[] byIdContact (int idcontact);
-			public string byIdContactXml (int idcontact);
 			public string byIdContact_Xml (int idcontact, bool fieldtextasbase64 = true);
 			public string byId_Xml (int idphone, bool fieldtextasbase64 = true);
 			public string fun_contact_phones_edit_xml (int idphone, int inidlocation, double ingeox, double ingeoy, string f1, string f2, string f3, string f4, string f5, string f6, string f7, string f8, string f9, string f10, string ints, bool fieldtextasbase64 = true);
@@ -104,13 +102,6 @@ namespace edwinspire {
 			public int retryonfail { get; set; }
 			public int slices { get; set; }
 			public int slicessent { get; set; }
-		}
-		[CCode (cheader_filename = "libspire_usms.h")]
-		public class SQLFunReturn : GLib.Object {
-			public string Msg;
-			public int Return;
-			public SQLFunReturn (int r = 0, string message = "");
-			public string Xml ();
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class SerialPortConf : edwinspire.Ports.Configure {
@@ -233,28 +224,6 @@ namespace edwinspire {
 			public string fun_location_subsector_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
 			public string fun_location_subsector_remove_selected_xml (string ids, bool fieldtextasbase64 = true);
 			public string fun_view_subsector_by_idsector_xml (int idsector, bool fieldtextasbase64 = true);
-		}
-		[CCode (cheader_filename = "libspire_usms.h")]
-		public class XmlDatas : GLib.Object {
-			public bool FieldTextToBase64;
-			public XmlDatas ();
-			public static Xml.Node* Node (string Name = "nodeName");
-			public static string StringToBase64 (string textstring);
-			public static Xml.Doc* XmlDocBuild (Xml.Node* rootNode);
-			public static string XmlDocToString (Xml.Node* rootNode);
-		}
-		[CCode (cheader_filename = "libspire_usms.h")]
-		public class XmlRow : edwinspire.uSMS.XmlDatas {
-			public string Name;
-			public XmlRow ();
-			public Xml.Node* Row ();
-			public void addFieldBool (string name, bool value);
-			public void addFieldDouble (string name, double value);
-			public void addFieldInt (string name, int value);
-			public void addFieldInt64 (string name, int64 value);
-			public void addFieldString (string name, string value, bool asBase64 = false);
-			public void addFieldUint (string name, uint value);
-			public void clear ();
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class uSMSDataBase : GLib.Object {

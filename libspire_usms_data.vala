@@ -25,12 +25,12 @@ using GLib;
 using Gee;
 using edwinspire.Ports;
 using edwinspire.GSM.MODEM;
-using Xml;
+//using Xml;
 
 
 namespace edwinspire.uSMS{
 
-
+/*
 
 public class XmlDatas:GLib.Object{
 
@@ -125,7 +125,7 @@ addFieldString(name, value.to_string());
 
 
 
-
+*/
 
 
 // Almacena los datos de un puerto serial desde o hacia la db

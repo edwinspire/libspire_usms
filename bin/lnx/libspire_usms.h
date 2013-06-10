@@ -9,16 +9,14 @@
 #include <string.h>
 #include "libspire_gsm.h"
 #include "libspire_serial.h"
-#include <glib-object.h>
-#include <libxml/tree.h>
-#include <libxml/parser.h>
-#include <float.h>
-#include <math.h>
 #include <gee.h>
+#include <glib-object.h>
 #include "libspire_uhttp.h"
 #include <gio/gio.h>
 #include "libspire_pg.h"
 #include "libspire_pdu.h"
+#include <float.h>
+#include <math.h>
 
 G_BEGIN_DECLS
 
@@ -49,28 +47,6 @@ typedef struct _edwinspireuSMSDevicePrivate edwinspireuSMSDevicePrivate;
 
 typedef struct _edwinspireuSMSSerialPortConf edwinspireuSMSSerialPortConf;
 typedef struct _edwinspireuSMSSerialPortConfClass edwinspireuSMSSerialPortConfClass;
-
-#define EDWINSPIRE_USMS_TYPE_XML_DATAS (edwinspire_usms_xml_datas_get_type ())
-#define EDWINSPIRE_USMS_XML_DATAS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_XML_DATAS, edwinspireuSMSXmlDatas))
-#define EDWINSPIRE_USMS_XML_DATAS_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_XML_DATAS, edwinspireuSMSXmlDatasClass))
-#define EDWINSPIRE_USMS_IS_XML_DATAS(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_XML_DATAS))
-#define EDWINSPIRE_USMS_IS_XML_DATAS_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_XML_DATAS))
-#define EDWINSPIRE_USMS_XML_DATAS_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_XML_DATAS, edwinspireuSMSXmlDatasClass))
-
-typedef struct _edwinspireuSMSXmlDatas edwinspireuSMSXmlDatas;
-typedef struct _edwinspireuSMSXmlDatasClass edwinspireuSMSXmlDatasClass;
-typedef struct _edwinspireuSMSXmlDatasPrivate edwinspireuSMSXmlDatasPrivate;
-
-#define EDWINSPIRE_USMS_TYPE_XML_ROW (edwinspire_usms_xml_row_get_type ())
-#define EDWINSPIRE_USMS_XML_ROW(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_XML_ROW, edwinspireuSMSXmlRow))
-#define EDWINSPIRE_USMS_XML_ROW_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_XML_ROW, edwinspireuSMSXmlRowClass))
-#define EDWINSPIRE_USMS_IS_XML_ROW(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_XML_ROW))
-#define EDWINSPIRE_USMS_IS_XML_ROW_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_XML_ROW))
-#define EDWINSPIRE_USMS_XML_ROW_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_XML_ROW, edwinspireuSMSXmlRowClass))
-
-typedef struct _edwinspireuSMSXmlRow edwinspireuSMSXmlRow;
-typedef struct _edwinspireuSMSXmlRowClass edwinspireuSMSXmlRowClass;
-typedef struct _edwinspireuSMSXmlRowPrivate edwinspireuSMSXmlRowPrivate;
 typedef struct _edwinspireuSMSSerialPortConfPrivate edwinspireuSMSSerialPortConfPrivate;
 
 #define EDWINSPIRE_USMS_TYPE_USMS_DATA_BASE (edwinspire_usms_usms_data_base_get_type ())
@@ -141,17 +117,6 @@ typedef struct _edwinspireuSMSTableProcessControlPrivate edwinspireuSMSTableProc
 typedef struct _edwinspireuSMSTableSerialPort edwinspireuSMSTableSerialPort;
 typedef struct _edwinspireuSMSTableSerialPortClass edwinspireuSMSTableSerialPortClass;
 typedef struct _edwinspireuSMSTableSerialPortPrivate edwinspireuSMSTableSerialPortPrivate;
-
-#define EDWINSPIRE_USMS_TYPE_SQL_FUN_RETURN (edwinspire_usms_sql_fun_return_get_type ())
-#define EDWINSPIRE_USMS_SQL_FUN_RETURN(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_SQL_FUN_RETURN, edwinspireuSMSSQLFunReturn))
-#define EDWINSPIRE_USMS_SQL_FUN_RETURN_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_SQL_FUN_RETURN, edwinspireuSMSSQLFunReturnClass))
-#define EDWINSPIRE_USMS_IS_SQL_FUN_RETURN(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_SQL_FUN_RETURN))
-#define EDWINSPIRE_USMS_IS_SQL_FUN_RETURN_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_SQL_FUN_RETURN))
-#define EDWINSPIRE_USMS_SQL_FUN_RETURN_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_SQL_FUN_RETURN, edwinspireuSMSSQLFunReturnClass))
-
-typedef struct _edwinspireuSMSSQLFunReturn edwinspireuSMSSQLFunReturn;
-typedef struct _edwinspireuSMSSQLFunReturnClass edwinspireuSMSSQLFunReturnClass;
-typedef struct _edwinspireuSMSSQLFunReturnPrivate edwinspireuSMSSQLFunReturnPrivate;
 
 #define EDWINSPIRE_USMS_TYPE_POSTGRE_SQL_CONNECTION (edwinspire_usms_postgre_sql_connection_get_type ())
 #define EDWINSPIRE_USMS_POSTGRE_SQL_CONNECTION(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_POSTGRE_SQL_CONNECTION, edwinspireuSMSPostgreSQLConnection))
@@ -412,26 +377,6 @@ struct _edwinspireuSMSDeviceClass {
 	edwinspireGSMMODEMModemGSMClass parent_class;
 };
 
-struct _edwinspireuSMSXmlDatas {
-	GObject parent_instance;
-	edwinspireuSMSXmlDatasPrivate * priv;
-	gboolean FieldTextToBase64;
-};
-
-struct _edwinspireuSMSXmlDatasClass {
-	GObjectClass parent_class;
-};
-
-struct _edwinspireuSMSXmlRow {
-	edwinspireuSMSXmlDatas parent_instance;
-	edwinspireuSMSXmlRowPrivate * priv;
-	gchar* Name;
-};
-
-struct _edwinspireuSMSXmlRowClass {
-	edwinspireuSMSXmlDatasClass parent_class;
-};
-
 struct _edwinspireuSMSSerialPortConf {
 	edwinspirePortsConfigure parent_instance;
 	edwinspireuSMSSerialPortConfPrivate * priv;
@@ -504,17 +449,6 @@ struct _edwinspireuSMSTableSerialPort {
 };
 
 struct _edwinspireuSMSTableSerialPortClass {
-	GObjectClass parent_class;
-};
-
-struct _edwinspireuSMSSQLFunReturn {
-	GObject parent_instance;
-	edwinspireuSMSSQLFunReturnPrivate * priv;
-	gint Return;
-	gchar* Msg;
-};
-
-struct _edwinspireuSMSSQLFunReturnClass {
 	GObjectClass parent_class;
 };
 
@@ -740,24 +674,6 @@ edwinspireuSMSDevice* edwinspire_usms_device_new (void);
 edwinspireuSMSDevice* edwinspire_usms_device_construct (GType object_type);
 edwinspireuSMSProcessCtrl edwinspire_usms_device_get_Ctrl (edwinspireuSMSDevice* self);
 void edwinspire_usms_device_set_Ctrl (edwinspireuSMSDevice* self, edwinspireuSMSProcessCtrl value);
-GType edwinspire_usms_xml_datas_get_type (void) G_GNUC_CONST;
-edwinspireuSMSXmlDatas* edwinspire_usms_xml_datas_new (void);
-edwinspireuSMSXmlDatas* edwinspire_usms_xml_datas_construct (GType object_type);
-xmlDoc* edwinspire_usms_xml_datas_XmlDocBuild (xmlNode* rootNode);
-xmlNode* edwinspire_usms_xml_datas_Node (const gchar* Name);
-gchar* edwinspire_usms_xml_datas_StringToBase64 (const gchar* textstring);
-gchar* edwinspire_usms_xml_datas_XmlDocToString (xmlNode* rootNode);
-GType edwinspire_usms_xml_row_get_type (void) G_GNUC_CONST;
-edwinspireuSMSXmlRow* edwinspire_usms_xml_row_new (void);
-edwinspireuSMSXmlRow* edwinspire_usms_xml_row_construct (GType object_type);
-void edwinspire_usms_xml_row_clear (edwinspireuSMSXmlRow* self);
-void edwinspire_usms_xml_row_addFieldString (edwinspireuSMSXmlRow* self, const gchar* name, const gchar* value, gboolean asBase64);
-xmlNode* edwinspire_usms_xml_row_Row (edwinspireuSMSXmlRow* self);
-void edwinspire_usms_xml_row_addFieldInt (edwinspireuSMSXmlRow* self, const gchar* name, gint value);
-void edwinspire_usms_xml_row_addFieldDouble (edwinspireuSMSXmlRow* self, const gchar* name, gdouble value);
-void edwinspire_usms_xml_row_addFieldBool (edwinspireuSMSXmlRow* self, const gchar* name, gboolean value);
-void edwinspire_usms_xml_row_addFieldUint (edwinspireuSMSXmlRow* self, const gchar* name, guint value);
-void edwinspire_usms_xml_row_addFieldInt64 (edwinspireuSMSXmlRow* self, const gchar* name, gint64 value);
 edwinspireuSMSSerialPortConf* edwinspire_usms_serial_port_conf_new (void);
 edwinspireuSMSSerialPortConf* edwinspire_usms_serial_port_conf_construct (GType object_type);
 edwinspireuSMSSerialPortConf* edwinspire_usms_serial_port_conf_new_with_args (gint id, gboolean enable, const gchar* port, gint baudrate, gint databits, edwinspirePortsParity parity, edwinspirePortsStopBits stopbits, edwinspirePortsHandShaking HS, const gchar* note, GeeArrayList* llevel);
@@ -818,10 +734,6 @@ gint64 edwinspire_usms_table_serial_port_InsertUpdate (edwinspireuSMSSerialPortC
 gint64 edwinspire_usms_table_serial_port_Insert (edwinspireuSMSSerialPortConf* row);
 gboolean edwinspire_usms_table_serial_port_Update (edwinspireuSMSSerialPortConf* row);
 gboolean edwinspire_usms_table_serial_port_Delete (guint IdPort);
-GType edwinspire_usms_sql_fun_return_get_type (void) G_GNUC_CONST;
-edwinspireuSMSSQLFunReturn* edwinspire_usms_sql_fun_return_new (gint r, const gchar* message);
-edwinspireuSMSSQLFunReturn* edwinspire_usms_sql_fun_return_construct (GType object_type, gint r, const gchar* message);
-gchar* edwinspire_usms_sql_fun_return_Xml (edwinspireuSMSSQLFunReturn* self);
 GType edwinspire_usms_postgre_sql_connection_get_type (void) G_GNUC_CONST;
 void edwinspire_usms_postgre_sql_connection_GetParamCnx (edwinspireuSMSPostgreSQLConnection* self);
 edwinspireuSMSPostgreSQLConnection* edwinspire_usms_postgre_sql_connection_new (void);
@@ -996,11 +908,9 @@ edwinspireuSMSAddressTable* edwinspire_usms_address_table_construct (GType objec
 GType edwinspire_usms_phone_table_get_type (void) G_GNUC_CONST;
 gchar* edwinspire_usms_phone_table_fun_phones_address_edit_xml_from_hashmap (edwinspireuSMSPhoneTable* self, GeeHashMap* data, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_phone_table_fun_contact_phones_edit_xml (edwinspireuSMSPhoneTable* self, gint idphone, gint inidlocation, gdouble ingeox, gdouble ingeoy, const gchar* f1, const gchar* f2, const gchar* f3, const gchar* f4, const gchar* f5, const gchar* f6, const gchar* f7, const gchar* f8, const gchar* f9, const gchar* f10, const gchar* ints, gboolean fieldtextasbase64);
-edwinspireuSMSXmlRow* edwinspire_usms_phone_table_PhoneTableRowNodeXml (edwinspireuSMSPhoneTableRow* row);
 gchar* edwinspire_usms_phone_table_fun_phones_table_xml_from_hashmap (edwinspireuSMSPhoneTable* self, GeeHashMap* data, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_phone_table_fun_phones_table_xml (edwinspireuSMSPhoneTable* self, gint inidphone, gint inidcontact, gboolean inenable, const gchar* inphone, gint intypephone, gint inidprovider, const gchar* inphone_ext, gint inidaddress, gint inubiphone, const gchar* innote, const gchar* ints, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_phone_table_byId_Xml (edwinspireuSMSPhoneTable* self, gint idphone, gboolean fieldtextasbase64);
-gchar* edwinspire_usms_phone_table_byIdContactXml (edwinspireuSMSPhoneTable* self, gint idcontact);
 gchar* edwinspire_usms_phone_table_byIdContact_Xml (edwinspireuSMSPhoneTable* self, gint idcontact, gboolean fieldtextasbase64);
 edwinspireuSMSPhoneTableRow* edwinspire_usms_phone_table_byIdContact (edwinspireuSMSPhoneTable* self, gint idcontact, int* result_length1);
 edwinspireuSMSPhoneTable* edwinspire_usms_phone_table_new (void);

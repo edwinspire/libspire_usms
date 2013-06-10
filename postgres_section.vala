@@ -33,6 +33,7 @@ using Postgres;
 
 namespace edwinspire.uSMS{
 
+/*
 public class SQLFunReturn:GLib.Object{
 public int Return = 0;
 public string Msg = "";
@@ -51,6 +52,7 @@ return XmlDatas.XmlDocToString(Retorno.Row());
 }
 
 } 
+*/
 
 public class PostgreSQLConnection:PostgreSqldb{
 
@@ -2116,6 +2118,7 @@ return RetornoX;
 }
 
 
+/*
 public static XmlRow PhoneTableRowNodeXml(PhoneTableRow row){
 
 XmlRow Fila = new XmlRow();
@@ -2137,6 +2140,7 @@ Fila.addFieldString("ts", row.TimeStamp, true);
 
 return Fila;
 }
+*/
 
 // fun_phones_table_xml(inidphone integer, inidcontact integer, inenable boolean, inphone text, intypephone integer, inidprovider integer, ingeox real, ingeoy real, inphone_ext text, inidaddress text, inaddress text, inubiphone integer, innote text, ts timestamp without time zone)
  
@@ -2242,6 +2246,7 @@ RetornoX = reg["return"].Value;
 return RetornoX;
 }
 
+/*
 public string byIdContactXml(int idcontact){
 var Rows = XmlDatas.Node("contacts");
 foreach(var r in this.byIdContact(idcontact)){
@@ -2249,6 +2254,7 @@ Rows->add_child(PhoneTableRowNodeXml(r).Row());
 }
 return XmlDatas.XmlDocToString(Rows);
 }
+*/
 
 public string byIdContact_Xml(int idcontact, bool fieldtextasbase64 = true){
 string RetornoX = "<table></table>";

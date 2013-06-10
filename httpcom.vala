@@ -26,7 +26,7 @@ using GLib;
 using Gee;
 using edwinspire.Ports;
 using edwinspire.GSM.MODEM;
-using Xml;
+//using Xml;
 using edwinspire.uHttp;
 //
 
