@@ -128,6 +128,7 @@ namespace edwinspire {
 			public TableContacts ();
 			public Gee.HashMap<int,string> NameAndId_All ();
 			public string NameAndId_All_Xml (bool fieldtextasbase64 = true);
+			public string NameAndId_Search_Xml (string text, bool fieldtextasbase64 = true);
 			public string byId_Xml (int idcontact, bool fieldtextasbase64 = true);
 			public string fun_contact_address_edit_xml (int idcontact, int inidlocation, double ingeox, double ingeoy, string f1, string f2, string f3, string f4, string f5, string f6, string f7, string f8, string f9, string f10, string ints, bool fieldtextasbase64 = true);
 			public string fun_contact_address_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
@@ -152,6 +153,8 @@ namespace edwinspire {
 			public Gee.HashMap<string,edwinspire.pgSQL.PgField> ToSend (int IdSIM);
 			public int fun_outgoing_new (int idowner, int inidphone, string inphone, string inmsg, GLib.DateTime indatetosend = new GLib.DateTime.now_local (), int inpriority = 5, int inidprovider = 0, int inidsim = 0, int inidsmstype = 0, bool inreport = false, bool inenablemsgclass = false, edwinspire.PDU.DCS_MESSAGE_CLASS inmsgclass = edwinspire.PDU.DCS_MESSAGE_CLASS.TE_SPECIFIC, string innote = "");
 			public int fun_outgoing_new_now (int idowner, int inidphone, string inphone, string inmsg, int inpriority = 5, int inidprovider = 0, int inidsim = 0, int inidsmstype = 0, bool inreport = false, bool inenablemsgclass = false, edwinspire.PDU.DCS_MESSAGE_CLASS inmsgclass = edwinspire.PDU.DCS_MESSAGE_CLASS.TE_SPECIFIC, string innote = "");
+			public string fun_outgoing_new_now_xml (int idowner, int inidphone, string inphone, string inmsg, int inpriority = 5, int inidprovider = 0, int inidsim = 0, int inidsmstype = 0, bool inreport = false, bool inenablemsgclass = false, edwinspire.PDU.DCS_MESSAGE_CLASS inmsgclass = edwinspire.PDU.DCS_MESSAGE_CLASS.TE_SPECIFIC, string innote = "", bool fieldtextasbase64 = true);
+			public string fun_outgoing_new_xml (int idowner, int inidphone, string inphone, string inmsg, GLib.DateTime indatetosend = new GLib.DateTime.now_local (), int inpriority = 5, int inidprovider = 0, int inidsim = 0, int inidsmstype = 0, bool inreport = false, bool inenablemsgclass = false, edwinspire.PDU.DCS_MESSAGE_CLASS inmsgclass = edwinspire.PDU.DCS_MESSAGE_CLASS.TE_SPECIFIC, string innote = "", bool fieldtextasbase64 = true);
 			public string fun_view_outgoing_view_filter_xml (string start, string end, int rows, bool fieldtextasbase64 = true);
 			public int log (int idsmsout, int idsim, int status, int parts, int part);
 		}

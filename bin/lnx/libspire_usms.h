@@ -865,6 +865,7 @@ gchar* edwinspire_usms_table_contacts_fun_contacts_edit_xml_from_hashmap (edwins
 gchar* edwinspire_usms_table_contacts_fun_contacts_edit_xml (edwinspireuSMSTableContacts* self, gint inidcontact, gboolean inenable, const gchar* intitle, const gchar* infirstname, const gchar* inlastname, gint ingender, const gchar* inbirthday, gint intypeofid, const gchar* inidentification, const gchar* inweb, const gchar* inemail1, const gchar* inemail2, gint inidaddress, const gchar* innote, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_table_contacts_byId_Xml (edwinspireuSMSTableContacts* self, gint idcontact, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_table_contacts_NameAndId_All_Xml (edwinspireuSMSTableContacts* self, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_table_contacts_NameAndId_Search_Xml (edwinspireuSMSTableContacts* self, const gchar* text, gboolean fieldtextasbase64);
 GeeHashMap* edwinspire_usms_table_contacts_NameAndId_All (edwinspireuSMSTableContacts* self);
 GType edwinspire_usms_table_sms_in_get_type (void) G_GNUC_CONST;
 edwinspireuSMSTableSMSIn* edwinspire_usms_table_sms_in_new (void);
@@ -878,7 +879,9 @@ GeeHashMap* edwinspire_usms_table_outgoing_ToSend (edwinspireuSMSTableOutgoing* 
 gint edwinspire_usms_table_outgoing_log (edwinspireuSMSTableOutgoing* self, gint idsmsout, gint idsim, gint status, gint parts, gint part);
 gchar* edwinspire_usms_table_outgoing_fun_view_outgoing_view_filter_xml (edwinspireuSMSTableOutgoing* self, const gchar* start, const gchar* end, gint rows, gboolean fieldtextasbase64);
 gint edwinspire_usms_table_outgoing_fun_outgoing_new (edwinspireuSMSTableOutgoing* self, gint idowner, gint inidphone, const gchar* inphone, const gchar* inmsg, GDateTime* indatetosend, gint inpriority, gint inidprovider, gint inidsim, gint inidsmstype, gboolean inreport, gboolean inenablemsgclass, edwinspirePDUDCS_MESSAGE_CLASS inmsgclass, const gchar* innote);
+gchar* edwinspire_usms_table_outgoing_fun_outgoing_new_xml (edwinspireuSMSTableOutgoing* self, gint idowner, gint inidphone, const gchar* inphone, const gchar* inmsg, GDateTime* indatetosend, gint inpriority, gint inidprovider, gint inidsim, gint inidsmstype, gboolean inreport, gboolean inenablemsgclass, edwinspirePDUDCS_MESSAGE_CLASS inmsgclass, const gchar* innote, gboolean fieldtextasbase64);
 gint edwinspire_usms_table_outgoing_fun_outgoing_new_now (edwinspireuSMSTableOutgoing* self, gint idowner, gint inidphone, const gchar* inphone, const gchar* inmsg, gint inpriority, gint inidprovider, gint inidsim, gint inidsmstype, gboolean inreport, gboolean inenablemsgclass, edwinspirePDUDCS_MESSAGE_CLASS inmsgclass, const gchar* innote);
+gchar* edwinspire_usms_table_outgoing_fun_outgoing_new_now_xml (edwinspireuSMSTableOutgoing* self, gint idowner, gint inidphone, const gchar* inphone, const gchar* inmsg, gint inpriority, gint inidprovider, gint inidsim, gint inidsmstype, gboolean inreport, gboolean inenablemsgclass, edwinspirePDUDCS_MESSAGE_CLASS inmsgclass, const gchar* innote, gboolean fieldtextasbase64);
 GType edwinspire_usms_phone_table_row_get_type (void) G_GNUC_CONST;
 edwinspireuSMSPhoneTableRow* edwinspire_usms_phone_table_row_dup (const edwinspireuSMSPhoneTableRow* self);
 void edwinspire_usms_phone_table_row_free (edwinspireuSMSPhoneTableRow* self);

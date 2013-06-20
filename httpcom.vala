@@ -83,6 +83,10 @@ case "/getcontactslistidcontactname_xml.usms":
 response = ResponseContactsListNameAndId(request);
 this.serve_response( response, dos ); 
 break;
+case "/fun_view_contacts_to_list_search_xml.usms":
+response = response_fun_view_contacts_to_list_search_xml(request);
+this.serve_response( response, dos ); 
+break;
 case "/getcontactbyid_xml.usms":
 response = ResponseContactById(request);
 this.serve_response( response, dos ); 
@@ -894,6 +898,24 @@ TableContacts Tabla = new TableContacts();
 Tabla.GetParamCnx();
 
     Retorno.Data =  Tabla.NameAndId_All_Xml().data;
+
+return Retorno;
+}
+
+private uHttp.Response response_fun_view_contacts_to_list_search_xml(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+
+TableContacts Tabla = new TableContacts();
+Tabla.GetParamCnx();
+string text = "";
+if(request.Query.has_key("text")){
+text = request.Query["text"];
+}
+
+    Retorno.Data =  Tabla.NameAndId_Search_Xml(text, true).data;
 
 return Retorno;
 }
