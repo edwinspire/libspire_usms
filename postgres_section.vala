@@ -1584,8 +1584,8 @@ Retorno.date = new DateTime.from_timeval_local(t);
 }
 
 
-if(Data.has_key("msg")){
-Retorno.msg = Data["msg"];
+if(Data.has_key("message")){
+Retorno.msg = Data["message"];
 }
 
 if(Data.has_key("priority")){
