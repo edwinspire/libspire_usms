@@ -1352,6 +1352,23 @@ return Retorno;
 
 public class TableOutgoing:PostgresuSMS{
 
+private struct FieldsSend{
+int idowner;
+int idphone;
+DateTime date;
+string phone;
+string msg;
+int priority;
+int idprovider;
+int idsim;
+int idsmstype;
+bool report;
+bool enablemsgclass;
+edwinspire.PDU.DCS_MESSAGE_CLASS msgclass;
+string note;
+bool fieldtextasbase64;
+}
+
 
 public TableOutgoing(){
 }
@@ -1468,6 +1485,12 @@ Retorno = filas["fun_smsout_insert"].as_int();
 return Retorno;
 }
 
+public string fun_outgoing_new_xml_from_hashmap(HashMap<string, string> Data){
+
+FieldsSend Campos = FieldsSendFromHashMap(Data);
+
+return fun_outgoing_new_xml(Campos.idowner, Campos.idphone, Campos.phone, Campos.msg, Campos.date, Campos.priority , Campos.idprovider, Campos.idsim, Campos.idsmstype, Campos.report, Campos.enablemsgclass , Campos.msgclass, Campos.note, Campos.fieldtextasbase64);
+}
 
 public string fun_outgoing_new_xml(int idowner, int inidphone, string inphone, string inmsg,  DateTime indatetosend = new DateTime.now_local(),  int inpriority = 5, int inidprovider = 0, int inidsim = 0, int inidsmstype = 0, bool inreport = false, bool inenablemsgclass = false, edwinspire.PDU.DCS_MESSAGE_CLASS inmsgclass =  edwinspire.PDU.DCS_MESSAGE_CLASS.TE_SPECIFIC, string innote = "", bool fieldtextasbase64 = true){
 
@@ -1521,6 +1544,96 @@ Retorno = filas["fun_smsout_insert"].as_int();
 
 return Retorno;
 }
+
+private FieldsSend FieldsSendFromHashMap(HashMap<string, string> Data){
+
+FieldsSend Retorno = FieldsSend();
+
+Retorno.idowner = 0;
+Retorno.idphone = 0;
+Retorno.phone = "";
+Retorno.date = new DateTime.now_local();
+Retorno.msg = "";
+Retorno.priority = 5;
+Retorno.idprovider = 0;
+Retorno.idsim = 0;
+Retorno.idsmstype = 0;
+Retorno.report = false;
+Retorno.enablemsgclass = false;
+Retorno.msgclass =  edwinspire.PDU.DCS_MESSAGE_CLASS.TE_SPECIFIC;
+Retorno.note = "";
+Retorno.fieldtextasbase64 = true;
+
+if(Data.has_key("idowner")){
+Retorno.idowner = int.parse(Data["idowner"]);
+}
+
+if(Data.has_key("idphone")){
+Retorno.idphone = int.parse(Data["idphone"]);
+}
+
+if(Data.has_key("phone")){
+Retorno.phone = Data["phone"];
+}
+
+if(Data.has_key("date")){
+TimeVal t = TimeVal();
+if(t.from_iso8601(Data["date"])){
+Retorno.date = new DateTime.from_timeval_local(t);
+}
+}
+
+
+if(Data.has_key("msg")){
+Retorno.msg = Data["msg"];
+}
+
+if(Data.has_key("priority")){
+Retorno.priority = int.parse(Data["priority"]);
+}
+
+if(Data.has_key("idprovider")){
+Retorno.idprovider = int.parse(Data["idprovider"]);
+}
+
+if(Data.has_key("idsim")){
+Retorno.idsim = int.parse(Data["idsim"]);
+}
+
+if(Data.has_key("report")){
+Retorno.report = bool.parse(Data["report"]);
+}
+
+if(Data.has_key("enablemsgclass")){
+Retorno.enablemsgclass = bool.parse(Data["enablemsgclass"]);
+}
+
+
+if(Data.has_key("msgclass")){
+Retorno.msgclass = (edwinspire.PDU.DCS_MESSAGE_CLASS)int.parse(Data["msgclass"]);
+}
+
+if(Data.has_key("note")){
+Retorno.note = Data["note"];
+}
+
+if(Data.has_key("fieldtextasbase64")){
+Retorno.fieldtextasbase64 = bool.parse(Data["fieldtextasbase64"]);
+}
+
+
+return Retorno;
+}
+
+
+
+public string fun_outgoing_new_now_xml_from_hashmap(HashMap<string, string> Data){
+
+FieldsSend Campos = FieldsSendFromHashMap(Data);
+
+return fun_outgoing_new_now_xml(Campos.idowner, Campos.idphone, Campos.phone, Campos.msg, Campos.priority , Campos.idprovider, Campos.idsim, Campos.idsmstype, Campos.report, Campos.enablemsgclass , Campos.msgclass, Campos.note, Campos.fieldtextasbase64);
+}
+
 
 public string fun_outgoing_new_now_xml(int idowner, int inidphone, string inphone, string inmsg, int inpriority = 5, int inidprovider = 0, int inidsim = 0, int inidsmstype = 0, bool inreport = false, bool inenablemsgclass = false, edwinspire.PDU.DCS_MESSAGE_CLASS inmsgclass =  edwinspire.PDU.DCS_MESSAGE_CLASS.TE_SPECIFIC, string innote = "", bool fieldtextasbase64 = true){
 
