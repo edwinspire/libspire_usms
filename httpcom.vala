@@ -251,7 +251,10 @@ case "/fun_outgoing_new_xml.usms":
 response = response_fun_outgoing_new_xml(request);
 this.serve_response( response, dos ); break;
 
-
+case "/fun_view_sim_idname_xml.usms":
+response = response_fun_view_sim_idname_xml(request);
+this.serve_response( response, dos ); 
+break;
 /*
 case "/xxxxxxxxxxxxxxxxxxxxxx.usms":
 response = xxxxxxxxxxxxxxxxxxxxxxx(request);
@@ -702,6 +705,24 @@ Tabla.GetParamCnx();
 
 return Retorno;
 }
+
+
+
+
+private uHttp.Response response_fun_view_sim_idname_xml(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+
+TableSIM Tabla = new TableSIM();
+Tabla.GetParamCnx();
+    Retorno.Data =  Tabla.fun_view_sim_idname_xml(true).data;
+
+return Retorno;
+}
+
+
 
 private uHttp.Response ResponseProviderListIdNameXml(Request request){
 
