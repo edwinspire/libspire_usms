@@ -466,7 +466,7 @@ var SMS = DBaseOutgoing.ToSend(this.IdSIM);
 //GLib.print("SMS.size.size => %s\n", SMS.size.to_string());
 
 if(SMS.size>0){
-//GLib.print("SMS[_idsmsout] => %i\n", SMS["_idsmsout"].as_int());
+GLib.print("SMS[_idsmsout] => %i\n", SMS["_idsmsout"].as_int());
 if(SMS["_idsmsout"].as_int()>0){
 
 ActionOnIncomingCall();
