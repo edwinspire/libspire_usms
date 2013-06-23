@@ -114,7 +114,7 @@ namespace edwinspire {
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TableCallIn : edwinspire.uSMS.PostgresuSMS {
 			public TableCallIn ();
-			public int fun_incomingcalls_insert_online (int inidport, edwinspire.uSMS.CallAction incallaction, string inphone, string innote = "");
+			public int fun_incomingcalls_insert_online (int inidport, edwinspire.uSMS.OnIncomingCall inOnIncomingCall, string inphone, string innote = "");
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TableCity : edwinspire.uSMS.PostgreSQLConnection {
@@ -291,7 +291,7 @@ namespace edwinspire {
 			public TableRowPostgres ();
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
-		public enum CallAction {
+		public enum OnIncomingCall {
 			Ignore,
 			Answer,
 			Refuse

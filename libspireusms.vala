@@ -30,10 +30,10 @@ using Sqlite;
 
 namespace edwinspire.uSMS{
 
-public const string VERSION = "0.1.2013.03.22";
+public const string VERSION = "0.1.2013.06.22";
 
 
-public enum CallAction{
+public enum OnIncomingCall{
 Ignore,
 Answer,
 Refuse
@@ -125,9 +125,9 @@ Run();
 public void DetectCallID(string phone){
 print("Callid = %s\n", phone);
 DBaseCallIn.GetParamCnx();
-//var RegCall = DBaseCallIn.fun_incomingcalls_insert_online(this.IdPort, CallAction.Ignore, phone.replace("+", ""));
+//var RegCall = DBaseCallIn.fun_incomingcalls_insert_online(this.IdPort, OnIncomingCall.Ignore, phone.replace("+", ""));
 //print("Registro de llamada: %s\n", RegCall.to_string());
-if(DBaseCallIn.fun_incomingcalls_insert_online(this.IdPort, CallAction.Ignore, phone.replace("+", ""))>0){
+if(DBaseCallIn.fun_incomingcalls_insert_online(this.IdPort, OnIncomingCall.Ignore, phone.replace("+", ""))>0){
 LlamadaDetectadayAlmacenada = true;
 print("Llamada entrante detectada y almacenda: %s\n", phone);
 }else{

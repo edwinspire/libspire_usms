@@ -354,7 +354,7 @@ public int  maxtimelive {get; set; default = 0;}
  
 
 }
-// fun_incomingcalls_insert_online(inidport integer, incallaction integer, inphone text, innote text)
+// fun_incomingcalls_insert_online(inidport integer, inOnIncomingCall integer, inphone text, innote text)
 public class TableCallIn:PostgresuSMS{
 
 
@@ -362,9 +362,9 @@ public TableCallIn(){
 
 }
 
-public int fun_incomingcalls_insert_online(int inidport, CallAction incallaction, string inphone, string innote = ""){
+public int fun_incomingcalls_insert_online(int inidport, OnIncomingCall inOnIncomingCall, string inphone, string innote = ""){
 
-string[] valuessms = {inidport.to_string(), ((int)incallaction).to_string(), inphone, innote};
+string[] valuessms = {inidport.to_string(), ((int)inOnIncomingCall).to_string(), inphone, innote};
 int Retorno = -1;
 var  Conexion = Postgres.connect_db (this.ConnString());
 

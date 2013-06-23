@@ -21,7 +21,7 @@
 G_BEGIN_DECLS
 
 
-#define EDWINSPIRE_USMS_TYPE_CALL_ACTION (edwinspire_usms_call_action_get_type ())
+#define EDWINSPIRE_USMS_TYPE_ON_INCOMING_CALL (edwinspire_usms_on_incoming_call_get_type ())
 
 #define EDWINSPIRE_USMS_TYPE_PROCESS_CTRL (edwinspire_usms_process_ctrl_get_type ())
 
@@ -336,10 +336,10 @@ typedef struct _edwinspireuSMSPhoneTableClass edwinspireuSMSPhoneTableClass;
 typedef struct _edwinspireuSMSPhoneTablePrivate edwinspireuSMSPhoneTablePrivate;
 
 typedef enum  {
-	EDWINSPIRE_USMS_CALL_ACTION_Ignore,
-	EDWINSPIRE_USMS_CALL_ACTION_Answer,
-	EDWINSPIRE_USMS_CALL_ACTION_Refuse
-} edwinspireuSMSCallAction;
+	EDWINSPIRE_USMS_ON_INCOMING_CALL_Ignore,
+	EDWINSPIRE_USMS_ON_INCOMING_CALL_Answer,
+	EDWINSPIRE_USMS_ON_INCOMING_CALL_Refuse
+} edwinspireuSMSOnIncomingCall;
 
 typedef enum  {
 	EDWINSPIRE_USMS_PROCESS_CTRL_None,
@@ -669,8 +669,8 @@ struct _edwinspireuSMSPhoneTableClass {
 };
 
 
-#define EDWINSPIRE_USMS_VERSION "0.1.2013.03.22"
-GType edwinspire_usms_call_action_get_type (void) G_GNUC_CONST;
+#define EDWINSPIRE_USMS_VERSION "0.1.2013.06.22"
+GType edwinspire_usms_on_incoming_call_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_process_ctrl_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_process_sms_out_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_device_get_type (void) G_GNUC_CONST;
@@ -826,7 +826,7 @@ void edwinspire_usms_sms_out_row_set_maxtimelive (edwinspireuSMSSMSOutRow* self,
 GType edwinspire_usms_table_call_in_get_type (void) G_GNUC_CONST;
 edwinspireuSMSTableCallIn* edwinspire_usms_table_call_in_new (void);
 edwinspireuSMSTableCallIn* edwinspire_usms_table_call_in_construct (GType object_type);
-gint edwinspire_usms_table_call_in_fun_incomingcalls_insert_online (edwinspireuSMSTableCallIn* self, gint inidport, edwinspireuSMSCallAction incallaction, const gchar* inphone, const gchar* innote);
+gint edwinspire_usms_table_call_in_fun_incomingcalls_insert_online (edwinspireuSMSTableCallIn* self, gint inidport, edwinspireuSMSOnIncomingCall inOnIncomingCall, const gchar* inphone, const gchar* innote);
 GType edwinspire_usms_table_city_get_type (void) G_GNUC_CONST;
 gchar* edwinspire_usms_table_city_fun_location_city_remove_selected_xml (edwinspireuSMSTableCity* self, const gchar* ids, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_table_city_fun_location_city_edit_xml_from_hashmap (edwinspireuSMSTableCity* self, GeeHashMap* data, gboolean fieldtextasbase64);
