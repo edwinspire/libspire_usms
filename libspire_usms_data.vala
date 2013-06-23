@@ -30,102 +30,14 @@ using edwinspire.GSM.MODEM;
 
 namespace edwinspire.uSMS{
 
-/*
-
-public class XmlDatas:GLib.Object{
-
-public bool FieldTextToBase64 = false;
-
-public XmlDatas(){
-
+public enum SMSType{
+unknown,
+report,
+system,
+manual,
+owner
 }
 
-public static Xml.Doc* XmlDocBuild(Xml.Node* rootNode){
- Xml.Doc* DocMaster = new Xml.Doc();
-//DocMaster->encoding = "UTF-8";
-DocMaster->set_root_element(rootNode);
-return DocMaster;
-}
-
-public static Xml.Node* Node(string Name = "nodeName"){
-Xml.Node* root = new Xml.Node(null, Name);
-return root;
-}
-
-public static string StringToBase64(string textstring){
-return Base64.encode(textstring.data);
-}
-
-public static string XmlDocToString(Xml.Node* rootNode){
-string Retorno;
-Xml.Doc* D = XmlDocBuild(rootNode);
-D->dump_memory(out Retorno);
-//print("Response XML: %s\n", Retorno);
-if(Retorno == null){
-Retorno = "";
-}
-delete D;
-return Retorno;
-}
-
-
-}
-
-public class XmlRow:XmlDatas{
-
-private HashMap<string, string> Datos = new HashMap<string, string>();
-public string Name = "row";
-
-public XmlRow(){
-
-}
-
-public void clear(){
-Datos.clear();
-}
-
-public void addFieldString(string name, string value, bool asBase64 = false){
-
-if(asBase64){
-Datos[name] = StringToBase64(value);
-}else{
-Datos[name] = value;
-}
-}
-
-public Xml.Node* Row(){
-
-var RowNodo = XmlDatas.Node(this.Name);
-foreach(var D in Datos.entries){
-RowNodo->new_prop(D.key, D.value);
-}
-return RowNodo;
-}
-
-public void addFieldInt(string name, int value){
-addFieldString(name, value.to_string());
-}
-
-public void addFieldDouble(string name, double value){
-addFieldString(name, value.to_string());
-}
-
-public void addFieldBool(string name, bool value){
-addFieldString(name, value.to_string());
-}
-
-public void addFieldUint(string name, uint value){
-addFieldString(name, value.to_string());
-}
-public void addFieldInt64(string name, int64 value){
-addFieldString(name, value.to_string());
-}
-
-}
-
-
-
-*/
 
 
 // Almacena los datos de un puerto serial desde o hacia la db

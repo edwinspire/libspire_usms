@@ -47,6 +47,8 @@ typedef struct _edwinspireuSMSDevicePrivate edwinspireuSMSDevicePrivate;
 
 typedef struct _edwinspireuSMSSerialPortConf edwinspireuSMSSerialPortConf;
 typedef struct _edwinspireuSMSSerialPortConfClass edwinspireuSMSSerialPortConfClass;
+
+#define EDWINSPIRE_USMS_TYPE_SMS_TYPE (edwinspire_usms_sms_type_get_type ())
 typedef struct _edwinspireuSMSSerialPortConfPrivate edwinspireuSMSSerialPortConfPrivate;
 
 #define EDWINSPIRE_USMS_TYPE_USMS_DATA_BASE (edwinspire_usms_usms_data_base_get_type ())
@@ -377,6 +379,14 @@ struct _edwinspireuSMSDeviceClass {
 	edwinspireGSMMODEMModemGSMClass parent_class;
 };
 
+typedef enum  {
+	EDWINSPIRE_USMS_SMS_TYPE_unknown,
+	EDWINSPIRE_USMS_SMS_TYPE_report,
+	EDWINSPIRE_USMS_SMS_TYPE_system,
+	EDWINSPIRE_USMS_SMS_TYPE_manual,
+	EDWINSPIRE_USMS_SMS_TYPE_owner
+} edwinspireuSMSSMSType;
+
 struct _edwinspireuSMSSerialPortConf {
 	edwinspirePortsConfigure parent_instance;
 	edwinspireuSMSSerialPortConfPrivate * priv;
@@ -674,6 +684,7 @@ edwinspireuSMSDevice* edwinspire_usms_device_new (void);
 edwinspireuSMSDevice* edwinspire_usms_device_construct (GType object_type);
 edwinspireuSMSProcessCtrl edwinspire_usms_device_get_Ctrl (edwinspireuSMSDevice* self);
 void edwinspire_usms_device_set_Ctrl (edwinspireuSMSDevice* self, edwinspireuSMSProcessCtrl value);
+GType edwinspire_usms_sms_type_get_type (void) G_GNUC_CONST;
 edwinspireuSMSSerialPortConf* edwinspire_usms_serial_port_conf_new (void);
 edwinspireuSMSSerialPortConf* edwinspire_usms_serial_port_conf_construct (GType object_type);
 edwinspireuSMSSerialPortConf* edwinspire_usms_serial_port_conf_new_with_args (gint id, gboolean enable, const gchar* port, gint baudrate, gint databits, edwinspirePortsParity parity, edwinspirePortsStopBits stopbits, edwinspirePortsHandShaking HS, const gchar* note, GeeArrayList* llevel);

@@ -333,6 +333,14 @@ namespace edwinspire {
 			AwaitingDeliveryRetry
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
+		public enum SMSType {
+			unknown,
+			report,
+			system,
+			manual,
+			owner
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
 		public const string FILECONF;
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public const string VERSION;

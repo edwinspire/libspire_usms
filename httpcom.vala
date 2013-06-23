@@ -262,6 +262,11 @@ response = response_enum_DCS_MESSAGE_CLASS_xml(request);
 this.serve_response( response, dos ); break;
 
 
+case "/enum_SMSType_xml.usms":
+response = response_enum_SMSType_xml(request);
+this.serve_response( response, dos ); break;
+
+
 /*
 case "/xxxxxxxxxxxxxxxxxxxxxx.usms":
 response = xxxxxxxxxxxxxxxxxxxxxxx(request);
@@ -275,6 +280,17 @@ break;
 
 return false;
 }
+
+
+private uHttp.Response response_enum_SMSType_xml(Request request){
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+
+Retorno.Data = uHttpServer.EnumToXml(typeof(SMSType), true).data;
+return Retorno;
+}
+
 
 private uHttp.Response response_enum_DCS_MESSAGE_CLASS_xml(Request request){
 uHttp.Response Retorno = new uHttp.Response();
