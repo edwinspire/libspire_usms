@@ -32,6 +32,17 @@ namespace edwinspire.uSMS{
 
 public const string VERSION = "0.1.2013.06.22";
 
+public enum SMSOutStatus{
+unknown = 0,
+UnSent = 1,
+Sent = 2,
+SentIncomplete = 3,
+Locked = 4,
+Disallowed = 5,
+LifetimeExpired = 6,
+StartSending = 7,
+EndsSending = 8
+}
 
 public enum OnIncomingCall{
 Ignore,
@@ -61,6 +72,7 @@ Kill,
 Killed
 }
 
+/*
 public enum ProcessSMSOut{
 None = 0,
 Locked = 1,
@@ -74,6 +86,7 @@ AllAttemptsFailToDeliverAutoProvider = 8,
 AllAttemptsFailDelivery = 9,
 AwaitingDeliveryRetry = 10
 }
+*/
 
 public class Device: ModemGSM {
 
@@ -450,14 +463,15 @@ private void SendSMS(){
 ActionOnIncomingCall();
 var SMS = DBaseOutgoing.ToSend(this.IdSIM);
 
-GLib.print("SMS.size.size => %s\n", SMS.size.to_string());
+//GLib.print("SMS.size.size => %s\n", SMS.size.to_string());
 
 if(SMS.size>0){
-GLib.print("SMS[_idsmsout] => %i\n", SMS["_idsmsout"].as_int());
+//GLib.print("SMS[_idsmsout] => %i\n", SMS["_idsmsout"].as_int());
 if(SMS["_idsmsout"].as_int()>0){
 
 ActionOnIncomingCall();
-GLib.print("SMS[_phone] => %s\n", SMS["_phone"].Value);
+//GLib.print("SMS[_phone] => %s\n", SMS["_phone"].Value);
+DBaseOutgoing.log(SMS["_idsmsout"].as_int(), this.IdSIM, SMSOutStatus.StartSending, 0, 0);
 var msgsEnviados = this.SMS_SEND_ON_SLICES(SMS["_phone"].Value, SMS["_message"].Value, SMS["_report"].as_bool(), SMS["_enablemessageclass"].as_bool(), (edwinspire.PDU.DCS_MESSAGE_CLASS)SMS["_messageclass"].as_int(), SMS["_maxparts"].as_int());
 
 int i = 1;
@@ -466,12 +480,14 @@ int partes = msgsEnviados.size;
 foreach(var id in msgsEnviados){
 ActionOnIncomingCall();
 if(id>0){
-DBaseOutgoing.log(SMS["_idsmsout"].as_int(), this.IdSIM, 2, partes, i);
+DBaseOutgoing.log(SMS["_idsmsout"].as_int(), this.IdSIM, SMSOutStatus.Sent, partes, i);
 }else{
-DBaseOutgoing.log(SMS["_idsmsout"].as_int(), this.IdSIM, 1, partes, i);
+DBaseOutgoing.log(SMS["_idsmsout"].as_int(), this.IdSIM, SMSOutStatus.UnSent, partes, i);
 }
 i++;
 }
+
+DBaseOutgoing.log(SMS["_idsmsout"].as_int(), this.IdSIM, SMSOutStatus.EndsSending, 0, 0);
 
 }
 }

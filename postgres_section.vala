@@ -1418,10 +1418,10 @@ break;
 return Retorno;
 }
 
-public int log(int idsmsout, int idsim, int status, int parts, int part){
+public int log(int idsmsout, int idsim, SMSOutStatus status, int parts, int part){
 
 var Retorno = 0;
-string[] valuesin = {idsmsout.to_string(), idsim.to_string(), status.to_string(), parts.to_string(), part.to_string()};
+string[] valuesin = {idsmsout.to_string(), idsim.to_string(), ((int)status).to_string(), parts.to_string(), part.to_string()};
 
 var  Conexion = Postgres.connect_db (this.ConnString());
 

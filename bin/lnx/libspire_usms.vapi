@@ -158,7 +158,7 @@ namespace edwinspire {
 			public string fun_outgoing_new_xml (int idowner, int inidphone, string inphone, string inmsg, GLib.DateTime indatetosend = new GLib.DateTime.now_local (), int inpriority = 5, int inidprovider = 0, int inidsim = 0, int inidsmstype = 0, bool inreport = false, bool inenablemsgclass = false, edwinspire.PDU.DCS_MESSAGE_CLASS inmsgclass = edwinspire.PDU.DCS_MESSAGE_CLASS.TE_SPECIFIC, string innote = "", bool fieldtextasbase64 = true);
 			public string fun_outgoing_new_xml_from_hashmap (Gee.HashMap<string,string> Data);
 			public string fun_view_outgoing_view_filter_xml (string start, string end, int rows, bool fieldtextasbase64 = true);
-			public int log (int idsmsout, int idsim, int status, int parts, int part);
+			public int log (int idsmsout, int idsim, edwinspire.uSMS.SMSOutStatus status, int parts, int part);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TablePostgres : GLib.Object {
@@ -319,18 +319,16 @@ namespace edwinspire {
 			Killed
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
-		public enum ProcessSMSOut {
-			None,
-			Locked,
+		public enum SMSOutStatus {
+			unknown,
+			UnSent,
 			Sent,
-			Fail,
-			Disallowed,
-			WaitingToBeSentByNextPort,
 			SentIncomplete,
+			Locked,
+			Disallowed,
 			LifetimeExpired,
-			AllAttemptsFailToDeliverAutoProvider,
-			AllAttemptsFailDelivery,
-			AwaitingDeliveryRetry
+			StartSending,
+			EndsSending
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public enum SMSType {

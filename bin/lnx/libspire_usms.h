@@ -21,11 +21,11 @@
 G_BEGIN_DECLS
 
 
+#define EDWINSPIRE_USMS_TYPE_SMS_OUT_STATUS (edwinspire_usms_sms_out_status_get_type ())
+
 #define EDWINSPIRE_USMS_TYPE_ON_INCOMING_CALL (edwinspire_usms_on_incoming_call_get_type ())
 
 #define EDWINSPIRE_USMS_TYPE_PROCESS_CTRL (edwinspire_usms_process_ctrl_get_type ())
-
-#define EDWINSPIRE_USMS_TYPE_PROCESS_SMS_OUT (edwinspire_usms_process_sms_out_get_type ())
 
 #define EDWINSPIRE_USMS_TYPE_DEVICE (edwinspire_usms_device_get_type ())
 #define EDWINSPIRE_USMS_DEVICE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_DEVICE, edwinspireuSMSDevice))
@@ -336,6 +336,18 @@ typedef struct _edwinspireuSMSPhoneTableClass edwinspireuSMSPhoneTableClass;
 typedef struct _edwinspireuSMSPhoneTablePrivate edwinspireuSMSPhoneTablePrivate;
 
 typedef enum  {
+	EDWINSPIRE_USMS_SMS_OUT_STATUS_unknown = 0,
+	EDWINSPIRE_USMS_SMS_OUT_STATUS_UnSent = 1,
+	EDWINSPIRE_USMS_SMS_OUT_STATUS_Sent = 2,
+	EDWINSPIRE_USMS_SMS_OUT_STATUS_SentIncomplete = 3,
+	EDWINSPIRE_USMS_SMS_OUT_STATUS_Locked = 4,
+	EDWINSPIRE_USMS_SMS_OUT_STATUS_Disallowed = 5,
+	EDWINSPIRE_USMS_SMS_OUT_STATUS_LifetimeExpired = 6,
+	EDWINSPIRE_USMS_SMS_OUT_STATUS_StartSending = 7,
+	EDWINSPIRE_USMS_SMS_OUT_STATUS_EndsSending = 8
+} edwinspireuSMSSMSOutStatus;
+
+typedef enum  {
 	EDWINSPIRE_USMS_ON_INCOMING_CALL_Ignore,
 	EDWINSPIRE_USMS_ON_INCOMING_CALL_Answer,
 	EDWINSPIRE_USMS_ON_INCOMING_CALL_Refuse
@@ -352,20 +364,6 @@ typedef enum  {
 	EDWINSPIRE_USMS_PROCESS_CTRL_Kill,
 	EDWINSPIRE_USMS_PROCESS_CTRL_Killed
 } edwinspireuSMSProcessCtrl;
-
-typedef enum  {
-	EDWINSPIRE_USMS_PROCESS_SMS_OUT_None = 0,
-	EDWINSPIRE_USMS_PROCESS_SMS_OUT_Locked = 1,
-	EDWINSPIRE_USMS_PROCESS_SMS_OUT_Sent = 2,
-	EDWINSPIRE_USMS_PROCESS_SMS_OUT_Fail = 3,
-	EDWINSPIRE_USMS_PROCESS_SMS_OUT_Disallowed = 4,
-	EDWINSPIRE_USMS_PROCESS_SMS_OUT_WaitingToBeSentByNextPort = 5,
-	EDWINSPIRE_USMS_PROCESS_SMS_OUT_SentIncomplete = 6,
-	EDWINSPIRE_USMS_PROCESS_SMS_OUT_LifetimeExpired = 7,
-	EDWINSPIRE_USMS_PROCESS_SMS_OUT_AllAttemptsFailToDeliverAutoProvider = 8,
-	EDWINSPIRE_USMS_PROCESS_SMS_OUT_AllAttemptsFailDelivery = 9,
-	EDWINSPIRE_USMS_PROCESS_SMS_OUT_AwaitingDeliveryRetry = 10
-} edwinspireuSMSProcessSMSOut;
 
 struct _edwinspireuSMSDevice {
 	edwinspireGSMMODEMModemGSM parent_instance;
@@ -670,9 +668,9 @@ struct _edwinspireuSMSPhoneTableClass {
 
 
 #define EDWINSPIRE_USMS_VERSION "0.1.2013.06.22"
+GType edwinspire_usms_sms_out_status_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_on_incoming_call_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_process_ctrl_get_type (void) G_GNUC_CONST;
-GType edwinspire_usms_process_sms_out_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_device_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_serial_port_conf_get_type (void) G_GNUC_CONST;
 void edwinspire_usms_device_SetPort (edwinspireuSMSDevice* self, edwinspireuSMSSerialPortConf* sp);
@@ -888,7 +886,7 @@ GType edwinspire_usms_table_outgoing_get_type (void) G_GNUC_CONST;
 edwinspireuSMSTableOutgoing* edwinspire_usms_table_outgoing_new (void);
 edwinspireuSMSTableOutgoing* edwinspire_usms_table_outgoing_construct (GType object_type);
 GeeHashMap* edwinspire_usms_table_outgoing_ToSend (edwinspireuSMSTableOutgoing* self, gint IdSIM);
-gint edwinspire_usms_table_outgoing_log (edwinspireuSMSTableOutgoing* self, gint idsmsout, gint idsim, gint status, gint parts, gint part);
+gint edwinspire_usms_table_outgoing_log (edwinspireuSMSTableOutgoing* self, gint idsmsout, gint idsim, edwinspireuSMSSMSOutStatus status, gint parts, gint part);
 gchar* edwinspire_usms_table_outgoing_fun_view_outgoing_view_filter_xml (edwinspireuSMSTableOutgoing* self, const gchar* start, const gchar* end, gint rows, gboolean fieldtextasbase64);
 gint edwinspire_usms_table_outgoing_fun_outgoing_new (edwinspireuSMSTableOutgoing* self, gint idowner, gint inidphone, const gchar* inphone, const gchar* inmsg, GDateTime* indatetosend, gint inpriority, gint inidprovider, gint inidsim, gint inidsmstype, gboolean inreport, gboolean inenablemsgclass, edwinspirePDUDCS_MESSAGE_CLASS inmsgclass, const gchar* innote);
 gchar* edwinspire_usms_table_outgoing_fun_outgoing_new_xml_from_hashmap (edwinspireuSMSTableOutgoing* self, GeeHashMap* Data);

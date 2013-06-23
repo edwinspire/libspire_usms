@@ -272,6 +272,11 @@ response = response_enum_OnIncomingCall_xml(request);
 this.serve_response( response, dos ); break;
 
 
+case "/enum_SMSOutStatus_xml.usms.usms":
+response = response_enum_SMSOutStatus_xml(request);
+this.serve_response( response, dos ); break;
+
+
 /*
 case "/xxxxxxxxxxxxxxxxxxxxxx.usms":
 response = xxxxxxxxxxxxxxxxxxxxxxx(request);
@@ -284,6 +289,15 @@ break;
 }
 
 return false;
+}
+
+private uHttp.Response response_enum_SMSOutStatus_xml(Request request){
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+
+Retorno.Data = uHttpServer.EnumToXml(typeof(SMSOutStatus), true).data;
+return Retorno;
 }
 
 private uHttp.Response response_enum_OnIncomingCall_xml(Request request){
