@@ -921,6 +921,7 @@ gchar* edwinspire_usms_address_table_fun_view_address_byid_xml (edwinspireuSMSAd
 edwinspireuSMSAddressTable* edwinspire_usms_address_table_new (void);
 edwinspireuSMSAddressTable* edwinspire_usms_address_table_construct (GType object_type);
 GType edwinspire_usms_phone_table_get_type (void) G_GNUC_CONST;
+gchar* edwinspire_usms_phone_table_fun_view_contacts_phones_with_search_xml (edwinspireuSMSPhoneTable* self, const gchar* contact_phone_search, const gchar* exclude_idphones, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_phone_table_fun_phones_address_edit_xml_from_hashmap (edwinspireuSMSPhoneTable* self, GeeHashMap* data, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_phone_table_fun_contact_phones_edit_xml (edwinspireuSMSPhoneTable* self, gint idphone, gint inidlocation, gdouble ingeox, gdouble ingeoy, const gchar* f1, const gchar* f2, const gchar* f3, const gchar* f4, const gchar* f5, const gchar* f6, const gchar* f7, const gchar* f8, const gchar* f9, const gchar* f10, const gchar* ints, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_phone_table_fun_phones_table_xml_from_hashmap (edwinspireuSMSPhoneTable* self, GeeHashMap* data, gboolean fieldtextasbase64);

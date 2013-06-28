@@ -2221,11 +2221,11 @@ return RetornoX;
 
 public class PhoneTable:PostgreSQLConnection{
 
-public string fun_view_contacts_phones_with_search_Xml(string contact_phone_search, string exclude_idphones, bool fieldtextasbase64 = true){
+public string fun_view_contacts_phones_with_search_xml(string contact_phone_search, string exclude_idphones, bool fieldtextasbase64 = true){
 string RetornoX = "";
 var  Conexion = Postgres.connect_db (this.ConnString());
 if(Conexion.get_status () == ConnectionStatus.OK){
-string[] valuesin = {idphone.to_string(), "{"+exclude_idphones+"}", fieldtextasbase64.to_string()};
+string[] valuesin = {contact_phone_search, "{"+exclude_idphones+"}", fieldtextasbase64.to_string()};
 var Resultado = this.exec_params_minimal(ref Conexion, "SELECT * FROM fun_view_contacts_phones_with_search_xml($1::text, $2::int[], $3::boolean) AS return", valuesin);
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 foreach(var reg in this.Result_FieldName(ref Resultado)){

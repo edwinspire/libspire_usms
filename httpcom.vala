@@ -277,6 +277,11 @@ response = response_enum_SMSOutStatus_xml(request);
 this.serve_response( response, dos ); break;
 
 
+case "/fun_view_contacts_phones_with_search_xml.usms":
+response = response_fun_view_contacts_phones_with_search_xml(request);
+this.serve_response( response, dos ); break;
+
+
 /*
 case "/xxxxxxxxxxxxxxxxxxxxxx.usms":
 response = xxxxxxxxxxxxxxxxxxxxxxx(request);
@@ -289,6 +294,30 @@ break;
 }
 
 return false;
+}
+
+
+private uHttp.Response response_fun_view_contacts_phones_with_search_xml(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header.ContentType = "text/xml";
+    Retorno.Header.Status = StatusCode.OK;
+PhoneTable Tabla = new PhoneTable();
+Tabla.GetParamCnx();
+string exclude_idphones = "";
+string contact_phone_search = "";
+
+if(request.Form.has_key("exclude_idphones")){
+exclude_idphones = request.Form["exclude_idphones"];
+}
+
+if(request.Form.has_key("contact_phone_search")){
+contact_phone_search = request.Form["contact_phone_search"];
+}
+
+
+    Retorno.Data =  Tabla.fun_view_contacts_phones_with_search_xml(contact_phone_search, exclude_idphones, true).data;
+return Retorno;
 }
 
 private uHttp.Response response_enum_SMSOutStatus_xml(Request request){

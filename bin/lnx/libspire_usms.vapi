@@ -42,6 +42,7 @@ namespace edwinspire {
 			public string fun_phones_address_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
 			public string fun_phones_table_xml (int inidphone, int inidcontact, bool inenable, string inphone, int intypephone, int inidprovider, string inphone_ext, int inidaddress, int inubiphone, string innote, string ints, bool fieldtextasbase64 = true);
 			public string fun_phones_table_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
+			public string fun_view_contacts_phones_with_search_xml (string contact_phone_search, string exclude_idphones, bool fieldtextasbase64 = true);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class PostgreSQLConnection : edwinspire.pgSQL.PostgreSqldb {
