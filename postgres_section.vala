@@ -2221,6 +2221,25 @@ return RetornoX;
 
 public class PhoneTable:PostgreSQLConnection{
 
+public string fun_view_contacts_phones_with_search_Xml(string contact_phone_search, string exclude_idphones, bool fieldtextasbase64 = true){
+string RetornoX = "";
+var  Conexion = Postgres.connect_db (this.ConnString());
+if(Conexion.get_status () == ConnectionStatus.OK){
+string[] valuesin = {idphone.to_string(), "{"+exclude_idphones+"}", fieldtextasbase64.to_string()};
+var Resultado = this.exec_params_minimal(ref Conexion, "SELECT * FROM fun_view_contacts_phones_with_search_xml($1::text, $2::int[], $3::boolean) AS return", valuesin);
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
+}
+}else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+return RetornoX;
+}
+
 
 /*
 public string fun_phone_address_edit_xml_from_hashmap(HashMap<string, string> data, bool fieldtextasbase64 = true){ 
@@ -2296,6 +2315,9 @@ RetornoX = reg["return"].Value;
 return RetornoX;
 }
 */
+
+
+
 
 public string  fun_phones_address_edit_xml_from_hashmap(HashMap<string, string> data, bool fieldtextasbase64 = true){ 
 
