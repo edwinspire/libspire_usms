@@ -43,9 +43,9 @@ private  HashSet<string> PuertosUnicos = new HashSet<string>();
  public virtual bool connection_handler_virtual_usms(Request request, DataOutputStream dos){
 
  edwinspire.uHttp.Response response = new edwinspire.uHttp.Response();
-      response.Header.Status = StatusCode.NOT_FOUND;
+      response.Status = StatusCode.NOT_FOUND;
  response.Data = edwinspire.uHttp.Response.HtmErrorPage("uHTTP WebServer", "404 - Página no encontrada").data;
-  response.Header.ContentType = "text/html";
+  response.Header["Content-Type"] = "text/html";
 
 this.serve_response( response, dos );
 
@@ -55,7 +55,7 @@ return false;
 
 public override bool connection_handler_virtual(Request request, DataOutputStream dos){
    uHttp.Response response = new uHttp.Response();
-      response.Header.Status = StatusCode.OK;
+      response.Status = StatusCode.OK;
    response.Data =  "".data;
 
 switch(request.Path){
@@ -300,8 +300,8 @@ return false;
 private uHttp.Response response_fun_view_contacts_phones_with_search_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 PhoneTable Tabla = new PhoneTable();
 Tabla.GetParamCnx();
 string exclude_idphones = "";
@@ -322,8 +322,8 @@ return Retorno;
 
 private uHttp.Response response_enum_SMSOutStatus_xml(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 Retorno.Data = uHttpServer.EnumToXml(typeof(SMSOutStatus), true).data;
 return Retorno;
@@ -331,8 +331,8 @@ return Retorno;
 
 private uHttp.Response response_enum_OnIncomingCall_xml(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 Retorno.Data = uHttpServer.EnumToXml(typeof(OnIncomingCall), true).data;
 return Retorno;
@@ -340,8 +340,8 @@ return Retorno;
 
 private uHttp.Response response_enum_SMSType_xml(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 Retorno.Data = uHttpServer.EnumToXml(typeof(SMSType), true).data;
 return Retorno;
@@ -350,8 +350,8 @@ return Retorno;
 
 private uHttp.Response response_enum_DCS_MESSAGE_CLASS_xml(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 Retorno.Data = uHttpServer.EnumToXml(typeof(PDU.DCS_MESSAGE_CLASS), true).data;
 return Retorno;
@@ -361,8 +361,8 @@ return Retorno;
 
 private uHttp.Response response_fun_outgoing_new_xml(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 TableOutgoing Tabla = new TableOutgoing();
 Tabla.GetParamCnx();
@@ -372,8 +372,8 @@ return Retorno;
 
 private uHttp.Response response_fun_sim_table_edit_xml(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 TableSIM Tabla = new TableSIM();
 Tabla.GetParamCnx();
@@ -383,8 +383,8 @@ return Retorno;
 
 private uHttp.Response response_fun_view_sim_xml(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 TableSIM Tabla = new TableSIM();
 Tabla.GetParamCnx();
@@ -394,8 +394,8 @@ return Retorno;
 
 private uHttp.Response response_usms_geo_map(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/html";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/html";
+    Retorno.Status = StatusCode.OK;
 
 int idaccount = 0;
 
@@ -413,8 +413,8 @@ return Retorno;
 private uHttp.Response response_fun_view_locations_ids_from_idlocation_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 LocationLevel Tabla = new LocationLevel();
 Tabla.GetParamCnx();
 int id = 0;
@@ -430,8 +430,8 @@ return Retorno;
 private uHttp.Response response_fun_location_subsector_remove_selected_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 TableSubSector Tabla = new TableSubSector();
 Tabla.GetParamCnx();
 string ids = "";
@@ -446,8 +446,8 @@ return Retorno;
 private uHttp.Response response_fun_location_subsector_edit_xml_from_hashmap(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 TableSubSector Tabla = new TableSubSector();
 Tabla.GetParamCnx();
     Retorno.Data =  Tabla.fun_location_subsector_edit_xml_from_hashmap(request.Form).data;
@@ -457,8 +457,8 @@ return Retorno;
 private uHttp.Response response_fun_view_subsector_by_idsector_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 TableSubSector Tabla = new TableSubSector();
 Tabla.GetParamCnx();
 
@@ -477,8 +477,8 @@ return Retorno;
 private uHttp.Response response_fun_location_sector_remove_selected_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 TableSector Tabla = new TableSector();
 Tabla.GetParamCnx();
 string ids = "";
@@ -493,8 +493,8 @@ return Retorno;
 private uHttp.Response response_fun_location_sector_edit_xml_from_hashmap(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 TableSector Tabla = new TableSector();
 Tabla.GetParamCnx();
     Retorno.Data =  Tabla.fun_location_sector_edit_xml_from_hashmap(request.Form).data;
@@ -504,8 +504,8 @@ return Retorno;
 private uHttp.Response response_fun_view_sector_by_idcity_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 TableSector Tabla = new TableSector();
 Tabla.GetParamCnx();
 
@@ -524,8 +524,8 @@ return Retorno;
 private uHttp.Response response_fun_location_city_remove_selected_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 TableCity Tabla = new TableCity();
 Tabla.GetParamCnx();
 string ids = "";
@@ -540,8 +540,8 @@ return Retorno;
 private uHttp.Response response_fun_location_city_edit_xml_from_hashmap(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 TableCity Tabla = new TableCity();
 Tabla.GetParamCnx();
     Retorno.Data =  Tabla.fun_location_city_edit_xml_from_hashmap(request.Form).data;
@@ -551,8 +551,8 @@ return Retorno;
 private uHttp.Response response_fun_view_city_by_idstate_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 TableCity Tabla = new TableCity();
 Tabla.GetParamCnx();
 
@@ -570,8 +570,8 @@ return Retorno;
 private uHttp.Response response_fun_location_state_remove_selected_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 TableState Tabla = new TableState();
 Tabla.GetParamCnx();
 string ids = "";
@@ -586,8 +586,8 @@ return Retorno;
 private uHttp.Response response_fun_location_state_edit_xml_from_hashmap(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 TableState Tabla = new TableState();
 Tabla.GetParamCnx();
     Retorno.Data =  Tabla.fun_location_state_edit_xml_from_hashmap(request.Form).data;
@@ -597,8 +597,8 @@ return Retorno;
 private uHttp.Response response_fun_view_state_by_idl1_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 TableState Tabla = new TableState();
 Tabla.GetParamCnx();
 
@@ -617,8 +617,8 @@ return Retorno;
 private uHttp.Response response_fun_location_level_remove_selected_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 LocationLevel Tabla = new LocationLevel();
 Tabla.GetParamCnx();
 string ids = "";
@@ -638,8 +638,8 @@ return Retorno;
 private uHttp.Response response_fun_location_level_edit_xml_from_hashmap(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 LocationLevel Tabla = new LocationLevel();
 Tabla.GetParamCnx();
     Retorno.Data =  Tabla.fun_location_level_edit_xml_from_hashmap(request.Form).data;
@@ -649,8 +649,8 @@ return Retorno;
 private uHttp.Response response_fun_view_location_level_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 LocationLevel Tabla = new LocationLevel();
 Tabla.GetParamCnx();
     Retorno.Data =  Tabla.fun_view_location_level_xml(request.Query, true).data;
@@ -661,8 +661,8 @@ return Retorno;
 private uHttp.Response response_fun_contact_address_edit_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 TableContacts Tabla = new TableContacts();
 Tabla.GetParamCnx();
     Retorno.Data =  Tabla.fun_contact_address_edit_xml_from_hashmap(request.Form, true).data;
@@ -672,8 +672,8 @@ return Retorno;
 private uHttp.Response response_fun_phones_address_edit_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 PhoneTable Tabla = new PhoneTable();
 Tabla.GetParamCnx();
     Retorno.Data =  Tabla.fun_phones_address_edit_xml_from_hashmap(request.Form, true).data;
@@ -684,8 +684,8 @@ return Retorno;
 private uHttp.Response response_fun_address_edit_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 AddressTable Tabla = new AddressTable();
 Tabla.GetParamCnx();
     Retorno.Data =  Tabla.fun_address_edit_xml_from_hashmap(request.Form, true).data;
@@ -695,8 +695,8 @@ return Retorno;
 private uHttp.Response response_fun_view_address_byid_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 AddressTable Tabla = new AddressTable();
 Tabla.GetParamCnx();
@@ -713,8 +713,8 @@ return Retorno;
 private uHttp.Response ResponseProviderEditXml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 ProviderTable Tabla = new ProviderTable();
 Tabla.GetParamCnx();
@@ -725,12 +725,12 @@ return Retorno;
 
 private uHttp.Response ResponseSMSInViewTableFilter(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-    Retorno.Header.Status = StatusCode.OK;
-  Retorno.Header.ContentType = "text/xml";
+    Retorno.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
 
 string start = "2000-01-01";
-string end = "2100-01-01";
-int rows = 0;
+string end = "2500-01-01";
+int rows = 25;
 
 if(request.Query.has_key("fstart")){
 start = request.Query["fstart"];
@@ -760,8 +760,8 @@ public void RequestVirtualPageHandler(uHttpServer server, Request request, DataO
 private uHttp.Response ResponseViewProviderTableXml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 ProviderTable Tabla = new ProviderTable();
 Tabla.GetParamCnx();
@@ -773,8 +773,8 @@ return Retorno;
 private uHttp.Response ResponseGridIncomingCallsXml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 string start = "1990-01-01";
 string end = "1990-01-01";
@@ -801,8 +801,8 @@ return Retorno;
 private uHttp.Response response_fun_view_sim_idname_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 TableSIM Tabla = new TableSIM();
 Tabla.GetParamCnx();
@@ -816,8 +816,8 @@ return Retorno;
 private uHttp.Response ResponseProviderListIdNameXml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 ProviderTable Tabla = new ProviderTable();
 Tabla.GetParamCnx();
@@ -829,8 +829,8 @@ return Retorno;
 private uHttp.Response ResponsePhoneTable(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 PhoneTable Tabla = new PhoneTable();
 Tabla.GetParamCnx();
@@ -843,8 +843,8 @@ return Retorno;
 private uHttp.Response ResponsePhoneById(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 int id = 0;
 
@@ -862,8 +862,8 @@ return Retorno;
 private uHttp.Response ResponseSimplifiedViewOfPhonesByIdContact(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 int id = 0;
 
@@ -881,8 +881,8 @@ return Retorno;
 private uHttp.Response ResponseFunctionContactEditTable(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 
 TableContacts Tabla = new TableContacts();
@@ -895,8 +895,8 @@ return Retorno;
 private uHttp.Response ResponseContactById(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 int id = 0;
 
@@ -916,8 +916,8 @@ return Retorno;
 // Recibe los datos y los actualiza en la base de datos.
 private uHttp.Response response_test_conexion_pg(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 var XmlRetorno = new StringBuilder("<table>");
 
@@ -941,8 +941,8 @@ return Retorno;
 // Recibe los datos y los actualiza en la base de datos.
 private uHttp.Response ResponseUpdateTableSerialPort(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 var XmlRetorno = new StringBuilder("<table>");
 
@@ -976,8 +976,8 @@ return Retorno;
 
 private uHttp.Response response_tableserialport_delete(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 var XmlRetorno = new StringBuilder("<table>");
 //TODO: Se tiene que buscar la forma de mejorar esta funcion para que el delete se haga en una sola funcion y no se tenga que hacer una solicitud por cada idport
@@ -1011,8 +1011,8 @@ return Retorno;
 private uHttp.Response ResponseContactsListNameAndId(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 TableContacts Tabla = new TableContacts();
 Tabla.GetParamCnx();
@@ -1025,8 +1025,8 @@ return Retorno;
 private uHttp.Response response_fun_view_contacts_to_list_search_xml(Request request){
 
 uHttp.Response Retorno = new uHttp.Response();
-  Retorno.Header.ContentType = "text/xml";
-    Retorno.Header.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
 TableContacts Tabla = new TableContacts();
 Tabla.GetParamCnx();
@@ -1043,8 +1043,8 @@ return Retorno;
 // Recibe los datos y los actualiza en la base de datos.
 private uHttp.Response ResponseSerialPortTable(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-    Retorno.Header.Status = StatusCode.OK;
-  Retorno.Header.ContentType = "text/xml";
+    Retorno.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
 
     Retorno.Data =  TableSerialPort.AllXml().data;
 
@@ -1054,8 +1054,8 @@ return Retorno;
 // Envia la tabla
 private uHttp.Response response_fun_view_outgoing_view_filter_xml(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-    Retorno.Header.Status = StatusCode.OK;
-  Retorno.Header.ContentType = "text/xml";
+    Retorno.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
 
 string start = "2000-01-01";
 string end = "2100-01-01";
@@ -1084,8 +1084,8 @@ return Retorno;
 // Recibe los datos y los actualiza en la base de datos.
 private uHttp.Response ResponseUpdatePostgresConf(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-    Retorno.Header.Status = StatusCode.OK;
-  Retorno.Header.ContentType = "text/xml";
+    Retorno.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
 
 
 var XmlRetorno = new StringBuilder("<table>");
@@ -1127,8 +1127,8 @@ return Retorno;
 // Solicita los datos de conexion a postgres
 private uHttp.Response response_getpostgresql(Request request){
 uHttp.Response Retorno = new uHttp.Response();
-    Retorno.Header.Status = StatusCode.OK;
-  Retorno.Header.ContentType = "text/xml";
+    Retorno.Status = StatusCode.OK;
+  Retorno.Header["Content-Type"] = "text/xml";
 
 //var Datos = new TablePostgres();
 
