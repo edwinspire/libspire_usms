@@ -282,6 +282,11 @@ response = response_fun_view_contacts_phones_with_search_xml(request);
 this.serve_response( response, dos ); break;
 
 
+case "/fun_provider_delete_selection_xml.usms":
+response = response_fun_provider_delete_selection_xml(request);
+this.serve_response( response, dos ); break;
+
+
 /*
 case "/xxxxxxxxxxxxxxxxxxxxxx.usms":
 response = xxxxxxxxxxxxxxxxxxxxxxx(request);
@@ -296,6 +301,22 @@ break;
 return false;
 }
 
+private uHttp.Response response_fun_provider_delete_selection_xml(Request request){
+
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
+TableProvider Tabla = new TableProvider();
+Tabla.GetParamCnx();
+string delete_idproviders = "";
+
+if(request.Form.has_key("delete_idproviders")){
+delete_idproviders = request.Form["delete_idproviders"];
+}
+
+    Retorno.Data =  Tabla.fun_provider_delete_selection_xml(delete_idproviders, true).data;
+return Retorno;
+}
 
 private uHttp.Response response_fun_view_contacts_phones_with_search_xml(Request request){
 

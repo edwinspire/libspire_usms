@@ -763,6 +763,7 @@ gint edwinspire_usms_postgresu_sms_fun_currentportsproviders_insertupdate (edwin
 GType edwinspire_usms_table_provider_get_type (void) G_GNUC_CONST;
 edwinspireuSMSTableProvider* edwinspire_usms_table_provider_new (void);
 edwinspireuSMSTableProvider* edwinspire_usms_table_provider_construct (GType object_type);
+gchar* edwinspire_usms_table_provider_fun_provider_delete_selection_xml (edwinspireuSMSTableProvider* self, const gchar* idproviders, gboolean fieldtextasbase64);
 gint edwinspire_usms_table_provider_IdProviderFromCIMI (edwinspireuSMSTableProvider* self, const gchar* cimi);
 GType edwinspire_usms_sms_out_row_get_type (void) G_GNUC_CONST;
 edwinspireuSMSSMSOutRow* edwinspire_usms_sms_out_row_new (void);
@@ -902,7 +903,7 @@ void edwinspire_usms_phone_table_row_destroy (edwinspireuSMSPhoneTableRow* self)
 void edwinspire_usms_phone_table_row_init (edwinspireuSMSPhoneTableRow *self);
 GType edwinspire_usms_provider_table_get_type (void) G_GNUC_CONST;
 gchar* edwinspire_usms_provider_table_fun_provider_edit_xml_from_hashmap (edwinspireuSMSProviderTable* self, GeeHashMap* data, gboolean fieldtextasbase64);
-gchar* edwinspire_usms_provider_table_fun_provider_edit_xml (edwinspireuSMSProviderTable* self, gint inidprovider, gboolean inenable, const gchar* incimi, const gchar* inname, const gchar* innote, const gchar* ints, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_provider_table_fun_provider_edit_xml (edwinspireuSMSProviderTable* self, gint inidprovider, gboolean inenable, const gchar* inname, const gchar* innote, const gchar* ints, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_provider_table_fun_view_provider_table_xml (edwinspireuSMSProviderTable* self, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_provider_table_idname_Xml (edwinspireuSMSProviderTable* self, gboolean fieldtextasbase64);
 edwinspireuSMSProviderTable* edwinspire_usms_provider_table_new (void);

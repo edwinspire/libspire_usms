@@ -285,6 +285,25 @@ public TableProvider(){
 
 }
 
+public string fun_provider_delete_selection_xml(string idproviders, bool fieldtextasbase64 = true){
+string RetornoX = "";
+var  Conexion = Postgres.connect_db (this.ConnString());
+if(Conexion.get_status () == ConnectionStatus.OK){
+string[] valuesin = {"{"+idproviders+"}", fieldtextasbase64.to_string()};
+var Resultado = this.exec_params_minimal(ref Conexion, "SELECT * FROM fun_provider_delete_selection_xml($1::int[], $2::boolean) AS return", valuesin);
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+foreach(var reg in this.Result_FieldName(ref Resultado)){
+RetornoX = reg["return"].Value;
+}
+}else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+}else{
+	        stderr.printf ("Conexion failed: %s", Conexion.get_error_message ());
+}
+return RetornoX;
+}
+
 
 public int IdProviderFromCIMI(string cimi){
 
@@ -1857,7 +1876,7 @@ public string fun_provider_edit_xml_from_hashmap(HashMap<string, string> data, b
 
 int inidprovider = 0;
 bool inenable = false;
-string incimi = "";
+//string incimi = "";
 string inname = "";
 string innote = "";
 string ints = "1990-01-01";
@@ -1870,9 +1889,6 @@ if(data.has_key("enable")){
 inenable = bool.parse(data["enable"]);
 }
 
-if(data.has_key("cimi")){
-incimi = data["cimi"];
-}
 
 if(data.has_key("name")){
 inname = data["name"];
@@ -1886,21 +1902,21 @@ if(data.has_key("ts")){
 ints = data["ts"];
 }
 
-return fun_provider_edit_xml(inidprovider, inenable, incimi, inname, innote, ints, fieldtextasbase64);
+return fun_provider_edit_xml(inidprovider, inenable, inname, innote, ints, fieldtextasbase64);
 }
 
 //fun_provider_edit(IN inidprovider integer, IN inenable boolean, IN incimi text, IN inname text, IN innote text, IN ints timestamp without time zone, IN fieldtextasbase64 boolean, OUT outreturn integer, OUT outpgmsg text)
-public string fun_provider_edit_xml(int inidprovider, bool inenable, string incimi, string inname, string innote, string ints, bool fieldtextasbase64 = true){
+public string fun_provider_edit_xml(int inidprovider, bool inenable,  string inname, string innote, string ints, bool fieldtextasbase64 = true){
 
 string Retorno = "";
 
-string[] ValuesArray = {inidprovider.to_string(), inenable.to_string(), incimi, inname, innote, ints, fieldtextasbase64.to_string()};
+string[] ValuesArray = {inidprovider.to_string(), inenable.to_string(), inname, innote, ints, fieldtextasbase64.to_string()};
 
 var  Conexion = Postgres.connect_db (this.ConnString());
 
 if(Conexion.get_status () == ConnectionStatus.OK){
 
-var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_provider_edit_xml($1::integer, $2::boolean, $3::text, $4::text, $5::text, $6::timestamp without time zone, $7::boolean) as return;",  ValuesArray);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_provider_edit_xml($1::integer, $2::boolean, $3::text, $4::text, $5::timestamp without time zone, $6::boolean) as return;",  ValuesArray);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
