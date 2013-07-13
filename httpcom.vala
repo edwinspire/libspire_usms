@@ -310,8 +310,8 @@ TableProvider Tabla = new TableProvider();
 Tabla.GetParamCnx();
 string delete_idproviders = "";
 
-if(request.Form.has_key("delete_idproviders")){
-delete_idproviders = request.Form["delete_idproviders"];
+if(request.Form.has_key("idproviders")){
+delete_idproviders = request.Form["idproviders"];
 }
 
     Retorno.Data =  Tabla.fun_provider_delete_selection_xml(delete_idproviders, true).data;
