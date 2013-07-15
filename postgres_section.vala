@@ -99,12 +99,12 @@ Retorno = filas["return"].Value;
 return Retorno;
 }
 
-public string fun_sim_table_edit_xml(int idsim, int idprovider, bool enable, string phone, bool smsout_request_reports, int smsout_retryonfail, int smsout_max_length, int smsout_max_lifetime, bool smsout_enabled_other_providers, int idmodem, int on_incommingcall, string note, bool fieldtextasbase64 = true){
+public string fun_sim_table_edit_xml(int idsim, int idprovider, bool enable, string phone, bool smsout_request_reports, int smsout_retryonfail, int smsout_max_length, bool smsout_enabled_other_providers, int idmodem, int on_incommingcall, string note, bool fieldtextasbase64 = true){
 string Retorno = "";
-string[] ValuesArray = {idsim.to_string(), idprovider.to_string(), enable.to_string(), phone, smsout_request_reports.to_string(), smsout_retryonfail.to_string(), smsout_max_length.to_string(), smsout_max_lifetime.to_string(), smsout_enabled_other_providers.to_string(), idmodem.to_string(), on_incommingcall.to_string(), note, fieldtextasbase64.to_string()};
+string[] ValuesArray = {idsim.to_string(), idprovider.to_string(), enable.to_string(), phone, smsout_request_reports.to_string(), smsout_retryonfail.to_string(), smsout_max_length.to_string(), smsout_enabled_other_providers.to_string(), idmodem.to_string(), on_incommingcall.to_string(), note, fieldtextasbase64.to_string()};
 var  Conexion = Postgres.connect_db (this.ConnString());
 if(Conexion.get_status () == ConnectionStatus.OK){
-var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_sim_table_edit_xml($1::integer, $2::integer, $3::boolean, $4::text, $5::boolean, $6::integer, $7::integer, $8::integer, $9::boolean, $10::integer, $11::integer, $12::text, $13::boolean) AS return;",  ValuesArray);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_sim_table_edit_xml($1::integer, $2::integer, $3::boolean, $4::text, $5::boolean, $6::integer, $7::integer, $8::boolean, $9::integer, $10::integer, $11::text, $12::boolean) AS return;",  ValuesArray);
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 foreach(var filas in this.Result_FieldName(ref Resultado)){
 Retorno = filas["return"].Value;
@@ -126,7 +126,7 @@ string phone = "";
 bool smsout_request_reports = false;
 int smsout_retryonfail = 0;
 int smsout_max_length = 0;
-int smsout_max_lifetime = 0;
+//int smsout_max_lifetime = 0;
 bool smsout_enabled_other_providers = false;
 int idmodem = 0;
 int on_incommingcall = 0;
@@ -160,10 +160,6 @@ if(Form.has_key("smsout_max_length")){
 smsout_max_length = int.parse(Form["smsout_max_length"]);
 }
 
-if(Form.has_key("smsout_max_lifetime")){
- smsout_max_lifetime = int.parse(Form["smsout_max_lifetime"]);
-}
-
 if(Form.has_key("smsout_enabled_other_providers")){
 smsout_enabled_other_providers = bool.parse(Form["smsout_enabled_other_providers"]);
 }
@@ -180,7 +176,7 @@ if(Form.has_key("note")){
 note = Form["note"];
 }
 
-return fun_sim_table_edit_xml(idsim, idprovider, enable, phone, smsout_request_reports, smsout_retryonfail, smsout_max_length, smsout_max_lifetime, smsout_enabled_other_providers, idmodem, on_incommingcall, note);
+return fun_sim_table_edit_xml(idsim, idprovider, enable, phone, smsout_request_reports, smsout_retryonfail, smsout_max_length, smsout_enabled_other_providers, idmodem, on_incommingcall, note);
 }
 
 

@@ -189,7 +189,7 @@ namespace edwinspire {
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TableSIM : edwinspire.uSMS.PostgresuSMS {
 			public TableSIM ();
-			public string fun_sim_table_edit_xml (int idsim, int idprovider, bool enable, string phone, bool smsout_request_reports, int smsout_retryonfail, int smsout_max_length, int smsout_max_lifetime, bool smsout_enabled_other_providers, int idmodem, int on_incommingcall, string note, bool fieldtextasbase64 = true);
+			public string fun_sim_table_edit_xml (int idsim, int idprovider, bool enable, string phone, bool smsout_request_reports, int smsout_retryonfail, int smsout_max_length, bool smsout_enabled_other_providers, int idmodem, int on_incommingcall, string note, bool fieldtextasbase64 = true);
 			public string fun_sim_table_edit_xml_from_hashmap (Gee.HashMap<string,string> Form);
 			public string fun_view_sim_idname_xml (bool fieldtextasbase64 = true);
 			public string fun_view_sim_xml (bool fieldtextasbase64 = true);
