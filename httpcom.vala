@@ -309,8 +309,6 @@ return false;
 
 
 
-
-
 private uHttp.Response response_enum_DTMF_xml(Request request){
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header["Content-Type"] = "text/xml";
