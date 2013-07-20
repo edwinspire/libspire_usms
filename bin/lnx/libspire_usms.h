@@ -751,7 +751,7 @@ GType edwinspire_usms_postgresu_sms_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_table_sim_get_type (void) G_GNUC_CONST;
 gchar* edwinspire_usms_table_sim_fun_view_sim_idname_xml (edwinspireuSMSTableSIM* self, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_table_sim_fun_view_sim_xml (edwinspireuSMSTableSIM* self, gboolean fieldtextasbase64);
-gchar* edwinspire_usms_table_sim_fun_sim_table_edit_xml (edwinspireuSMSTableSIM* self, gint idsim, gint idprovider, gboolean enable, const gchar* phone, gboolean smsout_request_reports, gint smsout_retryonfail, gint smsout_max_length, gboolean smsout_enabled_other_providers, gint idmodem, gint on_incommingcall, const gchar* note, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_table_sim_fun_sim_table_edit_xml (edwinspireuSMSTableSIM* self, gint idsim, gint idprovider, gboolean enable, gboolean enable_sendsms, const gchar* phone, gboolean smsout_request_reports, gint smsout_retryonfail, gint smsout_max_length, gboolean smsout_enabled_other_providers, gint on_incommingcall, gint dtmf_tone, gint dtmf_tone_time, const gchar* note, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_table_sim_fun_sim_table_edit_xml_from_hashmap (edwinspireuSMSTableSIM* self, GeeHashMap* Form);
 edwinspireuSMSTableSIM* edwinspire_usms_table_sim_new (void);
 edwinspireuSMSTableSIM* edwinspire_usms_table_sim_construct (GType object_type);

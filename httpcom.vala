@@ -286,6 +286,10 @@ case "/fun_provider_delete_selection_xml.usms":
 response = response_fun_provider_delete_selection_xml(request);
 this.serve_response( response, dos ); break;
 
+case "/enum_DTMF_xml.usms":
+response = response_enum_DTMF_xml(request);
+this.serve_response( response, dos ); break;
+
 
 /*
 case "/xxxxxxxxxxxxxxxxxxxxxx.usms":
@@ -299,6 +303,21 @@ break;
 }
 
 return false;
+}
+
+
+
+
+
+
+
+private uHttp.Response response_enum_DTMF_xml(Request request){
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
+
+Retorno.Data = uHttpServer.EnumToXml(typeof(Ports.DTMF), true).data;
+return Retorno;
 }
 
 private uHttp.Response response_fun_provider_delete_selection_xml(Request request){

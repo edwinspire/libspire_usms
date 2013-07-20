@@ -23,7 +23,7 @@
 
 using GLib;
 using Gee;
-//using edwinspire.Ports;
+using edwinspire.Ports;
 using edwinspire.GSM.MODEM;
 using edwinspire.PDU;
 using edwinspire.pgSQL;
@@ -99,17 +99,32 @@ Retorno = filas["return"].Value;
 return Retorno;
 }
 
-public string fun_sim_table_edit_xml(int idsim, int idprovider, bool enable, string phone, bool smsout_request_reports, int smsout_retryonfail, int smsout_max_length, bool smsout_enabled_other_providers, int idmodem, int on_incommingcall, string note, bool fieldtextasbase64 = true){
+public string fun_sim_table_edit_xml(int idsim, int idprovider, bool enable, bool enable_sendsms, string phone, bool smsout_request_reports, int smsout_retryonfail, int smsout_max_length, bool smsout_enabled_other_providers, int on_incommingcall, int dtmf_tone, int dtmf_tone_time, string note, bool fieldtextasbase64 = true){
 string Retorno = "";
-string[] ValuesArray = {idsim.to_string(), idprovider.to_string(), enable.to_string(), phone, smsout_request_reports.to_string(), smsout_retryonfail.to_string(), smsout_max_length.to_string(), smsout_enabled_other_providers.to_string(), idmodem.to_string(), on_incommingcall.to_string(), note, fieldtextasbase64.to_string()};
+
+string[] ValuesArray = {idsim.to_string(), 
+idprovider.to_string(), 
+enable.to_string(), 
+enable_sendsms.to_string(), 
+phone, 
+smsout_request_reports.to_string(), 
+smsout_retryonfail.to_string(), 
+smsout_max_length.to_string(), 
+smsout_enabled_other_providers.to_string(), 
+on_incommingcall.to_string(), 
+dtmf_tone.to_string(), 
+dtmf_tone_time.to_string(),
+ note, 
+fieldtextasbase64.to_string()};
+
 var  Conexion = Postgres.connect_db (this.ConnString());
 if(Conexion.get_status () == ConnectionStatus.OK){
-var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_sim_table_edit_xml($1::integer, $2::integer, $3::boolean, $4::text, $5::boolean, $6::integer, $7::integer, $8::boolean, $9::integer, $10::integer, $11::text, $12::boolean) AS return;",  ValuesArray);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM fun_sim_table_edit_xml($1::integer, $2::integer, $3::boolean, $4::boolean, $5::text, $6::boolean, $7::integer, $8::integer, $9::boolean, $10::integer, $11::integer, $12::integer, $13::text, $14::boolean) AS return;",  ValuesArray);
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 foreach(var filas in this.Result_FieldName(ref Resultado)){
 Retorno = filas["return"].Value;
 }
-} else{
+}else{
 	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
     }
 }
@@ -122,14 +137,17 @@ public string fun_sim_table_edit_xml_from_hashmap(HashMap<string, string> Form){
 int idsim = 0;
 int idprovider = 0;
 bool enable = false;
+bool enable_sendsms = false;
 string phone = "";
 bool smsout_request_reports = false;
 int smsout_retryonfail = 0;
 int smsout_max_length = 0;
 //int smsout_max_lifetime = 0;
 bool smsout_enabled_other_providers = false;
-int idmodem = 0;
+//int idmodem = 0;
 int on_incommingcall = 0;
+int dtmf_tone = (int)DTMF.Sharp;
+int dtmf_tone_time = 0;
 string note = "";
 
 if(Form.has_key("idsim")){
@@ -142,6 +160,10 @@ idprovider = int.parse(Form["idprovider"]);
 
 if(Form.has_key("enable")){
 enable = bool.parse(Form["enable"]);
+}
+
+if(Form.has_key("enable_sendsms")){
+enable_sendsms = bool.parse(Form["enable_sendsms"]);
 }
 
 if(Form.has_key("phone")){
@@ -164,19 +186,23 @@ if(Form.has_key("smsout_enabled_other_providers")){
 smsout_enabled_other_providers = bool.parse(Form["smsout_enabled_other_providers"]);
 }
 
-if(Form.has_key("idmodem")){
-idmodem = int.parse(Form["idmodem"]);
-}
-
 if(Form.has_key("on_incommingcall")){
 on_incommingcall = int.parse(Form["on_incommingcall"]);
+}
+
+if(Form.has_key("dtmf_tone")){
+dtmf_tone = int.parse(Form["dtmf_tone"]);
+}
+
+if(Form.has_key("dtmf_tone_time")){
+dtmf_tone_time = int.parse(Form["dtmf_tone_time"]);
 }
 
 if(Form.has_key("note")){
 note = Form["note"];
 }
 
-return fun_sim_table_edit_xml(idsim, idprovider, enable, phone, smsout_request_reports, smsout_retryonfail, smsout_max_length, smsout_enabled_other_providers, idmodem, on_incommingcall, note);
+return fun_sim_table_edit_xml(idsim, idprovider, enable, enable_sendsms, phone, smsout_request_reports, smsout_retryonfail, smsout_max_length, smsout_enabled_other_providers, on_incommingcall, dtmf_tone, dtmf_tone_time, note);
 }
 
 
