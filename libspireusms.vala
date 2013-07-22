@@ -104,6 +104,7 @@ private string FileLogModem = "";
 private StringBuilder TempLog = new StringBuilder(); 
 private bool LlamadaDetectadayAlmacenada = false;
 private PostgresuSMS DBaseGeneral = new PostgresuSMS();
+private SQliteNotificationsDb NotificationsDb = new SQliteNotificationsDb();
 public int IdPort = 0;
 public int IdSIM = 0;
 
@@ -483,8 +484,10 @@ GLib.print("CMGS => %i\n", id);
 ActionOnIncomingCall();
 if(id>0){
 DBaseOutgoing.log(SMS["_idsmsout"].as_int(), this.IdSIM, SMSOutStatus.Sent, partes, i);
+NotificationsDb.notifications_insert("El mensaje ENVIADO", "El mensaje enviado", 0);
 }else{
 DBaseOutgoing.log(SMS["_idsmsout"].as_int(), this.IdSIM, SMSOutStatus.UnSent, partes, i);
+NotificationsDb.notifications_insert("El mensaje no pudo ser enviado", "El mensaje no pudo ser enviadoXXX", 3);
 }
 i++;
 }
