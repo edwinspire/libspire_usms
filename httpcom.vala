@@ -290,6 +290,10 @@ case "/enum_DTMF_xml.usms":
 response = response_enum_DTMF_xml(request);
 this.serve_response( response, dos ); break;
 
+case "/notification_system.usms":
+response = response_notification_system(request);
+this.serve_response( response, dos ); break;
+
 
 /*
 case "/xxxxxxxxxxxxxxxxxxxxxx.usms":
@@ -306,7 +310,39 @@ return false;
 }
 
 
+private uHttp.Response response_notification_system(Request request){
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header["Content-Type"] = "text/xml";
+    Retorno.Status = StatusCode.OK;
 
+int lastid = 0;
+
+if(request.Form.has_key("lastidnotify")){
+lastid = int.parse(request.Form["lastidnotify"]);
+}
+
+
+SQliteNotificationsDb dB = new SQliteNotificationsDb();
+SQLiteNotificationRow Noty = SQLiteNotificationRow();
+
+
+int i = 0;
+while(i < 5){
+
+Noty = dB.notifications_next(lastid);
+if(Noty.id > lastid){
+break;
+}else{
+Thread.usleep(1000*3000);
+}
+
+
+i++;
+}
+
+Retorno.Data = dB.notifications_row_to_xml(Noty).data;
+return Retorno;
+}
 
 
 private uHttp.Response response_enum_DTMF_xml(Request request){

@@ -33,7 +33,7 @@ using edwinspire.pgSQL;
 
 namespace edwinspire.uSMS{
 
-public const string FILECONF = "usmsd.sqlite";
+public const string FILE_CONF = "usmsd.sqlite";
 
 public struct TableRowPostgres{
 
@@ -50,6 +50,274 @@ this.Enable = false;
 }
 
 }
+
+
+public struct SQLiteNotificationRow{
+int id;
+string title;
+string body;
+int urgency;
+int timeout;
+string img;
+string snd; 
+string note;
+
+public SQLiteNotificationRow(){
+this.id = 0;
+this.title = "";
+this.body = "";
+this.urgency = 0;
+this.timeout = 10;
+this.img = "";
+this.snd = "";
+this.note = "";
+}
+
+
+}
+
+public class SQliteNotificationsDb:GLib.Object{
+
+private string File = "notifications.sqlite";
+
+public SQliteNotificationsDb(){
+
+}
+
+public string notifications_row_to_xml(SQLiteNotificationRow lastRow){
+
+var Retorno = new StringBuilder("<usms><notification>");
+Retorno.append_printf("<id>%i</id>", lastRow.id);
+Retorno.append_printf("<title>%s</title>", Base64.encode(lastRow.title.data));
+Retorno.append_printf("<body>%s</body>", Base64.encode(lastRow.body.data));
+Retorno.append_printf("<urgency>%i</urgency>", lastRow.urgency);
+Retorno.append_printf("<timeout>%i</timeout>", lastRow.timeout);
+Retorno.append_printf("<img>%s</img>", Base64.encode(lastRow.img.data));
+Retorno.append_printf("<snd>%s</snd>", Base64.encode(lastRow.snd.data));
+Retorno.append_printf("<note>%s</note>", Base64.encode(lastRow.note.data));
+Retorno.append("</notification></usms>");
+return Retorno.str;
+}
+
+
+public SQLiteNotificationRow notifications_next(int last){
+
+SQLiteNotificationRow Retorno = SQLiteNotificationRow();
+
+    Database db;
+    Statement stmt;
+    int rc = 0;
+    int cols;
+    if ((rc = Database.open (File, out db)) == 1) {
+        printerr ("Can't open database: %s\n", db.errmsg ());
+    //    return;
+    }
+    if ((rc = db.prepare_v2 ("SELECT * FROM notifications WHERE idnotify > ? OR idnotify = ? ORDER BY idnotify LIMIT 1", -1, out stmt, null)) == 1) {
+        printerr ("SQL error: %d [%s], %s\n", rc, File, db.errmsg ());
+//        return;
+    }
+
+if(stmt != null){
+
+stmt.bind_int(1, last);
+stmt.bind_int(2, last);
+
+    cols = stmt.column_count();
+//print("colsssss %s\n", cols.to_string());
+    do {
+//print("rc >> %s\n", rc.to_string());
+        rc = stmt.step();
+        switch (rc) {
+        case Sqlite.DONE:
+            break;
+        case Sqlite.ROW:
+Retorno.id = stmt.column_int(0);
+Retorno.urgency = stmt.column_int(2);
+Retorno.timeout = stmt.column_int(3);
+Retorno.img =  stmt.column_text(4);
+Retorno.snd = stmt.column_text(5);
+Retorno.title = stmt.column_text(6);
+Retorno.body = stmt.column_text(7);
+Retorno.note = stmt.column_text(8);
+
+            break;
+        default:
+            printerr ("Error: %d, %s\n", rc, db.errmsg ());
+            break;
+        }
+    } while (rc == Sqlite.ROW);
+
+}
+return Retorno;
+}
+
+
+public SQLiteNotificationRow notifications_last(){
+
+SQLiteNotificationRow Retorno = SQLiteNotificationRow();
+
+    Database db;
+    Statement stmt;
+    int rc = 0;
+    int cols;
+    if ((rc = Database.open (File, out db)) == 1) {
+        printerr ("Can't open database: %s\n", db.errmsg ());
+    //    return;
+    }
+    if ((rc = db.prepare_v2 ("SELECT * FROM notifications ORDER BY idnotify DESC LIMIT 1", -1, out stmt, null)) == 1) {
+        printerr ("SQL error: %d [%s], %s\n", rc, File, db.errmsg ());
+//        return;
+    }
+    cols = stmt.column_count();
+//print("colsssss %s\n", cols.to_string());
+    do {
+//print("rc >> %s\n", rc.to_string());
+        rc = stmt.step();
+        switch (rc) {
+        case Sqlite.DONE:
+            break;
+        case Sqlite.ROW:
+Retorno.id = stmt.column_int(0);
+Retorno.urgency = stmt.column_int(2);
+Retorno.timeout = stmt.column_int(3);
+Retorno.img =  stmt.column_text(4);
+Retorno.snd = stmt.column_text(5);
+Retorno.title = stmt.column_text(6);
+Retorno.body = stmt.column_text(7);
+Retorno.note = stmt.column_text(8);
+
+            break;
+        default:
+            printerr ("Error: %d, %s\n", rc, db.errmsg ());
+            break;
+        }
+    } while (rc == Sqlite.ROW);
+return Retorno;
+}
+
+public int64 notifications_insert_from_hashmap(HashMap<string, string> data){
+
+SQLiteNotificationRow Data = SQLiteNotificationRow();
+
+if(data.has_key("title")){
+Data.title = data["title"];
+}
+
+if(data.has_key("body")){
+Data.body = data["body"];
+}
+
+if(data.has_key("urgency")){
+Data.urgency = int.parse(data["urgency"]);
+}
+
+if(data.has_key("timeout")){
+Data.timeout = int.parse(data["timeout"]);
+}
+
+if(data.has_key("img")){
+Data.img = data["img"];
+}
+
+if(data.has_key("snd")){
+Data.snd = data["snd"];
+}
+
+if(data.has_key("note")){
+Data.note = data["note"];
+}
+
+return notifications_insert(Data.title, Data.body, Data.urgency, Data.timeout, Data.img, Data.snd, Data.note);
+}
+
+
+
+public int64 notifications_insert(string title, string body = "", int urgency = 0, int timeout = 10, string img = "", string snd = "", string note = ""){
+
+int64 Retorno = 0;
+    Database db;
+    Statement stmt;
+    int rc = 0;
+string query = "INSERT INTO notifications (title, body, urgency, timeout, img, snd, note) VALUES (?, ?, ?, ?, ?, ?, ?)";
+  //  int cols;
+
+    if ((rc = Database.open (File, out db)) == 1) {
+        printerr ("Can't open database: %s\n", db.errmsg ());
+    //    return;
+    }
+
+    if ((rc = db.prepare_v2 (query, -1, out stmt, null)) == 1) {
+        printerr ("SQL error: %d %s\n[%s], %s\n", rc, query, File, db.errmsg ());
+//        return;
+    }
+
+if(stmt != null){
+
+stmt.bind_text(1, title);
+stmt.bind_text(2, body);
+stmt.bind_int(3, urgency);
+stmt.bind_int(4, timeout);
+stmt.bind_text(5, img);
+stmt.bind_text(6, snd);
+stmt.bind_text(7, note);
+stmt.step();
+//  printerr ("SQL %s\n", db.errmsg ());
+db.exec("COMMIT");
+        //printerr ("SQL changes del: %d, %i\n", rc, db.changes ());
+if(db.changes ()>0){
+Retorno = db.last_insert_rowid ();
+}
+}
+return Retorno;
+}
+
+public void build_table_notifications(){
+
+int64 Retorno = 0;
+    Database db;
+    Statement stmt;
+    int rc = 0;
+string query = """CREATE TABLE IF NOT EXISTS "notifications" ("idnotify" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , "datetime" DATETIME DEFAULT CURRENT_TIMESTAMP, "urgency" INTEGER NOT NULL  DEFAULT 0, "timeout" INTEGER NOT NULL  DEFAULT 5, "img" TEXT NOT NULL  check(typeof("img") = 'text')  DEFAULT 'default.png', "snd" TEXT NOT NULL  check(typeof("snd") = 'text')  DEFAULT 'default.wav', "title" TEXT NOT NULL  check(typeof("title") = 'text')  DEFAULT 'Notification', "body" TEXT NOT NULL  check(typeof("body") = 'text')  DEFAULT '-', "note" TEXT check(typeof("note") = 'text') )""";
+  //  int cols;
+
+    if ((rc = Database.open (File, out db)) == 1) {
+        printerr ("Can't open database: %s\n", db.errmsg ());
+    //    return;
+    }
+
+    if ((rc = db.prepare_v2 (query, -1, out stmt, null)) == 1) {
+        printerr ("SQL error: %d %s\n[%s], %s\n", rc, query, File, db.errmsg ());
+//        return;
+    }
+
+if(stmt != null){
+/*
+stmt.bind_int(1, (int)row.Enable);
+stmt.bind_text(2, row.Parameters.Host);
+stmt.bind_int(3, (int)row.Parameters.Port);
+stmt.bind_text(4, row.Parameters.db);
+stmt.bind_text(5, row.Parameters.User);
+stmt.bind_text(6, row.Parameters.Pwd);
+stmt.bind_int(7, (int)row.Parameters.SSL);
+stmt.bind_int(8, (int)row.Parameters.TimeOut);
+stmt.bind_text(9, row.Note);
+*/
+//stmt.bind_int(10, row.Id);
+
+stmt.step();
+//  printerr ("SQL %s\n", db.errmsg ());
+db.exec("COMMIT");
+        //printerr ("SQL changes del: %d, %i\n", rc, db.changes ());
+if(db.changes ()>0){
+Retorno = db.last_insert_rowid ();
+}
+}
+//return Retorno;
+}
+
+
+}
+
 
 
 
@@ -69,13 +337,13 @@ int64 Retorno = 0;
 string query = "INSERT INTO postgres (enable, host, port, dbname, user, pwd, ssl, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   //  int cols;
 
-    if ((rc = Database.open (FILECONF, out db)) == 1) {
+    if ((rc = Database.open (FILE_CONF, out db)) == 1) {
         printerr ("Can't open database: %s\n", db.errmsg ());
     //    return;
     }
 
     if ((rc = db.prepare_v2 (query, -1, out stmt, null)) == 1) {
-        printerr ("SQL error: %d %s\n[%s], %s\n", rc, query, FILECONF, db.errmsg ());
+        printerr ("SQL error: %d %s\n[%s], %s\n", rc, query, FILE_CONF, db.errmsg ());
 //        return;
     }
 
@@ -151,13 +419,13 @@ int64 Retorno = row.Id;
 string query = "UPDATE postgres SET enable=?, host=?, port=?, dbname=?, user=?, pwd=?, ssl=?, note=?  WHERE id=?";
   //  int cols;
 
-    if ((rc = Database.open (FILECONF, out db)) == 1) {
+    if ((rc = Database.open (FILE_CONF, out db)) == 1) {
         printerr ("Can't open database: %s\n", db.errmsg ());
     //    return;
     }
 
     if ((rc = db.prepare_v2 (query, -1, out stmt, null)) == 1) {
-        printerr ("SQL error: %d %s\n[%s], %s\n", rc, query, FILECONF, db.errmsg ());
+        printerr ("SQL error: %d %s\n[%s], %s\n", rc, query, FILE_CONF, db.errmsg ());
 //        return;
     }
 
@@ -214,12 +482,12 @@ TableRowPostgres Retorno = TableRowPostgres();
     Statement stmt;
     int rc = 0;
     int cols;
-    if ((rc = Database.open (FILECONF, out db)) == 1) {
+    if ((rc = Database.open (FILE_CONF, out db)) == 1) {
         printerr ("Can't open database: %s\n", db.errmsg ());
     //    return;
     }
     if ((rc = db.prepare_v2 ("SELECT * FROM postgres WHERE enable = 1 ORDER BY id DESC LIMIT 1", -1, out stmt, null)) == 1) {
-        printerr ("SQL error: %d [%s], %s\n", rc, FILECONF, db.errmsg ());
+        printerr ("SQL error: %d [%s], %s\n", rc, FILE_CONF, db.errmsg ());
 //        return;
     }
     cols = stmt.column_count();
@@ -315,13 +583,13 @@ int64 Retorno = 0;
 string query = "INSERT INTO processcontrol (control, note) VALUES (?, ?)";
   //  int cols;
 
-    if ((rc = Database.open (FILECONF, out db)) == 1) {
+    if ((rc = Database.open (FILE_CONF, out db)) == 1) {
         printerr ("Can't open database: %s\n", db.errmsg ());
     //    return;
     }
 
     if ((rc = db.prepare_v2 (query, -1, out stmt, null)) == 1) {
-        printerr ("SQL error: %d %s\n[%s], %s\n", rc, query, FILECONF, db.errmsg ());
+        printerr ("SQL error: %d %s\n[%s], %s\n", rc, query, FILE_CONF, db.errmsg ());
 //        return;
     }
 
@@ -354,7 +622,7 @@ var Query = new StringBuilder();
     Statement stmt;
     int rc = 0;
 
-    if ((rc = Database.open (FILECONF, out db)) == 1) {
+    if ((rc = Database.open (FILE_CONF, out db)) == 1) {
         printerr ("Can't open database: %s\n", db.errmsg ());
   //      return;
     }
@@ -406,12 +674,12 @@ var Retorno = new ProcessControldb();
     Statement stmt;
     int rc = 0;
     int cols;
-    if ((rc = Database.open (FILECONF, out db)) == 1) {
+    if ((rc = Database.open (FILE_CONF, out db)) == 1) {
         printerr ("Can't open database: %s\n", db.errmsg ());
     //    return;
     }
     if ((rc = db.prepare_v2 ("SELECT * FROM processcontrol WHERE id = "+Id.to_string(), -1, out stmt, null)) == 1) {
-        printerr ("SQL error: %d [%s], %s\n", rc, FILECONF, db.errmsg ());
+        printerr ("SQL error: %d [%s], %s\n", rc, FILE_CONF, db.errmsg ());
 //        return;
     }
     cols = stmt.column_count();
@@ -450,12 +718,12 @@ var Retorno = new ProcessControldb();
     Statement stmt;
     int rc = 0;
     int cols;
-    if ((rc = Database.open (FILECONF, out db)) == 1) {
+    if ((rc = Database.open (FILE_CONF, out db)) == 1) {
         printerr ("Can't open database: %s\n", db.errmsg ());
     //    return;
     }
     if ((rc = db.prepare_v2 ("SELECT * FROM processcontrol ORDER BY id DESC LIMIT 1", -1, out stmt, null)) == 1) {
-        printerr ("SQL error: %d [%s], %s\n", rc, FILECONF, db.errmsg ());
+        printerr ("SQL error: %d [%s], %s\n", rc, FILE_CONF, db.errmsg ());
 //        return;
     }
     cols = stmt.column_count();
@@ -490,12 +758,12 @@ var Retorno = new ArrayList<ProcessControldb>();
     Statement stmt;
     int rc = 0;
     int cols;
-    if ((rc = Database.open (FILECONF, out db)) == 1) {
+    if ((rc = Database.open (FILE_CONF, out db)) == 1) {
         printerr ("Can't open database: %s\n", db.errmsg ());
     //    return;
     }
     if ((rc = db.prepare_v2 ("SELECT * FROM processcontrol ORDER BY id DESC", -1, out stmt, null)) == 1) {
-        printerr ("SQL error: %d [%s], %s\n", rc, FILECONF, db.errmsg ());
+        printerr ("SQL error: %d [%s], %s\n", rc, FILE_CONF, db.errmsg ());
 //        return;
     }
     cols = stmt.column_count();
@@ -582,12 +850,12 @@ var Retorno = new ArrayList<SerialPortConf>();
     Statement stmt;
     int rc = 0;
     int cols;
-    if ((rc = Database.open (FILECONF, out db)) == 1) {
+    if ((rc = Database.open (FILE_CONF, out db)) == 1) {
         printerr ("Can't open database: %s\n", db.errmsg ());
     //    return;
     }
     if ((rc = db.prepare_v2 ("SELECT * FROM serialport", -1, out stmt, null)) == 1) {
-        printerr ("SQL error: %d [%s], %s\n", rc, FILECONF, db.errmsg ());
+        printerr ("SQL error: %d [%s], %s\n", rc, FILE_CONF, db.errmsg ());
 //        return;
     }
     cols = stmt.column_count();
@@ -751,13 +1019,13 @@ int64 Retorno = 0;
     int rc = 0;
   //  int cols;
 
-    if ((rc = Database.open (FILECONF, out db)) == 1) {
+    if ((rc = Database.open (FILE_CONF, out db)) == 1) {
         printerr ("Can't open database: %s\n", db.errmsg ());
     //    return;
     }
 
     if ((rc = db.prepare_v2 ("INSERT INTO serialport (port, enable, baudrate, databits, parity, stopbits, handshake, note, loglevel) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", -1, out stmt, null)) == 1) {
-        printerr ("Insert SQL error: %d [%s], %s\n", rc, FILECONF, db.errmsg ());
+        printerr ("Insert SQL error: %d [%s], %s\n", rc, FILE_CONF, db.errmsg ());
 //        return;
     }
 
@@ -793,13 +1061,13 @@ bool Retorno = false;
     int rc = 0;
   //  int cols;
 
-    if ((rc = Database.open (FILECONF, out db)) == 1) {
+    if ((rc = Database.open (FILE_CONF, out db)) == 1) {
         printerr ("Can't open database: %s\n", db.errmsg ());
     //    return;
     }
 
     if ((rc = db.prepare_v2 ("UPDATE serialport SET port = ?, enable = ?, baudrate = ?, databits = ?, parity = ?, stopbits = ?, handshake = ?, note = ?, loglevel = ? WHERE idport = ?", -1, out stmt, null)) == 1) {
-        printerr ("SQL error: %d [%s], %s\n", rc, FILECONF, db.errmsg ());
+        printerr ("SQL error: %d [%s], %s\n", rc, FILE_CONF, db.errmsg ());
 //        return;
     }
 
@@ -846,13 +1114,13 @@ bool Retorno = false;
     int rc = 0;
   //  int cols;
 
-    if ((rc = Database.open (FILECONF, out db)) == 1) {
+    if ((rc = Database.open (FILE_CONF, out db)) == 1) {
         printerr ("Can't open database: %s\n", db.errmsg ());
     //    return;
     }
 
     if ((rc = db.prepare_v2 ("DELETE FROM serialport WHERE idport = ?", -1, out stmt, null)) == 1) {
-        printerr ("SQL error: %d [%s], %s\n", rc, FILECONF, db.errmsg ());
+        printerr ("SQL error: %d [%s], %s\n", rc, FILE_CONF, db.errmsg ());
 //        return;
     }
 

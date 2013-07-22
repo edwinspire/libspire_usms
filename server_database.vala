@@ -60,7 +60,7 @@ var Query = new StringBuilder();
     Statement stmt;
   //  int rc = 0;
 
-Query.append("""CREATE TABLE "serialport" ("idport" INTEGER PRIMARY KEY ,"port" TEXT DEFAULT ('COM1') ,"enable" BOOL DEFAULT (0) ,"baudrate" INTEGER DEFAULT (0) ,"databits" INTEGER DEFAULT (8) ,"parity" INTEGER DEFAULT (0) ,"stopbits" INTEGER DEFAULT (1) ,"handshake" INTEGER DEFAULT (0) ,"note" TEXT DEFAULT(''), "loglevel" TEXT)""");
+Query.append("""CREATE TABLE "serialport" ("idport" INTEGER PRIMARY KEY ,"port" TEXT DEFAULT ('COM1') unique ,"enable" BOOL DEFAULT (0) ,"baudrate" INTEGER DEFAULT (0) ,"databits" INTEGER DEFAULT (8) ,"parity" INTEGER DEFAULT (0) ,"stopbits" INTEGER DEFAULT (1) ,"handshake" INTEGER DEFAULT (0) ,"note" TEXT,"loglevel" TEXT)""");
 
     if ((rc = db.prepare_v2 (Query.str, -1, out stmt, null)) == 1) {
         printerr ("CreateDb SQL error: %d, %s\n", rc, db.errmsg ());
@@ -109,7 +109,7 @@ int64 Retorno = 0;
 
 
     if ((rc = db.prepare_v2 ("INSERT INTO serialport (port, enable, baudrate, databits, parity, stopbits, handshake, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", -1, out stmt, null)) == 1) {
-        printerr ("SQL error: %d [%s], %s\n", rc, FILECONF, db.errmsg ());
+        printerr ("SQL error: %d [%s], %s\n", rc, FILE_CONF, db.errmsg ());
 //        return;
     }
 
@@ -133,7 +133,7 @@ if(db.changes ()>0){
 Retorno = db.last_insert_rowid ();
 }else{
         printerr ("SQL changesB del: %d, %i\n", rc, db.changes ());
-        printerr ("SQL error: %d [%s], %s\n", rc, FILECONF, db.errmsg ());
+        printerr ("SQL error: %d [%s], %s\n", rc, FILE_CONF, db.errmsg ());
 }
 }
 return Retorno;

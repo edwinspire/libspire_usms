@@ -105,6 +105,16 @@ namespace edwinspire {
 			public int slicessent { get; set; }
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
+		public class SQliteNotificationsDb : GLib.Object {
+			public SQliteNotificationsDb ();
+			public void build_table_notifications ();
+			public int64 notifications_insert (string title, string body = "", int urgency = 0, int timeout = 10, string img = "", string snd = "", string note = "");
+			public int64 notifications_insert_from_hashmap (Gee.HashMap<string,string> data);
+			public edwinspire.uSMS.SQLiteNotificationRow notifications_last ();
+			public edwinspire.uSMS.SQLiteNotificationRow notifications_next (int last);
+			public string notifications_row_to_xml (edwinspire.uSMS.SQLiteNotificationRow lastRow);
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
 		public class SerialPortConf : edwinspire.Ports.Configure {
 			public SerialPortConf ();
 			public SerialPortConf.with_args (int id, bool enable, string port, int baudrate, int databits, edwinspire.Ports.Parity parity, edwinspire.Ports.StopBits stopbits, edwinspire.Ports.HandShaking HS, string note = "", Gee.ArrayList<GLib.LogLevelFlags> llevel);
@@ -285,6 +295,18 @@ namespace edwinspire {
 			public PhoneTableRow ();
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
+		public struct SQLiteNotificationRow {
+			public int id;
+			public string title;
+			public string body;
+			public int urgency;
+			public int timeout;
+			public string img;
+			public string snd;
+			public string note;
+			public SQLiteNotificationRow ();
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
 		public struct TableRowPostgres {
 			public edwinspire.pgSQL.ConnectionParameters Parameters;
 			public string Note;
@@ -341,7 +363,7 @@ namespace edwinspire {
 			owner
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
-		public const string FILECONF;
+		public const string FILE_CONF;
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public const string VERSION;
 	}
