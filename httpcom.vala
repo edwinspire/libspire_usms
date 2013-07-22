@@ -327,7 +327,7 @@ SQLiteNotificationRow Noty = SQLiteNotificationRow();
 
 
 int i = 0;
-while(i < 5){
+while(i < 8){
 
 Noty = dB.notifications_next(lastid);
 if(Noty.id > lastid){

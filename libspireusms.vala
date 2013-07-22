@@ -144,8 +144,10 @@ DBaseCallIn.GetParamCnx();
 if(DBaseCallIn.fun_incomingcalls_insert_online(this.IdPort, OnIncomingCall.Ignore, phone.replace("+", ""))>0){
 LlamadaDetectadayAlmacenada = true;
 print("Llamada entrante detectada y almacenda: %s\n", phone);
+NotificationsDb.notifications_insert("Llamada recibida y almacenada del número "+phone, "Llamada recibida y almacenada del número "+phone, 0);
 }else{
 print("Llamada entrante detectada pero NO pudo ser almacenada: %s\n", phone);
+NotificationsDb.notifications_insert("Llamada recibida no pudo ser almacenada del número "+phone, "Llamada recibida no pudo ser almacenada del número "+phone, 3);
 }
 
 }
@@ -449,7 +451,7 @@ ActionOnIncomingCall();
 
 var Mensaje = this.CMGR(X);
 //print("Index => %u => %s\n", X, Mensaje.Text);
-
+NotificationsDb.notifications_insert(Mensaje.Text, Mensaje.Text, 0);
 if(DBaseSMSIn.fun_smsin_insert(this.IdPort, Mensaje.Status, Mensaje.DateTime, Mensaje.Phone, Mensaje.Text) > 0){
 this.CMGD(X);
 }

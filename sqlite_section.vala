@@ -112,7 +112,7 @@ SQLiteNotificationRow Retorno = SQLiteNotificationRow();
         printerr ("Can't open database: %s\n", db.errmsg ());
     //    return;
     }
-    if ((rc = db.prepare_v2 ("SELECT * FROM notifications WHERE idnotify > ? OR idnotify = ? ORDER BY idnotify LIMIT 1", -1, out stmt, null)) == 1) {
+    if ((rc = db.prepare_v2 ("SELECT * FROM notifications WHERE idnotify > ? ORDER BY idnotify LIMIT 1", -1, out stmt, null)) == 1) {
         printerr ("SQL error: %d [%s], %s\n", rc, File, db.errmsg ());
 //        return;
     }
@@ -120,7 +120,7 @@ SQLiteNotificationRow Retorno = SQLiteNotificationRow();
 if(stmt != null){
 
 stmt.bind_int(1, last);
-stmt.bind_int(2, last);
+//stmt.bind_int(2, last);
 
     cols = stmt.column_count();
 //print("colsssss %s\n", cols.to_string());
