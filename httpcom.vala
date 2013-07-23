@@ -294,6 +294,10 @@ case "/notification_system.usms":
 response = response_notification_system(request);
 this.serve_response( response, dos ); break;
 
+case "/notification_lastid.usms":
+response_notification_lastid(request, dos);
+break;
+
 
 /*
 case "/xxxxxxxxxxxxxxxxxxxxxx.usms":
@@ -310,6 +314,39 @@ return false;
 }
 
 
+private uHttp.Response response_notification_lastid(Request request, DataOutputStream dos){
+uHttp.Response Retorno = new uHttp.Response();
+  Retorno.Header["Content-Type"] = "text/event-stream";
+  Retorno.Header["Cache-Control"] = "no-cache";
+    Retorno.Status = StatusCode.OK;
+
+this.serve_response( Retorno, dos );
+
+SQliteNotificationsDb dB = new SQliteNotificationsDb();
+int newid = dB.notifications_last().id;
+int lastid = 0;
+
+
+
+
+int i = 0;
+while(i<150){
+if(lastid < newid){
+this.writeData(("data: "+newid.to_string()+"\n\n").data, dos);
+lastid = newid;
+}else{
+newid = dB.notifications_last().id;
+}
+Thread.usleep(1000*1500);
+i++;
+}
+
+
+
+//print(("data: server time "+d.to_string())+"\n\n");
+return Retorno;
+}
+
 private uHttp.Response response_notification_system(Request request){
 uHttp.Response Retorno = new uHttp.Response();
   Retorno.Header["Content-Type"] = "text/xml";
@@ -323,24 +360,7 @@ lastid = int.parse(request.Form["lastidnotify"]);
 
 
 SQliteNotificationsDb dB = new SQliteNotificationsDb();
-SQLiteNotificationRow Noty = SQLiteNotificationRow();
-
-
-int i = 0;
-while(i < 8){
-
-Noty = dB.notifications_next(lastid);
-if(Noty.id > lastid){
-break;
-}else{
-Thread.usleep(1000*3000);
-}
-
-
-i++;
-}
-
-Retorno.Data = dB.notifications_row_to_xml(Noty).data;
+Retorno.Data = dB.notifications_next_xml(lastid).data;
 return Retorno;
 }
 

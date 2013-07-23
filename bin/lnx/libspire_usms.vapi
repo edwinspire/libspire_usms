@@ -105,13 +105,27 @@ namespace edwinspire {
 			public int slicessent { get; set; }
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
+		public class SQLiteNotificationRow {
+			public string body;
+			public int id;
+			public string img;
+			public string note;
+			public string snd;
+			public int timeout;
+			public string title;
+			public int urgency;
+			public SQLiteNotificationRow ();
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
 		public class SQliteNotificationsDb : GLib.Object {
 			public SQliteNotificationsDb ();
 			public void build_table_notifications ();
+			public string notifications_data_to_xml (edwinspire.uSMS.SQLiteNotificationRow lastRow);
 			public int64 notifications_insert (string title, string body = "", int urgency = 0, int timeout = 10, string img = "", string snd = "", string note = "");
 			public int64 notifications_insert_from_hashmap (Gee.HashMap<string,string> data);
 			public edwinspire.uSMS.SQLiteNotificationRow notifications_last ();
-			public edwinspire.uSMS.SQLiteNotificationRow notifications_next (int last);
+			public Gee.ArrayList<edwinspire.uSMS.SQLiteNotificationRow> notifications_next (int last);
+			public string notifications_next_xml (int last);
 			public string notifications_row_to_xml (edwinspire.uSMS.SQLiteNotificationRow lastRow);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
@@ -293,18 +307,6 @@ namespace edwinspire {
 			public string Address;
 			public string TimeStamp;
 			public PhoneTableRow ();
-		}
-		[CCode (cheader_filename = "libspire_usms.h")]
-		public struct SQLiteNotificationRow {
-			public int id;
-			public string title;
-			public string body;
-			public int urgency;
-			public int timeout;
-			public string img;
-			public string snd;
-			public string note;
-			public SQLiteNotificationRow ();
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public struct TableRowPostgres {

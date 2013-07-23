@@ -52,25 +52,25 @@ this.Enable = false;
 }
 
 
-public struct SQLiteNotificationRow{
-int id;
-string title;
-string body;
-int urgency;
-int timeout;
-string img;
-string snd; 
-string note;
+public class SQLiteNotificationRow{
+public int id = 0;
+public string title = "";
+public string body = "";
+public int urgency = 0;
+public int timeout = 10;
+public string img = "";
+public string snd = ""; 
+public string note = "";
 
 public SQLiteNotificationRow(){
-this.id = 0;
+/*this.id = 0;
 this.title = "";
 this.body = "";
 this.urgency = 0;
 this.timeout = 10;
 this.img = "";
 this.snd = "";
-this.note = "";
+this.note = "";*/
 }
 
 
@@ -84,9 +84,18 @@ public SQliteNotificationsDb(){
 
 }
 
+public string notifications_data_to_xml(SQLiteNotificationRow lastRow){
+
+var Retorno = new StringBuilder("<usms>");
+Retorno.append_printf("%s", this.notifications_row_to_xml(lastRow));
+Retorno.append("</usms>");
+return Retorno.str;
+}
+
+
 public string notifications_row_to_xml(SQLiteNotificationRow lastRow){
 
-var Retorno = new StringBuilder("<usms><notification>");
+var Retorno = new StringBuilder("<row>");
 Retorno.append_printf("<id>%i</id>", lastRow.id);
 Retorno.append_printf("<title>%s</title>", Base64.encode(lastRow.title.data));
 Retorno.append_printf("<body>%s</body>", Base64.encode(lastRow.body.data));
@@ -95,14 +104,28 @@ Retorno.append_printf("<timeout>%i</timeout>", lastRow.timeout);
 Retorno.append_printf("<img>%s</img>", Base64.encode(lastRow.img.data));
 Retorno.append_printf("<snd>%s</snd>", Base64.encode(lastRow.snd.data));
 Retorno.append_printf("<note>%s</note>", Base64.encode(lastRow.note.data));
-Retorno.append("</notification></usms>");
+Retorno.append("</row>");
 return Retorno.str;
 }
 
 
-public SQLiteNotificationRow notifications_next(int last){
+public string notifications_next_xml(int last){
 
-SQLiteNotificationRow Retorno = SQLiteNotificationRow();
+var Retorno = new StringBuilder("<notifications>");
+
+var Listr = this.notifications_next(last);
+
+foreach(var x in Listr){
+Retorno.append(this.notifications_row_to_xml(x));
+}
+
+Retorno.append("</notifications>");
+return  Retorno.str;
+}
+
+public  ArrayList<SQLiteNotificationRow> notifications_next(int last){
+
+var RetornoXXX = new ArrayList<SQLiteNotificationRow>();
 
     Database db;
     Statement stmt;
@@ -112,7 +135,7 @@ SQLiteNotificationRow Retorno = SQLiteNotificationRow();
         printerr ("Can't open database: %s\n", db.errmsg ());
     //    return;
     }
-    if ((rc = db.prepare_v2 ("SELECT * FROM notifications WHERE idnotify > ? ORDER BY idnotify LIMIT 1", -1, out stmt, null)) == 1) {
+    if ((rc = db.prepare_v2 ("SELECT * FROM notifications WHERE idnotify > ? AND datetime > datetime('now', '-2 Minute') ORDER BY idnotify", -1, out stmt, null)) == 1) {
         printerr ("SQL error: %d [%s], %s\n", rc, File, db.errmsg ());
 //        return;
     }
@@ -131,6 +154,7 @@ stmt.bind_int(1, last);
         case Sqlite.DONE:
             break;
         case Sqlite.ROW:
+SQLiteNotificationRow Retorno = new SQLiteNotificationRow();
 Retorno.id = stmt.column_int(0);
 Retorno.urgency = stmt.column_int(2);
 Retorno.timeout = stmt.column_int(3);
@@ -139,7 +163,7 @@ Retorno.snd = stmt.column_text(5);
 Retorno.title = stmt.column_text(6);
 Retorno.body = stmt.column_text(7);
 Retorno.note = stmt.column_text(8);
-
+RetornoXXX.add(Retorno);
             break;
         default:
             printerr ("Error: %d, %s\n", rc, db.errmsg ());
@@ -148,13 +172,13 @@ Retorno.note = stmt.column_text(8);
     } while (rc == Sqlite.ROW);
 
 }
-return Retorno;
+return RetornoXXX;
 }
 
 
 public SQLiteNotificationRow notifications_last(){
 
-SQLiteNotificationRow Retorno = SQLiteNotificationRow();
+SQLiteNotificationRow Retorno = new SQLiteNotificationRow();
 
     Database db;
     Statement stmt;
@@ -197,7 +221,7 @@ return Retorno;
 
 public int64 notifications_insert_from_hashmap(HashMap<string, string> data){
 
-SQLiteNotificationRow Data = SQLiteNotificationRow();
+SQLiteNotificationRow Data = new SQLiteNotificationRow();
 
 if(data.has_key("title")){
 Data.title = data["title"];

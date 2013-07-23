@@ -77,7 +77,15 @@ typedef struct _edwinspireuSMSuSMSServerPrivate edwinspireuSMSuSMSServerPrivate;
 typedef struct _edwinspireuSMSTableRowPostgres edwinspireuSMSTableRowPostgres;
 
 #define EDWINSPIRE_USMS_TYPE_SQ_LITE_NOTIFICATION_ROW (edwinspire_usms_sq_lite_notification_row_get_type ())
+#define EDWINSPIRE_USMS_SQ_LITE_NOTIFICATION_ROW(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_SQ_LITE_NOTIFICATION_ROW, edwinspireuSMSSQLiteNotificationRow))
+#define EDWINSPIRE_USMS_SQ_LITE_NOTIFICATION_ROW_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_SQ_LITE_NOTIFICATION_ROW, edwinspireuSMSSQLiteNotificationRowClass))
+#define EDWINSPIRE_USMS_IS_SQ_LITE_NOTIFICATION_ROW(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_SQ_LITE_NOTIFICATION_ROW))
+#define EDWINSPIRE_USMS_IS_SQ_LITE_NOTIFICATION_ROW_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_SQ_LITE_NOTIFICATION_ROW))
+#define EDWINSPIRE_USMS_SQ_LITE_NOTIFICATION_ROW_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_SQ_LITE_NOTIFICATION_ROW, edwinspireuSMSSQLiteNotificationRowClass))
+
 typedef struct _edwinspireuSMSSQLiteNotificationRow edwinspireuSMSSQLiteNotificationRow;
+typedef struct _edwinspireuSMSSQLiteNotificationRowClass edwinspireuSMSSQLiteNotificationRowClass;
+typedef struct _edwinspireuSMSSQLiteNotificationRowPrivate edwinspireuSMSSQLiteNotificationRowPrivate;
 
 #define EDWINSPIRE_USMS_TYPE_SQLITE_NOTIFICATIONS_DB (edwinspire_usms_sqlite_notifications_db_get_type ())
 #define EDWINSPIRE_USMS_SQLITE_NOTIFICATIONS_DB(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_SQLITE_NOTIFICATIONS_DB, edwinspireuSMSSQliteNotificationsDb))
@@ -435,6 +443,9 @@ struct _edwinspireuSMSTableRowPostgres {
 };
 
 struct _edwinspireuSMSSQLiteNotificationRow {
+	GTypeInstance parent_instance;
+	volatile int ref_count;
+	edwinspireuSMSSQLiteNotificationRowPrivate * priv;
 	gint id;
 	gchar* title;
 	gchar* body;
@@ -443,6 +454,11 @@ struct _edwinspireuSMSSQLiteNotificationRow {
 	gchar* img;
 	gchar* snd;
 	gchar* note;
+};
+
+struct _edwinspireuSMSSQLiteNotificationRowClass {
+	GTypeClass parent_class;
+	void (*finalize) (edwinspireuSMSSQLiteNotificationRow *self);
 };
 
 struct _edwinspireuSMSSQliteNotificationsDb {
@@ -745,18 +761,23 @@ void edwinspire_usms_table_row_postgres_free (edwinspireuSMSTableRowPostgres* se
 void edwinspire_usms_table_row_postgres_copy (const edwinspireuSMSTableRowPostgres* self, edwinspireuSMSTableRowPostgres* dest);
 void edwinspire_usms_table_row_postgres_destroy (edwinspireuSMSTableRowPostgres* self);
 void edwinspire_usms_table_row_postgres_init (edwinspireuSMSTableRowPostgres *self);
+gpointer edwinspire_usms_sq_lite_notification_row_ref (gpointer instance);
+void edwinspire_usms_sq_lite_notification_row_unref (gpointer instance);
+GParamSpec* edwinspire_usms_param_spec_sq_lite_notification_row (const gchar* name, const gchar* nick, const gchar* blurb, GType object_type, GParamFlags flags);
+void edwinspire_usms_value_set_sq_lite_notification_row (GValue* value, gpointer v_object);
+void edwinspire_usms_value_take_sq_lite_notification_row (GValue* value, gpointer v_object);
+gpointer edwinspire_usms_value_get_sq_lite_notification_row (const GValue* value);
 GType edwinspire_usms_sq_lite_notification_row_get_type (void) G_GNUC_CONST;
-edwinspireuSMSSQLiteNotificationRow* edwinspire_usms_sq_lite_notification_row_dup (const edwinspireuSMSSQLiteNotificationRow* self);
-void edwinspire_usms_sq_lite_notification_row_free (edwinspireuSMSSQLiteNotificationRow* self);
-void edwinspire_usms_sq_lite_notification_row_copy (const edwinspireuSMSSQLiteNotificationRow* self, edwinspireuSMSSQLiteNotificationRow* dest);
-void edwinspire_usms_sq_lite_notification_row_destroy (edwinspireuSMSSQLiteNotificationRow* self);
-void edwinspire_usms_sq_lite_notification_row_init (edwinspireuSMSSQLiteNotificationRow *self);
+edwinspireuSMSSQLiteNotificationRow* edwinspire_usms_sq_lite_notification_row_new (void);
+edwinspireuSMSSQLiteNotificationRow* edwinspire_usms_sq_lite_notification_row_construct (GType object_type);
 GType edwinspire_usms_sqlite_notifications_db_get_type (void) G_GNUC_CONST;
 edwinspireuSMSSQliteNotificationsDb* edwinspire_usms_sqlite_notifications_db_new (void);
 edwinspireuSMSSQliteNotificationsDb* edwinspire_usms_sqlite_notifications_db_construct (GType object_type);
+gchar* edwinspire_usms_sqlite_notifications_db_notifications_data_to_xml (edwinspireuSMSSQliteNotificationsDb* self, edwinspireuSMSSQLiteNotificationRow* lastRow);
 gchar* edwinspire_usms_sqlite_notifications_db_notifications_row_to_xml (edwinspireuSMSSQliteNotificationsDb* self, edwinspireuSMSSQLiteNotificationRow* lastRow);
-void edwinspire_usms_sqlite_notifications_db_notifications_next (edwinspireuSMSSQliteNotificationsDb* self, gint last, edwinspireuSMSSQLiteNotificationRow* result);
-void edwinspire_usms_sqlite_notifications_db_notifications_last (edwinspireuSMSSQliteNotificationsDb* self, edwinspireuSMSSQLiteNotificationRow* result);
+gchar* edwinspire_usms_sqlite_notifications_db_notifications_next_xml (edwinspireuSMSSQliteNotificationsDb* self, gint last);
+GeeArrayList* edwinspire_usms_sqlite_notifications_db_notifications_next (edwinspireuSMSSQliteNotificationsDb* self, gint last);
+edwinspireuSMSSQLiteNotificationRow* edwinspire_usms_sqlite_notifications_db_notifications_last (edwinspireuSMSSQliteNotificationsDb* self);
 gint64 edwinspire_usms_sqlite_notifications_db_notifications_insert_from_hashmap (edwinspireuSMSSQliteNotificationsDb* self, GeeHashMap* data);
 gint64 edwinspire_usms_sqlite_notifications_db_notifications_insert (edwinspireuSMSSQliteNotificationsDb* self, const gchar* title, const gchar* body, gint urgency, gint timeout, const gchar* img, const gchar* snd, const gchar* note);
 void edwinspire_usms_sqlite_notifications_db_build_table_notifications (edwinspireuSMSSQliteNotificationsDb* self);
