@@ -62,8 +62,125 @@ this.ParamCnx = TablePostgres.LastRowEnabled().Parameters;
 
 }
 
+public struct SIMRow{
+
+public int id;
+public int idprovider;
+public bool enable;
+public string phone;
+public bool smsout_request_reports;
+public int smsout_retryonfail;
+public int smsout_max_length;
+public bool smsout_enabled_other_providers;
+public OnIncomingCall action;
+public string note;
+public bool enable_sendsms;
+public bool enable_readsms;
+public DTMF dtmf_tone;
+public int dtmf_tone_time;
+
+public SIMRow(){
+id = 0;
+idprovider = 0;
+enable = false;
+phone = "";
+smsout_request_reports = false;
+smsout_retryonfail = 0;
+smsout_max_length = 0;
+smsout_enabled_other_providers = false;
+action = OnIncomingCall.Ignore;
+note = "";
+enable_sendsms = false;
+enable_readsms = false;
+dtmf_tone = DTMF.Zero;
+dtmf_tone_time = 0;
+}
+
+}
+
+
 
 public class TableSIM:PostgresuSMS{
+
+public SIMRow byPhone(string phone){
+
+string[] valuessms = {phone};
+SIMRow Retorno = SIMRow();
+
+var  Conexion = Postgres.connect_db (this.ConnString());
+
+if(Conexion.get_status () == ConnectionStatus.OK){
+
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * sim WHERE phone = $1::text",  valuessms);
+
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+
+foreach(var fila in this.Result_FieldName(ref Resultado)){
+Retorno.id = fila["idsim"].as_int();
+Retorno.idprovider = fila["idprovider"].as_int();
+Retorno.enable = fila["enable"].as_bool();
+Retorno.phone = fila["phone"].Value;
+Retorno.smsout_request_reports = fila["smsout_request_reports"].as_bool();
+Retorno.smsout_retryonfail = fila["smsout_retryonfail"].as_int();
+Retorno.smsout_max_length = fila["smsout_max_length"].as_int();
+Retorno.smsout_enabled_other_providers = fila["smsout_enabled_other_providers"].as_bool();
+Retorno.action = (OnIncomingCall)fila["on_incommingcall"].as_int();
+Retorno.note = fila["note"].Value;
+Retorno.enable_sendsms = fila["enable_sendsms"].as_bool();
+Retorno.enable_readsms = fila["enable_readsms"].as_bool();
+Retorno.dtmf_tone = (DTMF) fila["dtmf_tone"].as_int();
+Retorno.dtmf_tone_time = fila["dtmf_tone_time"].as_int();
+}
+
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}
+
+
+return Retorno;
+}
+
+public SIMRow byId(int id){
+
+string[] valuessms = {id.to_string()};
+SIMRow Retorno = SIMRow();
+
+var  Conexion = Postgres.connect_db (this.ConnString());
+
+if(Conexion.get_status () == ConnectionStatus.OK){
+
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * sim WHERE idsim = $1::integer",  valuessms);
+
+    if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
+
+foreach(var fila in this.Result_FieldName(ref Resultado)){
+Retorno.id = fila["idsim"].as_int();
+Retorno.idprovider = fila["idprovider"].as_int();
+Retorno.enable = fila["enable"].as_bool();
+Retorno.phone = fila["phone"].Value;
+Retorno.smsout_request_reports = fila["smsout_request_reports"].as_bool();
+Retorno.smsout_retryonfail = fila["smsout_retryonfail"].as_int();
+Retorno.smsout_max_length = fila["smsout_max_length"].as_int();
+Retorno.smsout_enabled_other_providers = fila["smsout_enabled_other_providers"].as_bool();
+Retorno.action = (OnIncomingCall)fila["on_incommingcall"].as_int();
+Retorno.note = fila["note"].Value;
+Retorno.enable_sendsms = fila["enable_sendsms"].as_bool();
+Retorno.enable_readsms = fila["enable_readsms"].as_bool();
+Retorno.dtmf_tone = (DTMF) fila["dtmf_tone"].as_int();
+Retorno.dtmf_tone_time = fila["dtmf_tone_time"].as_int();
+}
+
+} else{
+	        stderr.printf ("FETCH ALL failed: %s", Conexion.get_error_message ());
+    }
+
+}
+
+
+return Retorno;
+}
 
 public string fun_view_sim_idname_xml(bool fieldtextasbase64 = true){
 string Retorno = "";

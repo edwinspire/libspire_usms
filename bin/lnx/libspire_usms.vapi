@@ -13,13 +13,13 @@ namespace edwinspire {
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class Device : edwinspire.GSM.MODEM.ModemGSM {
 			public int IdPort;
-			public int IdSIM;
+			public edwinspire.uSMS.SIMRow SIM;
 			public uint TimeWindowSleep;
 			public Device ();
 			public void DetectCallID (string phone);
 			public void Kill ();
 			public void SetPort (edwinspire.uSMS.SerialPortConf sp);
-			public void get_idsim ();
+			public void get_sim ();
 			[Description (blurb = "Inserta un evento en la bitacora del proceso", nick = "log")]
 			public int64 log (GLib.LogLevelFlags level, string log);
 			public edwinspire.uSMS.ProcessCtrl Ctrl { get; set; }
@@ -213,6 +213,8 @@ namespace edwinspire {
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TableSIM : edwinspire.uSMS.PostgresuSMS {
 			public TableSIM ();
+			public edwinspire.uSMS.SIMRow byId (int id);
+			public edwinspire.uSMS.SIMRow byPhone (string phone);
 			public string fun_sim_table_edit_xml (int idsim, int idprovider, bool enable, bool enable_sendsms, string phone, bool smsout_request_reports, int smsout_retryonfail, int smsout_max_length, bool smsout_enabled_other_providers, int on_incommingcall, int dtmf_tone, int dtmf_tone_time, string note, bool fieldtextasbase64 = true);
 			public string fun_sim_table_edit_xml_from_hashmap (Gee.HashMap<string,string> Form);
 			public string fun_view_sim_idname_xml (bool fieldtextasbase64 = true);
@@ -307,6 +309,24 @@ namespace edwinspire {
 			public string Address;
 			public string TimeStamp;
 			public PhoneTableRow ();
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
+		public struct SIMRow {
+			public int id;
+			public int idprovider;
+			public bool enable;
+			public string phone;
+			public bool smsout_request_reports;
+			public int smsout_retryonfail;
+			public int smsout_max_length;
+			public bool smsout_enabled_other_providers;
+			public edwinspire.uSMS.OnIncomingCall action;
+			public string note;
+			public bool enable_sendsms;
+			public bool enable_readsms;
+			public edwinspire.Ports.DTMF dtmf_tone;
+			public int dtmf_tone_time;
+			public SIMRow ();
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public struct TableRowPostgres {

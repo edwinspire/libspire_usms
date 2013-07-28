@@ -95,18 +95,19 @@ private ProcessCtrl Control = ProcessCtrl.None;
 public uint TimeWindowSleep = 2000;
 private bool YaFueRun = false;
 private ProcessCtrl ControlOld = ProcessCtrl.None;
-//private TableSMSOut DBaseSMSOut = new TableSMSOut();
+private TableSIM DBaseSIM = new TableSIM();
 private TableSMSIn DBaseSMSIn = new TableSMSIn();
 private TableCallIn DBaseCallIn = new TableCallIn();
 private TableOutgoing DBaseOutgoing = new TableOutgoing();
 
+
 private string FileLogModem = "";
 private StringBuilder TempLog = new StringBuilder(); 
-private bool LlamadaDetectadayAlmacenada = false;
+//private bool LlamadaDetectadayAlmacenada = false;
 private PostgresuSMS DBaseGeneral = new PostgresuSMS();
 private SQliteNotificationsDb NotificationsDb = new SQliteNotificationsDb();
 public int IdPort = 0;
-public int IdSIM = 0;
+public SIMRow SIM = SIMRow();
 
 public void SetPort(SerialPortConf sp){
 
@@ -139,26 +140,44 @@ Run();
 public void DetectCallID(string phone){
 print("Callid = %s\n", phone);
 DBaseCallIn.GetParamCnx();
-//var RegCall = DBaseCallIn.fun_incomingcalls_insert_online(this.IdPort, OnIncomingCall.Ignore, phone.replace("+", ""));
-//print("Registro de llamada: %s\n", RegCall.to_string());
 if(DBaseCallIn.fun_incomingcalls_insert_online(this.IdPort, OnIncomingCall.Ignore, phone.replace("+", ""))>0){
-LlamadaDetectadayAlmacenada = true;
-print("Llamada entrante detectada y almacenda: %s\n", phone);
+//LlamadaDetectadayAlmacenada = true;
+//print("Llamada entrante detectada y almacenda: %s\n", phone);
 NotificationsDb.notifications_insert("Llamada recibida y almacenada del número "+phone, "Llamada recibida y almacenada del número "+phone, 0);
+this.LastCall.Read = true;
+
 }else{
-print("Llamada entrante detectada pero NO pudo ser almacenada: %s\n", phone);
+//print("Llamada entrante detectada pero NO pudo ser almacenada: %s\n", phone);
 NotificationsDb.notifications_insert("Llamada recibida no pudo ser almacenada del número "+phone, "Llamada recibida no pudo ser almacenada del número "+phone, 3);
 }
-
 }
+
 
 private void ActionOnIncomingCall(){
 // Accion a tomar si una llamada ha sido detectada y ya fue almacenada
-if(LlamadaDetectadayAlmacenada){
+if(this.LastCall.Read){
+
+switch(this.SIM.action){
+
+	case OnIncomingCall.Answer:
+this.AcceptCall();
+// Emite los tonos DTMF que se hayan programado.
 this.TerminateCall();
-LlamadaDetectadayAlmacenada = false;
+break;
+	case OnIncomingCall.Refuse:
+this.TerminateCall();
+break;
+	default:
+//  Ingnora la llamada, no hace nada
+break;
+}
+
+//LlamadaDetectadayAlmacenada = false;
+}else{
+// TODO: Crear una funcion en postgres que permita almacenar llamadas con fecha.
 }
 }
+
 
 private string logFile(){
 return this.Port.replace("/", "_").replace(":", "_")+".sqlite";
@@ -177,28 +196,30 @@ this.Run();
 }
 }
 
-public void get_idsim(){
+
+public void get_sim(){
+DBaseSIM.GetParamCnx();
 // Seleccionamos el PhoneBook de la SIM
 this.CPBS_Set(PhoneBookMemoryStorage.SM);
 // Buscamos el primer contacto usms y el numero telefónico almacenados en los contactos de la SIM
 foreach(var x in this.CPBF("usms")){
 stdout.printf ("PB: Index: %i - Number: %s - Type: %i - Name: %s\n", x.Index, x.Number, x.Type, x.Name);
 // Segun el numero telefonico buscamos en la base de datos el idsim, si no existe se lo crea.
-this.IdSIM = DBaseGeneral.fun_get_idsim(x.Number);
+this.SIM = DBaseSIM.byPhone(x.Number);
 break;
 }
 
-if(this.IdSIM <= 0){
+if(SIM.id <= 0){
 foreach(var x in this.CPBF("USMS")){
 stdout.printf ("PB: Index: %i - Number: %s - Type: %i - Name: %s\n", x.Index, x.Number, x.Type, x.Name);
 // Segun el numero telefonico buscamos en la base de datos el idsim, si no existe se lo crea.
-this.IdSIM = DBaseGeneral.fun_get_idsim(x.Number);
+this.SIM = DBaseSIM.byPhone(x.Number);
 break;
 }
 }
 
 
-if(this.IdSIM <= 0){
+if(SIM.id <= 0){
 warning("IdSIM no se pudo obtener de los contactos de la tarjeta SIM");
 }
 }
@@ -356,7 +377,7 @@ round = 0;
 
 // Cada 20 vueltas obtiene las caracteristica del modem y demas datos
 if(round == 0){
-this.get_idsim();
+this.get_sim();
 this.StringInit();
 this.GetFeatures();
 this.CLIP(true);
@@ -464,18 +485,18 @@ this.CMGD(X);
 private void SendSMS(){
 
 ActionOnIncomingCall();
-var SMS = DBaseOutgoing.ToSend(this.IdSIM);
+var SMS = DBaseOutgoing.ToSend(this.SIM.id);
 
 //GLib.print("SMS.size.size => %s\n", SMS.size.to_string());
 
 if(SMS.size>0){
 //GLib.print("SMS[_idsmsout] => %i\n", SMS["_idsmsout"].as_int());
-GLib.print("IdSIM => %i\n", this.IdSIM);
+GLib.print("IdSIM => %i\n", this.SIM.id);
 if(SMS["_idsmsout"].as_int()>0){
 
 ActionOnIncomingCall();
 //GLib.print("SMS[_phone] => %s\n", SMS["_phone"].Value);
-DBaseOutgoing.log(SMS["_idsmsout"].as_int(), this.IdSIM, SMSOutStatus.StartSending, 0, 0);
+DBaseOutgoing.log(SMS["_idsmsout"].as_int(), this.SIM.id, SMSOutStatus.StartSending, 0, 0);
 var msgsEnviados = this.SMS_SEND_ON_SLICES(SMS["_phone"].Value, SMS["_message"].Value, SMS["_report"].as_bool(), SMS["_enablemessageclass"].as_bool(), (edwinspire.PDU.DCS_MESSAGE_CLASS)SMS["_messageclass"].as_int(), SMS["_maxparts"].as_int());
 
 int i = 1;
@@ -485,16 +506,16 @@ foreach(var id in msgsEnviados){
 GLib.print("CMGS => %i\n", id);
 ActionOnIncomingCall();
 if(id>0){
-DBaseOutgoing.log(SMS["_idsmsout"].as_int(), this.IdSIM, SMSOutStatus.Sent, partes, i);
+DBaseOutgoing.log(SMS["_idsmsout"].as_int(), this.SIM.id, SMSOutStatus.Sent, partes, i);
 NotificationsDb.notifications_insert("El mensaje ENVIADO", "El mensaje enviado", 0);
 }else{
-DBaseOutgoing.log(SMS["_idsmsout"].as_int(), this.IdSIM, SMSOutStatus.UnSent, partes, i);
+DBaseOutgoing.log(SMS["_idsmsout"].as_int(), this.SIM.id, SMSOutStatus.UnSent, partes, i);
 NotificationsDb.notifications_insert("El mensaje no pudo ser enviado", "El mensaje no pudo ser enviadoXXX", 3);
 }
 i++;
 }
 
-DBaseOutgoing.log(SMS["_idsmsout"].as_int(), this.IdSIM, SMSOutStatus.EndsSending, 0, 0);
+DBaseOutgoing.log(SMS["_idsmsout"].as_int(), this.SIM.id, SMSOutStatus.EndsSending, 0, 0);
 
 }
 }

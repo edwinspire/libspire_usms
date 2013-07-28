@@ -38,6 +38,9 @@ typedef struct _edwinspireuSMSDevice edwinspireuSMSDevice;
 typedef struct _edwinspireuSMSDeviceClass edwinspireuSMSDeviceClass;
 typedef struct _edwinspireuSMSDevicePrivate edwinspireuSMSDevicePrivate;
 
+#define EDWINSPIRE_USMS_TYPE_SIM_ROW (edwinspire_usms_sim_row_get_type ())
+typedef struct _edwinspireuSMSSIMRow edwinspireuSMSSIMRow;
+
 #define EDWINSPIRE_USMS_TYPE_SERIAL_PORT_CONF (edwinspire_usms_serial_port_conf_get_type ())
 #define EDWINSPIRE_USMS_SERIAL_PORT_CONF(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_SERIAL_PORT_CONF, edwinspireuSMSSerialPortConf))
 #define EDWINSPIRE_USMS_SERIAL_PORT_CONF_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_SERIAL_PORT_CONF, edwinspireuSMSSerialPortConfClass))
@@ -387,12 +390,29 @@ typedef enum  {
 	EDWINSPIRE_USMS_PROCESS_CTRL_Killed
 } edwinspireuSMSProcessCtrl;
 
+struct _edwinspireuSMSSIMRow {
+	gint id;
+	gint idprovider;
+	gboolean enable;
+	gchar* phone;
+	gboolean smsout_request_reports;
+	gint smsout_retryonfail;
+	gint smsout_max_length;
+	gboolean smsout_enabled_other_providers;
+	edwinspireuSMSOnIncomingCall action;
+	gchar* note;
+	gboolean enable_sendsms;
+	gboolean enable_readsms;
+	edwinspirePortsDTMF dtmf_tone;
+	gint dtmf_tone_time;
+};
+
 struct _edwinspireuSMSDevice {
 	edwinspireGSMMODEMModemGSM parent_instance;
 	edwinspireuSMSDevicePrivate * priv;
 	guint TimeWindowSleep;
 	gint IdPort;
-	gint IdSIM;
+	edwinspireuSMSSIMRow SIM;
 };
 
 struct _edwinspireuSMSDeviceClass {
@@ -722,10 +742,15 @@ GType edwinspire_usms_sms_out_status_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_on_incoming_call_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_process_ctrl_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_device_get_type (void) G_GNUC_CONST;
+GType edwinspire_usms_sim_row_get_type (void) G_GNUC_CONST;
+edwinspireuSMSSIMRow* edwinspire_usms_sim_row_dup (const edwinspireuSMSSIMRow* self);
+void edwinspire_usms_sim_row_free (edwinspireuSMSSIMRow* self);
+void edwinspire_usms_sim_row_copy (const edwinspireuSMSSIMRow* self, edwinspireuSMSSIMRow* dest);
+void edwinspire_usms_sim_row_destroy (edwinspireuSMSSIMRow* self);
 GType edwinspire_usms_serial_port_conf_get_type (void) G_GNUC_CONST;
 void edwinspire_usms_device_SetPort (edwinspireuSMSDevice* self, edwinspireuSMSSerialPortConf* sp);
 void edwinspire_usms_device_DetectCallID (edwinspireuSMSDevice* self, const gchar* phone);
-void edwinspire_usms_device_get_idsim (edwinspireuSMSDevice* self);
+void edwinspire_usms_device_get_sim (edwinspireuSMSDevice* self);
 void edwinspire_usms_device_Kill (edwinspireuSMSDevice* self);
 gint64 edwinspire_usms_device_log (edwinspireuSMSDevice* self, GLogLevelFlags level, const gchar* log);
 edwinspireuSMSDevice* edwinspire_usms_device_new (void);
@@ -817,8 +842,11 @@ GType edwinspire_usms_postgre_sql_connection_get_type (void) G_GNUC_CONST;
 void edwinspire_usms_postgre_sql_connection_GetParamCnx (edwinspireuSMSPostgreSQLConnection* self);
 edwinspireuSMSPostgreSQLConnection* edwinspire_usms_postgre_sql_connection_new (void);
 edwinspireuSMSPostgreSQLConnection* edwinspire_usms_postgre_sql_connection_construct (GType object_type);
+void edwinspire_usms_sim_row_init (edwinspireuSMSSIMRow *self);
 GType edwinspire_usms_postgresu_sms_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_table_sim_get_type (void) G_GNUC_CONST;
+void edwinspire_usms_table_sim_byPhone (edwinspireuSMSTableSIM* self, const gchar* phone, edwinspireuSMSSIMRow* result);
+void edwinspire_usms_table_sim_byId (edwinspireuSMSTableSIM* self, gint id, edwinspireuSMSSIMRow* result);
 gchar* edwinspire_usms_table_sim_fun_view_sim_idname_xml (edwinspireuSMSTableSIM* self, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_table_sim_fun_view_sim_xml (edwinspireuSMSTableSIM* self, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_table_sim_fun_sim_table_edit_xml (edwinspireuSMSTableSIM* self, gint idsim, gint idprovider, gboolean enable, gboolean enable_sendsms, const gchar* phone, gboolean smsout_request_reports, gint smsout_retryonfail, gint smsout_max_length, gboolean smsout_enabled_other_providers, gint on_incommingcall, gint dtmf_tone, gint dtmf_tone_time, const gchar* note, gboolean fieldtextasbase64);
