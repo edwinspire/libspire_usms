@@ -138,17 +138,18 @@ Run();
 }
 
 public void DetectCallID(string phone){
+this.get_sim();
 print("Callid = %s\n", phone);
 DBaseCallIn.GetParamCnx();
-if(DBaseCallIn.fun_incomingcalls_insert_online(this.IdPort, OnIncomingCall.Ignore, phone.replace("+", ""))>0){
+if(DBaseCallIn.fun_incomingcalls_insert_online(this.IdPort, this.SIM.action, phone.replace("+", ""))>0){
 //LlamadaDetectadayAlmacenada = true;
 //print("Llamada entrante detectada y almacenda: %s\n", phone);
-NotificationsDb.notifications_insert("Llamada recibida y almacenada del número "+phone, "Llamada recibida y almacenada del número "+phone, 0);
+NotificationsDb.notifications_insert("Llamada entrante del número "+phone+", fue almacenada y será "+this.SIM.action.to_string(), "Llamada entrante del número "+phone+", fue almacenada y será "+this.SIM.action.to_string(), 0);
 this.LastCall.Read = true;
 
 }else{
 //print("Llamada entrante detectada pero NO pudo ser almacenada: %s\n", phone);
-NotificationsDb.notifications_insert("Llamada recibida no pudo ser almacenada del número "+phone, "Llamada recibida no pudo ser almacenada del número "+phone, 3);
+NotificationsDb.notifications_insert("Llamada entrante del número "+phone+", fue almacenada y será "+this.SIM.action.to_string(), "Llamada entrante del número "+phone+", fue almacenada y será "+this.SIM.action.to_string(), 3);
 }
 }
 
@@ -157,11 +158,22 @@ private void ActionOnIncomingCall(){
 // Accion a tomar si una llamada ha sido detectada y ya fue almacenada
 if(this.LastCall.Read){
 
+DBaseSIM.GetParamCnx();
+this.SIM = DBaseSIM.byId(this.SIM.id);
+
+//print("%s\n", this.SIM.action.to_string());
+
 switch(this.SIM.action){
 
 	case OnIncomingCall.Answer:
 this.AcceptCall();
-// Emite los tonos DTMF que se hayan programado.
+// Configura el tono que va a durar el tono
+this.VTD(this.SIM.dtmf_tone_time*10);
+// Envia el tono DTMF
+this.DTMF_Tone_Generation(this.SIM.dtmf_tone);
+// Espera el tiempo que se ha programado para emitir el tono
+Thread.usleep(1000*this.SIM.dtmf_tone_time);
+// Finaliza la llamada
 this.TerminateCall();
 break;
 	case OnIncomingCall.Refuse:
@@ -171,8 +183,7 @@ break;
 //  Ingnora la llamada, no hace nada
 break;
 }
-
-//LlamadaDetectadayAlmacenada = false;
+this.LastCall.Read = false;
 }else{
 // TODO: Crear una funcion en postgres que permita almacenar llamadas con fecha.
 }

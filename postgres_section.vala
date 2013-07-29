@@ -111,7 +111,7 @@ var  Conexion = Postgres.connect_db (this.ConnString());
 
 if(Conexion.get_status () == ConnectionStatus.OK){
 
-var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * sim WHERE phone = $1::text",  valuessms);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM sim WHERE phone = $1::text",  valuessms);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
@@ -151,7 +151,7 @@ var  Conexion = Postgres.connect_db (this.ConnString());
 
 if(Conexion.get_status () == ConnectionStatus.OK){
 
-var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * sim WHERE idsim = $1::integer",  valuessms);
+var Resultado = this.exec_params_minimal (ref Conexion, "SELECT * FROM sim WHERE idsim = $1::integer",  valuessms);
 
     if (Resultado.get_status () == ExecStatus.TUPLES_OK) {
 
