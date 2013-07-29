@@ -161,8 +161,6 @@ if(this.LastCall.Read){
 DBaseSIM.GetParamCnx();
 this.SIM = DBaseSIM.byId(this.SIM.id);
 
-//print("%s\n", this.SIM.action.to_string());
-
 switch(this.SIM.action){
 
 	case OnIncomingCall.Answer:
@@ -172,7 +170,7 @@ this.VTD(this.SIM.dtmf_tone_time*10);
 // Envia el tono DTMF
 this.DTMF_Tone_Generation(this.SIM.dtmf_tone);
 // Espera el tiempo que se ha programado para emitir el tono
-Thread.usleep(1000*this.SIM.dtmf_tone_time);
+Thread.usleep(1000*this.SIM.dtmf_tone_time*1000);
 // Finaliza la llamada
 this.TerminateCall();
 break;
@@ -518,10 +516,10 @@ GLib.print("CMGS => %i\n", id);
 ActionOnIncomingCall();
 if(id>0){
 DBaseOutgoing.log(SMS["_idsmsout"].as_int(), this.SIM.id, SMSOutStatus.Sent, partes, i);
-NotificationsDb.notifications_insert("El mensaje ENVIADO", "El mensaje enviado", 0);
+NotificationsDb.notifications_insert("El mensaje ENVIADO", "El mensaje enviado "+SMS["_message"].Value, 0);
 }else{
 DBaseOutgoing.log(SMS["_idsmsout"].as_int(), this.SIM.id, SMSOutStatus.UnSent, partes, i);
-NotificationsDb.notifications_insert("El mensaje no pudo ser enviado", "El mensaje no pudo ser enviadoXXX", 3);
+NotificationsDb.notifications_insert("El mensaje no pudo ser enviado", "El mensaje no pudo ser enviado "+SMS["_message"].Value, 3);
 }
 i++;
 }

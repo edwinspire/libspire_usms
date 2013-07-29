@@ -13,13 +13,13 @@ namespace edwinspire {
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class Device : edwinspire.GSM.MODEM.ModemGSM {
 			public int IdPort;
-			public int IdSIM;
+			public edwinspire.uSMS.SIMRow SIM;
 			public uint TimeWindowSleep;
 			public Device ();
 			public void DetectCallID (string phone);
 			public void Kill ();
 			public void SetPort (edwinspire.uSMS.SerialPortConf sp);
-			public void get_idsim ();
+			public void get_sim ();
 			[Description (blurb = "Inserta un evento en la bitacora del proceso", nick = "log")]
 			public int64 log (GLib.LogLevelFlags level, string log);
 			public edwinspire.uSMS.ProcessCtrl Ctrl { get; set; }
@@ -42,6 +42,7 @@ namespace edwinspire {
 			public string fun_phones_address_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
 			public string fun_phones_table_xml (int inidphone, int inidcontact, bool inenable, string inphone, int intypephone, int inidprovider, string inphone_ext, int inidaddress, int inubiphone, string innote, string ints, bool fieldtextasbase64 = true);
 			public string fun_phones_table_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
+			public string fun_view_contacts_phones_with_search_xml (string contact_phone_search, string exclude_idphones, bool fieldtextasbase64 = true);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class PostgreSQLConnection : edwinspire.pgSQL.PostgreSqldb {
@@ -67,7 +68,7 @@ namespace edwinspire {
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class ProviderTable : edwinspire.uSMS.PostgreSQLConnection {
 			public ProviderTable ();
-			public string fun_provider_edit_xml (int inidprovider, bool inenable, string incimi, string inname, string innote, string ints, bool fieldtextasbase64 = true);
+			public string fun_provider_edit_xml (int inidprovider, bool inenable, string inname, string innote, string ints, bool fieldtextasbase64 = true);
 			public string fun_provider_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
 			public string fun_view_provider_table_xml (bool fieldtextasbase64 = true);
 			public string idname_Xml (bool fieldtextasbase64 = true);
@@ -102,6 +103,30 @@ namespace edwinspire {
 			public int retryonfail { get; set; }
 			public int slices { get; set; }
 			public int slicessent { get; set; }
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
+		public class SQLiteNotificationRow {
+			public string body;
+			public int id;
+			public string img;
+			public string note;
+			public string snd;
+			public int timeout;
+			public string title;
+			public int urgency;
+			public SQLiteNotificationRow ();
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
+		public class SQliteNotificationsDb : GLib.Object {
+			public SQliteNotificationsDb ();
+			public void build_table_notifications ();
+			public string notifications_data_to_xml (edwinspire.uSMS.SQLiteNotificationRow lastRow);
+			public int64 notifications_insert (string title, string body = "", int urgency = 0, int timeout = 10, string img = "", string snd = "", string note = "");
+			public int64 notifications_insert_from_hashmap (Gee.HashMap<string,string> data);
+			public edwinspire.uSMS.SQLiteNotificationRow notifications_last ();
+			public Gee.ArrayList<edwinspire.uSMS.SQLiteNotificationRow> notifications_next (int last);
+			public string notifications_next_xml (int last);
+			public string notifications_row_to_xml (edwinspire.uSMS.SQLiteNotificationRow lastRow);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class SerialPortConf : edwinspire.Ports.Configure {
@@ -183,11 +208,14 @@ namespace edwinspire {
 		public class TableProvider : edwinspire.uSMS.PostgresuSMS {
 			public TableProvider ();
 			public int IdProviderFromCIMI (string cimi);
+			public string fun_provider_delete_selection_xml (string idproviders, bool fieldtextasbase64 = true);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TableSIM : edwinspire.uSMS.PostgresuSMS {
 			public TableSIM ();
-			public string fun_sim_table_edit_xml (int idsim, int idprovider, bool enable, string phone, bool smsout_request_reports, int smsout_retryonfail, int smsout_max_length, int smsout_max_lifetime, bool smsout_enabled_other_providers, int idmodem, int on_incommingcall, string note, bool fieldtextasbase64 = true);
+			public edwinspire.uSMS.SIMRow byId (int id);
+			public edwinspire.uSMS.SIMRow byPhone (string phone);
+			public string fun_sim_table_edit_xml (int idsim, int idprovider, bool enable, bool enable_sendsms, string phone, bool smsout_request_reports, int smsout_retryonfail, int smsout_max_length, bool smsout_enabled_other_providers, int on_incommingcall, int dtmf_tone, int dtmf_tone_time, string note, bool fieldtextasbase64 = true);
 			public string fun_sim_table_edit_xml_from_hashmap (Gee.HashMap<string,string> Form);
 			public string fun_view_sim_idname_xml (bool fieldtextasbase64 = true);
 			public string fun_view_sim_xml (bool fieldtextasbase64 = true);
@@ -283,6 +311,24 @@ namespace edwinspire {
 			public PhoneTableRow ();
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
+		public struct SIMRow {
+			public int id;
+			public int idprovider;
+			public bool enable;
+			public string phone;
+			public bool smsout_request_reports;
+			public int smsout_retryonfail;
+			public int smsout_max_length;
+			public bool smsout_enabled_other_providers;
+			public edwinspire.uSMS.OnIncomingCall action;
+			public string note;
+			public bool enable_sendsms;
+			public bool enable_readsms;
+			public edwinspire.Ports.DTMF dtmf_tone;
+			public int dtmf_tone_time;
+			public SIMRow ();
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
 		public struct TableRowPostgres {
 			public edwinspire.pgSQL.ConnectionParameters Parameters;
 			public string Note;
@@ -339,7 +385,7 @@ namespace edwinspire {
 			owner
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
-		public const string FILECONF;
+		public const string FILE_CONF;
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public const string VERSION;
 	}

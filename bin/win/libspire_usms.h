@@ -38,6 +38,9 @@ typedef struct _edwinspireuSMSDevice edwinspireuSMSDevice;
 typedef struct _edwinspireuSMSDeviceClass edwinspireuSMSDeviceClass;
 typedef struct _edwinspireuSMSDevicePrivate edwinspireuSMSDevicePrivate;
 
+#define EDWINSPIRE_USMS_TYPE_SIM_ROW (edwinspire_usms_sim_row_get_type ())
+typedef struct _edwinspireuSMSSIMRow edwinspireuSMSSIMRow;
+
 #define EDWINSPIRE_USMS_TYPE_SERIAL_PORT_CONF (edwinspire_usms_serial_port_conf_get_type ())
 #define EDWINSPIRE_USMS_SERIAL_PORT_CONF(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_SERIAL_PORT_CONF, edwinspireuSMSSerialPortConf))
 #define EDWINSPIRE_USMS_SERIAL_PORT_CONF_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_SERIAL_PORT_CONF, edwinspireuSMSSerialPortConfClass))
@@ -75,6 +78,28 @@ typedef struct _edwinspireuSMSuSMSServerPrivate edwinspireuSMSuSMSServerPrivate;
 
 #define EDWINSPIRE_USMS_TYPE_TABLE_ROW_POSTGRES (edwinspire_usms_table_row_postgres_get_type ())
 typedef struct _edwinspireuSMSTableRowPostgres edwinspireuSMSTableRowPostgres;
+
+#define EDWINSPIRE_USMS_TYPE_SQ_LITE_NOTIFICATION_ROW (edwinspire_usms_sq_lite_notification_row_get_type ())
+#define EDWINSPIRE_USMS_SQ_LITE_NOTIFICATION_ROW(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_SQ_LITE_NOTIFICATION_ROW, edwinspireuSMSSQLiteNotificationRow))
+#define EDWINSPIRE_USMS_SQ_LITE_NOTIFICATION_ROW_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_SQ_LITE_NOTIFICATION_ROW, edwinspireuSMSSQLiteNotificationRowClass))
+#define EDWINSPIRE_USMS_IS_SQ_LITE_NOTIFICATION_ROW(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_SQ_LITE_NOTIFICATION_ROW))
+#define EDWINSPIRE_USMS_IS_SQ_LITE_NOTIFICATION_ROW_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_SQ_LITE_NOTIFICATION_ROW))
+#define EDWINSPIRE_USMS_SQ_LITE_NOTIFICATION_ROW_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_SQ_LITE_NOTIFICATION_ROW, edwinspireuSMSSQLiteNotificationRowClass))
+
+typedef struct _edwinspireuSMSSQLiteNotificationRow edwinspireuSMSSQLiteNotificationRow;
+typedef struct _edwinspireuSMSSQLiteNotificationRowClass edwinspireuSMSSQLiteNotificationRowClass;
+typedef struct _edwinspireuSMSSQLiteNotificationRowPrivate edwinspireuSMSSQLiteNotificationRowPrivate;
+
+#define EDWINSPIRE_USMS_TYPE_SQLITE_NOTIFICATIONS_DB (edwinspire_usms_sqlite_notifications_db_get_type ())
+#define EDWINSPIRE_USMS_SQLITE_NOTIFICATIONS_DB(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_SQLITE_NOTIFICATIONS_DB, edwinspireuSMSSQliteNotificationsDb))
+#define EDWINSPIRE_USMS_SQLITE_NOTIFICATIONS_DB_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_SQLITE_NOTIFICATIONS_DB, edwinspireuSMSSQliteNotificationsDbClass))
+#define EDWINSPIRE_USMS_IS_SQLITE_NOTIFICATIONS_DB(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_SQLITE_NOTIFICATIONS_DB))
+#define EDWINSPIRE_USMS_IS_SQLITE_NOTIFICATIONS_DB_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_SQLITE_NOTIFICATIONS_DB))
+#define EDWINSPIRE_USMS_SQLITE_NOTIFICATIONS_DB_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_SQLITE_NOTIFICATIONS_DB, edwinspireuSMSSQliteNotificationsDbClass))
+
+typedef struct _edwinspireuSMSSQliteNotificationsDb edwinspireuSMSSQliteNotificationsDb;
+typedef struct _edwinspireuSMSSQliteNotificationsDbClass edwinspireuSMSSQliteNotificationsDbClass;
+typedef struct _edwinspireuSMSSQliteNotificationsDbPrivate edwinspireuSMSSQliteNotificationsDbPrivate;
 
 #define EDWINSPIRE_USMS_TYPE_TABLE_POSTGRES (edwinspire_usms_table_postgres_get_type ())
 #define EDWINSPIRE_USMS_TABLE_POSTGRES(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_TABLE_POSTGRES, edwinspireuSMSTablePostgres))
@@ -365,12 +390,29 @@ typedef enum  {
 	EDWINSPIRE_USMS_PROCESS_CTRL_Killed
 } edwinspireuSMSProcessCtrl;
 
+struct _edwinspireuSMSSIMRow {
+	gint id;
+	gint idprovider;
+	gboolean enable;
+	gchar* phone;
+	gboolean smsout_request_reports;
+	gint smsout_retryonfail;
+	gint smsout_max_length;
+	gboolean smsout_enabled_other_providers;
+	edwinspireuSMSOnIncomingCall action;
+	gchar* note;
+	gboolean enable_sendsms;
+	gboolean enable_readsms;
+	edwinspirePortsDTMF dtmf_tone;
+	gint dtmf_tone_time;
+};
+
 struct _edwinspireuSMSDevice {
 	edwinspireGSMMODEMModemGSM parent_instance;
 	edwinspireuSMSDevicePrivate * priv;
 	guint TimeWindowSleep;
 	gint IdPort;
-	gint IdSIM;
+	edwinspireuSMSSIMRow SIM;
 };
 
 struct _edwinspireuSMSDeviceClass {
@@ -418,6 +460,34 @@ struct _edwinspireuSMSTableRowPostgres {
 	gchar* Note;
 	gint64 Id;
 	gboolean Enable;
+};
+
+struct _edwinspireuSMSSQLiteNotificationRow {
+	GTypeInstance parent_instance;
+	volatile int ref_count;
+	edwinspireuSMSSQLiteNotificationRowPrivate * priv;
+	gint id;
+	gchar* title;
+	gchar* body;
+	gint urgency;
+	gint timeout;
+	gchar* img;
+	gchar* snd;
+	gchar* note;
+};
+
+struct _edwinspireuSMSSQLiteNotificationRowClass {
+	GTypeClass parent_class;
+	void (*finalize) (edwinspireuSMSSQLiteNotificationRow *self);
+};
+
+struct _edwinspireuSMSSQliteNotificationsDb {
+	GObject parent_instance;
+	edwinspireuSMSSQliteNotificationsDbPrivate * priv;
+};
+
+struct _edwinspireuSMSSQliteNotificationsDbClass {
+	GObjectClass parent_class;
 };
 
 struct _edwinspireuSMSTablePostgres {
@@ -672,10 +742,15 @@ GType edwinspire_usms_sms_out_status_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_on_incoming_call_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_process_ctrl_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_device_get_type (void) G_GNUC_CONST;
+GType edwinspire_usms_sim_row_get_type (void) G_GNUC_CONST;
+edwinspireuSMSSIMRow* edwinspire_usms_sim_row_dup (const edwinspireuSMSSIMRow* self);
+void edwinspire_usms_sim_row_free (edwinspireuSMSSIMRow* self);
+void edwinspire_usms_sim_row_copy (const edwinspireuSMSSIMRow* self, edwinspireuSMSSIMRow* dest);
+void edwinspire_usms_sim_row_destroy (edwinspireuSMSSIMRow* self);
 GType edwinspire_usms_serial_port_conf_get_type (void) G_GNUC_CONST;
 void edwinspire_usms_device_SetPort (edwinspireuSMSDevice* self, edwinspireuSMSSerialPortConf* sp);
 void edwinspire_usms_device_DetectCallID (edwinspireuSMSDevice* self, const gchar* phone);
-void edwinspire_usms_device_get_idsim (edwinspireuSMSDevice* self);
+void edwinspire_usms_device_get_sim (edwinspireuSMSDevice* self);
 void edwinspire_usms_device_Kill (edwinspireuSMSDevice* self);
 gint64 edwinspire_usms_device_log (edwinspireuSMSDevice* self, GLogLevelFlags level, const gchar* log);
 edwinspireuSMSDevice* edwinspire_usms_device_new (void);
@@ -704,13 +779,33 @@ gboolean edwinspire_usms_usms_server_connection_handler_virtual_usms (edwinspire
 void edwinspire_usms_usms_server_runuSMS (edwinspireuSMSuSMSServer* self);
 edwinspireuSMSuSMSServer* edwinspire_usms_usms_server_new (void);
 edwinspireuSMSuSMSServer* edwinspire_usms_usms_server_construct (GType object_type);
-#define EDWINSPIRE_USMS_FILECONF "usmsd.sqlite"
+#define EDWINSPIRE_USMS_FILE_CONF "usmsd.sqlite"
 GType edwinspire_usms_table_row_postgres_get_type (void) G_GNUC_CONST;
 edwinspireuSMSTableRowPostgres* edwinspire_usms_table_row_postgres_dup (const edwinspireuSMSTableRowPostgres* self);
 void edwinspire_usms_table_row_postgres_free (edwinspireuSMSTableRowPostgres* self);
 void edwinspire_usms_table_row_postgres_copy (const edwinspireuSMSTableRowPostgres* self, edwinspireuSMSTableRowPostgres* dest);
 void edwinspire_usms_table_row_postgres_destroy (edwinspireuSMSTableRowPostgres* self);
 void edwinspire_usms_table_row_postgres_init (edwinspireuSMSTableRowPostgres *self);
+gpointer edwinspire_usms_sq_lite_notification_row_ref (gpointer instance);
+void edwinspire_usms_sq_lite_notification_row_unref (gpointer instance);
+GParamSpec* edwinspire_usms_param_spec_sq_lite_notification_row (const gchar* name, const gchar* nick, const gchar* blurb, GType object_type, GParamFlags flags);
+void edwinspire_usms_value_set_sq_lite_notification_row (GValue* value, gpointer v_object);
+void edwinspire_usms_value_take_sq_lite_notification_row (GValue* value, gpointer v_object);
+gpointer edwinspire_usms_value_get_sq_lite_notification_row (const GValue* value);
+GType edwinspire_usms_sq_lite_notification_row_get_type (void) G_GNUC_CONST;
+edwinspireuSMSSQLiteNotificationRow* edwinspire_usms_sq_lite_notification_row_new (void);
+edwinspireuSMSSQLiteNotificationRow* edwinspire_usms_sq_lite_notification_row_construct (GType object_type);
+GType edwinspire_usms_sqlite_notifications_db_get_type (void) G_GNUC_CONST;
+edwinspireuSMSSQliteNotificationsDb* edwinspire_usms_sqlite_notifications_db_new (void);
+edwinspireuSMSSQliteNotificationsDb* edwinspire_usms_sqlite_notifications_db_construct (GType object_type);
+gchar* edwinspire_usms_sqlite_notifications_db_notifications_data_to_xml (edwinspireuSMSSQliteNotificationsDb* self, edwinspireuSMSSQLiteNotificationRow* lastRow);
+gchar* edwinspire_usms_sqlite_notifications_db_notifications_row_to_xml (edwinspireuSMSSQliteNotificationsDb* self, edwinspireuSMSSQLiteNotificationRow* lastRow);
+gchar* edwinspire_usms_sqlite_notifications_db_notifications_next_xml (edwinspireuSMSSQliteNotificationsDb* self, gint last);
+GeeArrayList* edwinspire_usms_sqlite_notifications_db_notifications_next (edwinspireuSMSSQliteNotificationsDb* self, gint last);
+edwinspireuSMSSQLiteNotificationRow* edwinspire_usms_sqlite_notifications_db_notifications_last (edwinspireuSMSSQliteNotificationsDb* self);
+gint64 edwinspire_usms_sqlite_notifications_db_notifications_insert_from_hashmap (edwinspireuSMSSQliteNotificationsDb* self, GeeHashMap* data);
+gint64 edwinspire_usms_sqlite_notifications_db_notifications_insert (edwinspireuSMSSQliteNotificationsDb* self, const gchar* title, const gchar* body, gint urgency, gint timeout, const gchar* img, const gchar* snd, const gchar* note);
+void edwinspire_usms_sqlite_notifications_db_build_table_notifications (edwinspireuSMSSQliteNotificationsDb* self);
 GType edwinspire_usms_table_postgres_get_type (void) G_GNUC_CONST;
 edwinspireuSMSTablePostgres* edwinspire_usms_table_postgres_new (void);
 edwinspireuSMSTablePostgres* edwinspire_usms_table_postgres_construct (GType object_type);
@@ -747,11 +842,14 @@ GType edwinspire_usms_postgre_sql_connection_get_type (void) G_GNUC_CONST;
 void edwinspire_usms_postgre_sql_connection_GetParamCnx (edwinspireuSMSPostgreSQLConnection* self);
 edwinspireuSMSPostgreSQLConnection* edwinspire_usms_postgre_sql_connection_new (void);
 edwinspireuSMSPostgreSQLConnection* edwinspire_usms_postgre_sql_connection_construct (GType object_type);
+void edwinspire_usms_sim_row_init (edwinspireuSMSSIMRow *self);
 GType edwinspire_usms_postgresu_sms_get_type (void) G_GNUC_CONST;
 GType edwinspire_usms_table_sim_get_type (void) G_GNUC_CONST;
+void edwinspire_usms_table_sim_byPhone (edwinspireuSMSTableSIM* self, const gchar* phone, edwinspireuSMSSIMRow* result);
+void edwinspire_usms_table_sim_byId (edwinspireuSMSTableSIM* self, gint id, edwinspireuSMSSIMRow* result);
 gchar* edwinspire_usms_table_sim_fun_view_sim_idname_xml (edwinspireuSMSTableSIM* self, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_table_sim_fun_view_sim_xml (edwinspireuSMSTableSIM* self, gboolean fieldtextasbase64);
-gchar* edwinspire_usms_table_sim_fun_sim_table_edit_xml (edwinspireuSMSTableSIM* self, gint idsim, gint idprovider, gboolean enable, const gchar* phone, gboolean smsout_request_reports, gint smsout_retryonfail, gint smsout_max_length, gint smsout_max_lifetime, gboolean smsout_enabled_other_providers, gint idmodem, gint on_incommingcall, const gchar* note, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_table_sim_fun_sim_table_edit_xml (edwinspireuSMSTableSIM* self, gint idsim, gint idprovider, gboolean enable, gboolean enable_sendsms, const gchar* phone, gboolean smsout_request_reports, gint smsout_retryonfail, gint smsout_max_length, gboolean smsout_enabled_other_providers, gint on_incommingcall, gint dtmf_tone, gint dtmf_tone_time, const gchar* note, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_table_sim_fun_sim_table_edit_xml_from_hashmap (edwinspireuSMSTableSIM* self, GeeHashMap* Form);
 edwinspireuSMSTableSIM* edwinspire_usms_table_sim_new (void);
 edwinspireuSMSTableSIM* edwinspire_usms_table_sim_construct (GType object_type);
@@ -763,6 +861,7 @@ gint edwinspire_usms_postgresu_sms_fun_currentportsproviders_insertupdate (edwin
 GType edwinspire_usms_table_provider_get_type (void) G_GNUC_CONST;
 edwinspireuSMSTableProvider* edwinspire_usms_table_provider_new (void);
 edwinspireuSMSTableProvider* edwinspire_usms_table_provider_construct (GType object_type);
+gchar* edwinspire_usms_table_provider_fun_provider_delete_selection_xml (edwinspireuSMSTableProvider* self, const gchar* idproviders, gboolean fieldtextasbase64);
 gint edwinspire_usms_table_provider_IdProviderFromCIMI (edwinspireuSMSTableProvider* self, const gchar* cimi);
 GType edwinspire_usms_sms_out_row_get_type (void) G_GNUC_CONST;
 edwinspireuSMSSMSOutRow* edwinspire_usms_sms_out_row_new (void);
@@ -902,7 +1001,7 @@ void edwinspire_usms_phone_table_row_destroy (edwinspireuSMSPhoneTableRow* self)
 void edwinspire_usms_phone_table_row_init (edwinspireuSMSPhoneTableRow *self);
 GType edwinspire_usms_provider_table_get_type (void) G_GNUC_CONST;
 gchar* edwinspire_usms_provider_table_fun_provider_edit_xml_from_hashmap (edwinspireuSMSProviderTable* self, GeeHashMap* data, gboolean fieldtextasbase64);
-gchar* edwinspire_usms_provider_table_fun_provider_edit_xml (edwinspireuSMSProviderTable* self, gint inidprovider, gboolean inenable, const gchar* incimi, const gchar* inname, const gchar* innote, const gchar* ints, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_provider_table_fun_provider_edit_xml (edwinspireuSMSProviderTable* self, gint inidprovider, gboolean inenable, const gchar* inname, const gchar* innote, const gchar* ints, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_provider_table_fun_view_provider_table_xml (edwinspireuSMSProviderTable* self, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_provider_table_idname_Xml (edwinspireuSMSProviderTable* self, gboolean fieldtextasbase64);
 edwinspireuSMSProviderTable* edwinspire_usms_provider_table_new (void);
@@ -921,6 +1020,7 @@ gchar* edwinspire_usms_address_table_fun_view_address_byid_xml (edwinspireuSMSAd
 edwinspireuSMSAddressTable* edwinspire_usms_address_table_new (void);
 edwinspireuSMSAddressTable* edwinspire_usms_address_table_construct (GType object_type);
 GType edwinspire_usms_phone_table_get_type (void) G_GNUC_CONST;
+gchar* edwinspire_usms_phone_table_fun_view_contacts_phones_with_search_xml (edwinspireuSMSPhoneTable* self, const gchar* contact_phone_search, const gchar* exclude_idphones, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_phone_table_fun_phones_address_edit_xml_from_hashmap (edwinspireuSMSPhoneTable* self, GeeHashMap* data, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_phone_table_fun_contact_phones_edit_xml (edwinspireuSMSPhoneTable* self, gint idphone, gint inidlocation, gdouble ingeox, gdouble ingeoy, const gchar* f1, const gchar* f2, const gchar* f3, const gchar* f4, const gchar* f5, const gchar* f6, const gchar* f7, const gchar* f8, const gchar* f9, const gchar* f10, const gchar* ints, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_phone_table_fun_phones_table_xml_from_hashmap (edwinspireuSMSPhoneTable* self, GeeHashMap* data, gboolean fieldtextasbase64);
