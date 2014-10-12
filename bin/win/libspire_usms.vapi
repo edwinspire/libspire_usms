@@ -11,6 +11,11 @@ namespace edwinspire {
 			public static edwinspire.uSMS.AddressRowData rowdata_from_hashmap (Gee.HashMap<string,string> data);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
+		public class AttachmentsTable : edwinspire.uSMS.PostgreSQLConnection {
+			public AttachmentsTable ();
+			public int insert (string name_file, string md5);
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
 		public class Device : edwinspire.GSM.MODEM.ModemGSM {
 			public int IdPort;
 			public edwinspire.uSMS.SIMRow SIM;
@@ -25,12 +30,26 @@ namespace edwinspire {
 			public edwinspire.uSMS.ProcessCtrl Ctrl { get; set; }
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
+		public class GroupsTable : edwinspire.uSMS.PostgreSQLConnection {
+			public GroupsTable ();
+			public string fun_groups_edit_xml (int idgroup, bool enable, string name, string note, string ts, bool fieldtextasbase64 = true);
+			public string fun_groups_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
+			public string fun_groups_remove_selected_xml (string idgroups, bool fieldtextasbase64 = true);
+			public string fun_view_groups_xml (bool fieldtextasbase64 = true);
+			public string fun_view_idgroup_name_xml (bool fieldtextasbase64 = true);
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
 		public class LocationLevel : edwinspire.uSMS.PostgreSQLConnection {
 			public LocationLevel ();
 			public string fun_location_level_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
 			public string fun_location_level_remove_selected_xml (int level, string ids, bool fieldtextasbase64 = true);
 			public string fun_view_location_level_xml (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
 			public string fun_view_locations_ids_from_idlocation_xml (int idlocation);
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
+		public class NotificationsTable : edwinspire.uSMS.PostgresuSMS {
+			public NotificationsTable ();
+			public string fun_view_notifications_xml (int lastidnotify, bool fieldtextasbase64 = true);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class PhoneTable : edwinspire.uSMS.PostgreSQLConnection {
@@ -142,6 +161,13 @@ namespace edwinspire {
 			public int fun_incomingcalls_insert_online (int inidport, edwinspire.uSMS.OnIncomingCall inOnIncomingCall, string inphone, string innote = "");
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
+		public class TableChangedTable : edwinspire.uSMS.PostgreSQLConnection {
+			public Gee.HashMap<string,string> old_ts;
+			public Gee.HashMap<string,bool> status;
+			public TableChangedTable ();
+			public bool is_changed ();
+		}
+		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TableCity : edwinspire.uSMS.PostgreSQLConnection {
 			public TableCity ();
 			public string fun_location_city_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
@@ -157,8 +183,10 @@ namespace edwinspire {
 			public string byId_Xml (int idcontact, bool fieldtextasbase64 = true);
 			public string fun_contact_address_edit_xml (int idcontact, int inidlocation, double ingeox, double ingeoy, string f1, string f2, string f3, string f4, string f5, string f6, string f7, string f8, string f9, string f10, string ints, bool fieldtextasbase64 = true);
 			public string fun_contact_address_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
+			public string fun_contact_change_groups_xml (int idcontact, int idgroup, bool belong, bool fieldtextasbase64 = true);
 			public string fun_contacts_edit_xml (int inidcontact, bool inenable, string intitle, string infirstname, string inlastname, int ingender, string inbirthday, int intypeofid, string inidentification, string inweb, string inemail1, string inemail2, int inidaddress, string innote, bool fieldtextasbase64 = true);
 			public string fun_contacts_edit_xml_from_hashmap (Gee.HashMap<string,string> data, bool fieldtextasbase64 = true);
+			public string fun_view_contacts_groups_xml (int idcontact, bool fieldtextasbase64 = true);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class TableIncomingCalls : edwinspire.uSMS.PostgreSQLConnection {
@@ -215,6 +243,7 @@ namespace edwinspire {
 			public TableSIM ();
 			public edwinspire.uSMS.SIMRow byId (int id);
 			public edwinspire.uSMS.SIMRow byPhone (string phone);
+			public edwinspire.uSMS.SIMRow fun_sim_getrow (string phone);
 			public string fun_sim_table_edit_xml (int idsim, int idprovider, bool enable, bool enable_sendsms, string phone, bool smsout_request_reports, int smsout_retryonfail, int smsout_max_length, bool smsout_enabled_other_providers, int on_incommingcall, int dtmf_tone, int dtmf_tone_time, string note, bool fieldtextasbase64 = true);
 			public string fun_sim_table_edit_xml_from_hashmap (Gee.HashMap<string,string> Form);
 			public string fun_view_sim_idname_xml (bool fieldtextasbase64 = true);
@@ -269,9 +298,11 @@ namespace edwinspire {
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class uSMSServer : edwinspire.uHttp.uHttpServer {
 			public uSMSServer ();
+			public int[] attach_files (Gee.ArrayList<edwinspire.uHttp.MultiPartFormDataPart> Parts, bool replace = false, string parameter_file_name = "filename");
 			public override bool connection_handler_virtual (edwinspire.uHttp.Request request, GLib.DataOutputStream dos);
 			public virtual bool connection_handler_virtual_usms (edwinspire.uHttp.Request request, GLib.DataOutputStream dos);
 			public void runuSMS ();
+			public bool save_file_on_uploads_folder (string file_name, uint8[] data, string md5, bool replace = false);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public struct AddressRowData {
