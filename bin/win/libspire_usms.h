@@ -156,6 +156,39 @@ typedef struct _edwinspireuSMSPostgreSQLConnection edwinspireuSMSPostgreSQLConne
 typedef struct _edwinspireuSMSPostgreSQLConnectionClass edwinspireuSMSPostgreSQLConnectionClass;
 typedef struct _edwinspireuSMSPostgreSQLConnectionPrivate edwinspireuSMSPostgreSQLConnectionPrivate;
 
+#define EDWINSPIRE_USMS_TYPE_ATTACHMENTS_TABLE (edwinspire_usms_attachments_table_get_type ())
+#define EDWINSPIRE_USMS_ATTACHMENTS_TABLE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_ATTACHMENTS_TABLE, edwinspireuSMSAttachmentsTable))
+#define EDWINSPIRE_USMS_ATTACHMENTS_TABLE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_ATTACHMENTS_TABLE, edwinspireuSMSAttachmentsTableClass))
+#define EDWINSPIRE_USMS_IS_ATTACHMENTS_TABLE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_ATTACHMENTS_TABLE))
+#define EDWINSPIRE_USMS_IS_ATTACHMENTS_TABLE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_ATTACHMENTS_TABLE))
+#define EDWINSPIRE_USMS_ATTACHMENTS_TABLE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_ATTACHMENTS_TABLE, edwinspireuSMSAttachmentsTableClass))
+
+typedef struct _edwinspireuSMSAttachmentsTable edwinspireuSMSAttachmentsTable;
+typedef struct _edwinspireuSMSAttachmentsTableClass edwinspireuSMSAttachmentsTableClass;
+typedef struct _edwinspireuSMSAttachmentsTablePrivate edwinspireuSMSAttachmentsTablePrivate;
+
+#define EDWINSPIRE_USMS_TYPE_GROUPS_TABLE (edwinspire_usms_groups_table_get_type ())
+#define EDWINSPIRE_USMS_GROUPS_TABLE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_GROUPS_TABLE, edwinspireuSMSGroupsTable))
+#define EDWINSPIRE_USMS_GROUPS_TABLE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_GROUPS_TABLE, edwinspireuSMSGroupsTableClass))
+#define EDWINSPIRE_USMS_IS_GROUPS_TABLE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_GROUPS_TABLE))
+#define EDWINSPIRE_USMS_IS_GROUPS_TABLE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_GROUPS_TABLE))
+#define EDWINSPIRE_USMS_GROUPS_TABLE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_GROUPS_TABLE, edwinspireuSMSGroupsTableClass))
+
+typedef struct _edwinspireuSMSGroupsTable edwinspireuSMSGroupsTable;
+typedef struct _edwinspireuSMSGroupsTableClass edwinspireuSMSGroupsTableClass;
+typedef struct _edwinspireuSMSGroupsTablePrivate edwinspireuSMSGroupsTablePrivate;
+
+#define EDWINSPIRE_USMS_TYPE_TABLE_CHANGED_TABLE (edwinspire_usms_table_changed_table_get_type ())
+#define EDWINSPIRE_USMS_TABLE_CHANGED_TABLE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_TABLE_CHANGED_TABLE, edwinspireuSMSTableChangedTable))
+#define EDWINSPIRE_USMS_TABLE_CHANGED_TABLE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_TABLE_CHANGED_TABLE, edwinspireuSMSTableChangedTableClass))
+#define EDWINSPIRE_USMS_IS_TABLE_CHANGED_TABLE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_TABLE_CHANGED_TABLE))
+#define EDWINSPIRE_USMS_IS_TABLE_CHANGED_TABLE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_TABLE_CHANGED_TABLE))
+#define EDWINSPIRE_USMS_TABLE_CHANGED_TABLE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_TABLE_CHANGED_TABLE, edwinspireuSMSTableChangedTableClass))
+
+typedef struct _edwinspireuSMSTableChangedTable edwinspireuSMSTableChangedTable;
+typedef struct _edwinspireuSMSTableChangedTableClass edwinspireuSMSTableChangedTableClass;
+typedef struct _edwinspireuSMSTableChangedTablePrivate edwinspireuSMSTableChangedTablePrivate;
+
 #define EDWINSPIRE_USMS_TYPE_POSTGRESU_SMS (edwinspire_usms_postgresu_sms_get_type ())
 #define EDWINSPIRE_USMS_POSTGRESU_SMS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_POSTGRESU_SMS, edwinspireuSMSPostgresuSMS))
 #define EDWINSPIRE_USMS_POSTGRESU_SMS_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_POSTGRESU_SMS, edwinspireuSMSPostgresuSMSClass))
@@ -166,6 +199,17 @@ typedef struct _edwinspireuSMSPostgreSQLConnectionPrivate edwinspireuSMSPostgreS
 typedef struct _edwinspireuSMSPostgresuSMS edwinspireuSMSPostgresuSMS;
 typedef struct _edwinspireuSMSPostgresuSMSClass edwinspireuSMSPostgresuSMSClass;
 typedef struct _edwinspireuSMSPostgresuSMSPrivate edwinspireuSMSPostgresuSMSPrivate;
+
+#define EDWINSPIRE_USMS_TYPE_NOTIFICATIONS_TABLE (edwinspire_usms_notifications_table_get_type ())
+#define EDWINSPIRE_USMS_NOTIFICATIONS_TABLE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_NOTIFICATIONS_TABLE, edwinspireuSMSNotificationsTable))
+#define EDWINSPIRE_USMS_NOTIFICATIONS_TABLE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_USMS_TYPE_NOTIFICATIONS_TABLE, edwinspireuSMSNotificationsTableClass))
+#define EDWINSPIRE_USMS_IS_NOTIFICATIONS_TABLE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EDWINSPIRE_USMS_TYPE_NOTIFICATIONS_TABLE))
+#define EDWINSPIRE_USMS_IS_NOTIFICATIONS_TABLE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EDWINSPIRE_USMS_TYPE_NOTIFICATIONS_TABLE))
+#define EDWINSPIRE_USMS_NOTIFICATIONS_TABLE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), EDWINSPIRE_USMS_TYPE_NOTIFICATIONS_TABLE, edwinspireuSMSNotificationsTableClass))
+
+typedef struct _edwinspireuSMSNotificationsTable edwinspireuSMSNotificationsTable;
+typedef struct _edwinspireuSMSNotificationsTableClass edwinspireuSMSNotificationsTableClass;
+typedef struct _edwinspireuSMSNotificationsTablePrivate edwinspireuSMSNotificationsTablePrivate;
 
 #define EDWINSPIRE_USMS_TYPE_TABLE_SIM (edwinspire_usms_table_sim_get_type ())
 #define EDWINSPIRE_USMS_TABLE_SIM(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_USMS_TYPE_TABLE_SIM, edwinspireuSMSTableSIM))
@@ -539,6 +583,35 @@ struct _edwinspireuSMSPostgreSQLConnectionClass {
 	edwinspirepgSQLPostgreSqldbClass parent_class;
 };
 
+struct _edwinspireuSMSAttachmentsTable {
+	edwinspireuSMSPostgreSQLConnection parent_instance;
+	edwinspireuSMSAttachmentsTablePrivate * priv;
+};
+
+struct _edwinspireuSMSAttachmentsTableClass {
+	edwinspireuSMSPostgreSQLConnectionClass parent_class;
+};
+
+struct _edwinspireuSMSGroupsTable {
+	edwinspireuSMSPostgreSQLConnection parent_instance;
+	edwinspireuSMSGroupsTablePrivate * priv;
+};
+
+struct _edwinspireuSMSGroupsTableClass {
+	edwinspireuSMSPostgreSQLConnectionClass parent_class;
+};
+
+struct _edwinspireuSMSTableChangedTable {
+	edwinspireuSMSPostgreSQLConnection parent_instance;
+	edwinspireuSMSTableChangedTablePrivate * priv;
+	GeeHashMap* old_ts;
+	GeeHashMap* status;
+};
+
+struct _edwinspireuSMSTableChangedTableClass {
+	edwinspireuSMSPostgreSQLConnectionClass parent_class;
+};
+
 struct _edwinspireuSMSPostgresuSMS {
 	edwinspireuSMSPostgreSQLConnection parent_instance;
 	edwinspireuSMSPostgresuSMSPrivate * priv;
@@ -546,6 +619,15 @@ struct _edwinspireuSMSPostgresuSMS {
 
 struct _edwinspireuSMSPostgresuSMSClass {
 	edwinspireuSMSPostgreSQLConnectionClass parent_class;
+};
+
+struct _edwinspireuSMSNotificationsTable {
+	edwinspireuSMSPostgresuSMS parent_instance;
+	edwinspireuSMSNotificationsTablePrivate * priv;
+};
+
+struct _edwinspireuSMSNotificationsTableClass {
+	edwinspireuSMSPostgresuSMSClass parent_class;
 };
 
 struct _edwinspireuSMSTableSIM {
@@ -776,6 +858,8 @@ gint64 edwinspire_usms_usms_data_base_Insert (edwinspireuSMSuSMSDataBase* self, 
 gboolean edwinspire_usms_usms_data_base_get_isOpen (edwinspireuSMSuSMSDataBase* self);
 GType edwinspire_usms_usms_server_get_type (void) G_GNUC_CONST;
 gboolean edwinspire_usms_usms_server_connection_handler_virtual_usms (edwinspireuSMSuSMSServer* self, edwinspireuHttpRequest* request, GDataOutputStream* dos);
+gint* edwinspire_usms_usms_server_attach_files (edwinspireuSMSuSMSServer* self, GeeArrayList* Parts, gboolean replace, const gchar* parameter_file_name, int* result_length1);
+gboolean edwinspire_usms_usms_server_save_file_on_uploads_folder (edwinspireuSMSuSMSServer* self, const gchar* file_name, guint8* data, int data_length1, const gchar* md5, gboolean replace);
 void edwinspire_usms_usms_server_runuSMS (edwinspireuSMSuSMSServer* self);
 edwinspireuSMSuSMSServer* edwinspire_usms_usms_server_new (void);
 edwinspireuSMSuSMSServer* edwinspire_usms_usms_server_construct (GType object_type);
@@ -843,9 +927,30 @@ void edwinspire_usms_postgre_sql_connection_GetParamCnx (edwinspireuSMSPostgreSQ
 edwinspireuSMSPostgreSQLConnection* edwinspire_usms_postgre_sql_connection_new (void);
 edwinspireuSMSPostgreSQLConnection* edwinspire_usms_postgre_sql_connection_construct (GType object_type);
 void edwinspire_usms_sim_row_init (edwinspireuSMSSIMRow *self);
+GType edwinspire_usms_attachments_table_get_type (void) G_GNUC_CONST;
+gint edwinspire_usms_attachments_table_insert (edwinspireuSMSAttachmentsTable* self, const gchar* name_file, const gchar* md5);
+edwinspireuSMSAttachmentsTable* edwinspire_usms_attachments_table_new (void);
+edwinspireuSMSAttachmentsTable* edwinspire_usms_attachments_table_construct (GType object_type);
+GType edwinspire_usms_groups_table_get_type (void) G_GNUC_CONST;
+gchar* edwinspire_usms_groups_table_fun_groups_remove_selected_xml (edwinspireuSMSGroupsTable* self, const gchar* idgroups, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_groups_table_fun_view_idgroup_name_xml (edwinspireuSMSGroupsTable* self, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_groups_table_fun_view_groups_xml (edwinspireuSMSGroupsTable* self, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_groups_table_fun_groups_edit_xml_from_hashmap (edwinspireuSMSGroupsTable* self, GeeHashMap* data, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_groups_table_fun_groups_edit_xml (edwinspireuSMSGroupsTable* self, gint idgroup, gboolean enable, const gchar* name, const gchar* note, const gchar* ts, gboolean fieldtextasbase64);
+edwinspireuSMSGroupsTable* edwinspire_usms_groups_table_new (void);
+edwinspireuSMSGroupsTable* edwinspire_usms_groups_table_construct (GType object_type);
+GType edwinspire_usms_table_changed_table_get_type (void) G_GNUC_CONST;
+gboolean edwinspire_usms_table_changed_table_is_changed (edwinspireuSMSTableChangedTable* self);
+edwinspireuSMSTableChangedTable* edwinspire_usms_table_changed_table_new (void);
+edwinspireuSMSTableChangedTable* edwinspire_usms_table_changed_table_construct (GType object_type);
 GType edwinspire_usms_postgresu_sms_get_type (void) G_GNUC_CONST;
+GType edwinspire_usms_notifications_table_get_type (void) G_GNUC_CONST;
+gchar* edwinspire_usms_notifications_table_fun_view_notifications_xml (edwinspireuSMSNotificationsTable* self, gint lastidnotify, gboolean fieldtextasbase64);
+edwinspireuSMSNotificationsTable* edwinspire_usms_notifications_table_new (void);
+edwinspireuSMSNotificationsTable* edwinspire_usms_notifications_table_construct (GType object_type);
 GType edwinspire_usms_table_sim_get_type (void) G_GNUC_CONST;
 void edwinspire_usms_table_sim_byPhone (edwinspireuSMSTableSIM* self, const gchar* phone, edwinspireuSMSSIMRow* result);
+void edwinspire_usms_table_sim_fun_sim_getrow (edwinspireuSMSTableSIM* self, const gchar* phone, edwinspireuSMSSIMRow* result);
 void edwinspire_usms_table_sim_byId (edwinspireuSMSTableSIM* self, gint id, edwinspireuSMSSIMRow* result);
 gchar* edwinspire_usms_table_sim_fun_view_sim_idname_xml (edwinspireuSMSTableSIM* self, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_table_sim_fun_view_sim_xml (edwinspireuSMSTableSIM* self, gboolean fieldtextasbase64);
@@ -968,6 +1073,8 @@ gchar* edwinspire_usms_table_incoming_calls_fun_view_incomingcalls_xml (edwinspi
 GType edwinspire_usms_table_contacts_get_type (void) G_GNUC_CONST;
 edwinspireuSMSTableContacts* edwinspire_usms_table_contacts_new (void);
 edwinspireuSMSTableContacts* edwinspire_usms_table_contacts_construct (GType object_type);
+gchar* edwinspire_usms_table_contacts_fun_contact_change_groups_xml (edwinspireuSMSTableContacts* self, gint idcontact, gint idgroup, gboolean belong, gboolean fieldtextasbase64);
+gchar* edwinspire_usms_table_contacts_fun_view_contacts_groups_xml (edwinspireuSMSTableContacts* self, gint idcontact, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_table_contacts_fun_contact_address_edit_xml_from_hashmap (edwinspireuSMSTableContacts* self, GeeHashMap* data, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_table_contacts_fun_contact_address_edit_xml (edwinspireuSMSTableContacts* self, gint idcontact, gint inidlocation, gdouble ingeox, gdouble ingeoy, const gchar* f1, const gchar* f2, const gchar* f3, const gchar* f4, const gchar* f5, const gchar* f6, const gchar* f7, const gchar* f8, const gchar* f9, const gchar* f10, const gchar* ints, gboolean fieldtextasbase64);
 gchar* edwinspire_usms_table_contacts_fun_contacts_edit_xml_from_hashmap (edwinspireuSMSTableContacts* self, GeeHashMap* data, gboolean fieldtextasbase64);
