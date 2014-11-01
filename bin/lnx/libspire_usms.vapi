@@ -291,11 +291,9 @@ namespace edwinspire {
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public class uSMSServer : edwinspire.uHttp.uHttpServer {
 			public uSMSServer ();
-			public int[] attach_files (Gee.ArrayList<edwinspire.uHttp.MultiPartFormDataPart> Parts, bool replace = false, string parameter_file_name = "filename");
 			public override bool connection_handler_virtual (edwinspire.uHttp.Request request, GLib.DataOutputStream dos);
 			public virtual bool connection_handler_virtual_usms (edwinspire.uHttp.Request request, GLib.DataOutputStream dos);
 			public void runuSMS ();
-			public bool save_file_on_uploads_folder (string file_name, uint8[] data, string md5, bool replace = false);
 		}
 		[CCode (cheader_filename = "libspire_usms.h")]
 		public struct AddressRowData {

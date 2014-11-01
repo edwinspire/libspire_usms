@@ -35,7 +35,7 @@ namespace edwinspire.uSMS {
 		public virtual bool connection_handler_virtual_usms(Request request, DataOutputStream dos) {
 			edwinspire.uHttp.Response response = new edwinspire.uHttp.Response();
 			response.Status = StatusCode.NOT_FOUND;
-			response.Data = edwinspire.uHttp.Response.HtmErrorPage("uHTTP WebServer", "404 - Página no encontrada").data;
+			response.Data = edwinspire.uHttp.Response.HttpError("uHTTP WebServer", "404 - Página no encontrada").data;
 			response.Header["Content-Type"] = "text/html";
 			this.serve_response( response, dos );
 			return false;
@@ -301,6 +301,7 @@ this.serve_response( response, dos ); break;
 			}
 			return false;
 		}
+		/*
 		public int[] attach_files(ArrayList<MultiPartFormDataPart> Parts,  bool replace = false, string parameter_file_name  = "filename") {
 			int[] R = {
 			}
@@ -321,10 +322,11 @@ this.serve_response( response, dos ); break;
 				}
 			}
 			return R;
-		}
+		}*/
+		/*
 		public bool save_file_on_uploads_folder(string file_name, uint8[] data, string md5, bool replace = false) {
 			return this.upload_file(Path.build_path (Path.DIR_SEPARATOR_S, "uploads", md5+"."+this.get_extension_file(file_name)), data, replace);
-		}
+		}*/
 		private uHttp.Response response_fun_contact_change_groups_xml(Request request) {
 			uHttp.Response Retorno = new uHttp.Response();
 			Retorno.Header["Content-Type"] = "text/xml";
@@ -334,14 +336,14 @@ this.serve_response( response, dos ); break;
 			int idcontact = 0;
 			int idgroup = 0;
 			bool belong = false;
-			if(request.Form.has_key("idcontact")) {
-				idcontact = int.parse(request.Form["idcontact"]);
+			if(request.Form.post_request.has_key("idcontact")) {
+				idcontact = int.parse(request.Form.post_request.get_value("idcontact"));
 			}
-			if(request.Form.has_key("idgroup")) {
-				idgroup = int.parse(request.Form["idgroup"]);
+			if(request.Form.post_request.has_key("idgroup")) {
+				idgroup = int.parse(request.Form.post_request.get_value("idgroup"));
 			}
-			if(request.Form.has_key("belong")) {
-				belong = bool.parse(request.Form["belong"]);
+			if(request.Form.post_request.has_key("belong")) {
+				belong = bool.parse(request.Form.post_request.get_value("belong"));
 			}
 			Retorno.Data = Tabla.fun_contact_change_groups_xml(idcontact, idgroup, belong).data;
 			return Retorno;
@@ -353,8 +355,8 @@ this.serve_response( response, dos ); break;
 			TableContacts Tabla = new TableContacts();
 			Tabla.GetParamCnx();
 			int idcontact = 0;
-			if(request.Form.has_key("idcontact")) {
-				idcontact = int.parse(request.Form["idcontact"]);
+			if(request.Form.post_request.has_key("idcontact")) {
+				idcontact = int.parse(request.Form.post_request.get_value("idcontact"));
 			}
 			Retorno.Data = Tabla.fun_view_contacts_groups_xml(idcontact).data;
 			return Retorno;
@@ -375,8 +377,8 @@ this.serve_response( response, dos ); break;
 			GroupsTable Tabla = new GroupsTable();
 			Tabla.GetParamCnx();
 			string idgroups = "0";
-			if(request.Form.has_key("idgroups")) {
-				idgroups = request.Form["idgroups"];
+			if(request.Form.post_request.has_key("idgroups")) {
+				idgroups = request.Form.post_request.get_value("idgroups");
 			}
 			Retorno.Data = Tabla.fun_groups_remove_selected_xml(idgroups).data;
 			return Retorno;
@@ -387,7 +389,7 @@ this.serve_response( response, dos ); break;
 			Retorno.Status = StatusCode.OK;
 			GroupsTable Tabla = new GroupsTable();
 			Tabla.GetParamCnx();
-			Retorno.Data = Tabla.fun_groups_edit_xml_from_hashmap(request.Form).data;
+			Retorno.Data = Tabla.fun_groups_edit_xml_from_hashmap(request.Form.post_request.internal_hashmap).data;
 			return Retorno;
 		}
 		private uHttp.Response response_fun_view_groups_xml(Request request) {
@@ -405,7 +407,7 @@ this.serve_response( response, dos ); break;
 			Retorno.Status = StatusCode.OK;
 			var data = new StringBuilder();
 			TableChangedTable Tabla = new TableChangedTable();
-			Tabla.old_ts = request.Form;
+			Tabla.old_ts = request.Form.post_request.internal_hashmap;
 			Tabla.GetParamCnx();
 			data.append("{ ");
 			// Espera 22.5 segundos antes de salir
@@ -478,8 +480,8 @@ this.serve_response( response, dos ); break;
 			Retorno.Header["Content-Type"] = "text/xml";
 			Retorno.Status = StatusCode.OK;
 			int lastid = 0;
-			if(request.Form.has_key("lastidnotify")) {
-				lastid = int.parse(request.Form["lastidnotify"]);
+			if(request.Form.post_request.has_key("lastidnotify")) {
+				lastid = int.parse(request.Form.post_request.get_value("lastidnotify"));
 			}
 			NotificationsTable dB = new NotificationsTable();
 			dB.GetParamCnx();
@@ -500,8 +502,8 @@ this.serve_response( response, dos ); break;
 			TableProvider Tabla = new TableProvider();
 			Tabla.GetParamCnx();
 			string delete_idproviders = "";
-			if(request.Form.has_key("idproviders")) {
-				delete_idproviders = request.Form["idproviders"];
+			if(request.Form.post_request.has_key("idproviders")) {
+				delete_idproviders = request.Form.post_request.get_value("idproviders");
 			}
 			Retorno.Data =  Tabla.fun_provider_delete_selection_xml(delete_idproviders, true).data;
 			return Retorno;
@@ -514,11 +516,11 @@ this.serve_response( response, dos ); break;
 			Tabla.GetParamCnx();
 			string exclude_idphones = "";
 			string contact_phone_search = "";
-			if(request.Form.has_key("exclude_idphones")) {
-				exclude_idphones = request.Form["exclude_idphones"];
+			if(request.Form.post_request.has_key("exclude_idphones")) {
+				exclude_idphones = request.Form.post_request.get_value("exclude_idphones");
 			}
-			if(request.Form.has_key("contact_phone_search")) {
-				contact_phone_search = request.Form["contact_phone_search"];
+			if(request.Form.post_request.has_key("contact_phone_search")) {
+				contact_phone_search = request.Form.post_request.get_value("contact_phone_search");
 			}
 			Retorno.Data =  Tabla.fun_view_contacts_phones_with_search_xml(contact_phone_search, exclude_idphones, true).data;
 			return Retorno;
@@ -557,7 +559,7 @@ this.serve_response( response, dos ); break;
 			Retorno.Status = StatusCode.OK;
 			TableOutgoing Tabla = new TableOutgoing();
 			Tabla.GetParamCnx();
-			Retorno.Data = Tabla.fun_outgoing_new_xml_from_hashmap(request.Form).data;
+			Retorno.Data = Tabla.fun_outgoing_new_xml_from_hashmap(request.Form.post_request.internal_hashmap).data;
 			return Retorno;
 		}
 		private uHttp.Response response_fun_sim_table_edit_xml(Request request) {
@@ -566,7 +568,7 @@ this.serve_response( response, dos ); break;
 			Retorno.Status = StatusCode.OK;
 			TableSIM Tabla = new TableSIM();
 			Tabla.GetParamCnx();
-			Retorno.Data = Tabla.fun_sim_table_edit_xml_from_hashmap(request.Form).data;
+			Retorno.Data = Tabla.fun_sim_table_edit_xml_from_hashmap(request.Form.post_request.internal_hashmap).data;
 			return Retorno;
 		}
 		private uHttp.Response response_fun_view_sim_xml(Request request) {
@@ -583,8 +585,8 @@ this.serve_response( response, dos ); break;
 			Retorno.Header["Content-Type"] = "text/html";
 			Retorno.Status = StatusCode.OK;
 			int idaccount = 0;
-			if(request.Query.has_key("idaddress")) {
-				idaccount = int.parse(request.Query["idaddress"]);
+			if(request.Form.get_request.has_key("idaddress")) {
+				idaccount = int.parse(request.Form.get_request.get_value("idaddress"));
 			}
 			var retornoHtml = uHttpServer.ReadFile(this.PathLocalFile("usms_map.html")).replace("data-usms-idaddress=\"0\"", "data-usms-idaddress=\""+idaccount.to_string()+"\"");
 			Retorno.Data = retornoHtml.data;
@@ -598,8 +600,8 @@ this.serve_response( response, dos ); break;
 			LocationLevel Tabla = new LocationLevel();
 			Tabla.GetParamCnx();
 			int id = 0;
-			if(request.Query.has_key("idlocation")) {
-				id = int.parse(request.Query["idlocation"]);
+			if(request.Form.get_request.has_key("idlocation")) {
+				id = int.parse(request.Form.get_request.get_value("idlocation"));
 			}
 			Retorno.Data =  Tabla.fun_view_locations_ids_from_idlocation_xml(id).data;
 			return Retorno;
@@ -612,8 +614,8 @@ this.serve_response( response, dos ); break;
 			TableSubSector Tabla = new TableSubSector();
 			Tabla.GetParamCnx();
 			string ids = "";
-			if(request.Form.has_key("ids")) {
-				ids = request.Form["ids"];
+			if(request.Form.post_request.has_key("ids")) {
+				ids = request.Form.post_request.get_value("ids");
 			}
 			Retorno.Data =  Tabla.fun_location_subsector_remove_selected_xml(ids, true).data;
 			return Retorno;
@@ -624,7 +626,7 @@ this.serve_response( response, dos ); break;
 			Retorno.Status = StatusCode.OK;
 			TableSubSector Tabla = new TableSubSector();
 			Tabla.GetParamCnx();
-			Retorno.Data =  Tabla.fun_location_subsector_edit_xml_from_hashmap(request.Form).data;
+			Retorno.Data =  Tabla.fun_location_subsector_edit_xml_from_hashmap(request.Form.post_request.internal_hashmap).data;
 			return Retorno;
 		}
 		private uHttp.Response response_fun_view_subsector_by_idsector_xml(Request request) {
@@ -634,8 +636,8 @@ this.serve_response( response, dos ); break;
 			TableSubSector Tabla = new TableSubSector();
 			Tabla.GetParamCnx();
 			int id = 0;
-			if(request.Query.has_key("idsector")) {
-				id = int.parse(request.Query["idsector"]);
+			if(request.Form.get_request.has_key("idsector")) {
+				id = int.parse(request.Form.get_request.get_value("idsector"));
 			}
 			Retorno.Data =  Tabla.fun_view_subsector_by_idsector_xml(id, true).data;
 			return Retorno;
@@ -648,8 +650,8 @@ this.serve_response( response, dos ); break;
 			TableSector Tabla = new TableSector();
 			Tabla.GetParamCnx();
 			string ids = "";
-			if(request.Form.has_key("ids")) {
-				ids = request.Form["ids"];
+			if(request.Form.post_request.has_key("ids")) {
+				ids = request.Form.post_request.get_value("ids");
 			}
 			Retorno.Data =  Tabla.fun_location_sector_remove_selected_xml(ids, true).data;
 			return Retorno;
@@ -660,7 +662,7 @@ this.serve_response( response, dos ); break;
 			Retorno.Status = StatusCode.OK;
 			TableSector Tabla = new TableSector();
 			Tabla.GetParamCnx();
-			Retorno.Data =  Tabla.fun_location_sector_edit_xml_from_hashmap(request.Form).data;
+			Retorno.Data =  Tabla.fun_location_sector_edit_xml_from_hashmap(request.Form.post_request.internal_hashmap).data;
 			return Retorno;
 		}
 		private uHttp.Response response_fun_view_sector_by_idcity_xml(Request request) {
@@ -670,8 +672,8 @@ this.serve_response( response, dos ); break;
 			TableSector Tabla = new TableSector();
 			Tabla.GetParamCnx();
 			int id = 0;
-			if(request.Query.has_key("idcity")) {
-				id = int.parse(request.Query["idcity"]);
+			if(request.Form.get_request.has_key("idcity")) {
+				id = int.parse(request.Form.get_request.get_value("idcity"));
 			}
 			Retorno.Data =  Tabla.fun_view_sector_by_idcity_xml(id, true).data;
 			return Retorno;
@@ -684,8 +686,8 @@ this.serve_response( response, dos ); break;
 			TableCity Tabla = new TableCity();
 			Tabla.GetParamCnx();
 			string ids = "";
-			if(request.Form.has_key("ids")) {
-				ids = request.Form["ids"];
+			if(request.Form.post_request.has_key("ids")) {
+				ids = request.Form.post_request.get_value("ids");
 			}
 			Retorno.Data =  Tabla.fun_location_city_remove_selected_xml(ids, true).data;
 			return Retorno;
@@ -696,7 +698,7 @@ this.serve_response( response, dos ); break;
 			Retorno.Status = StatusCode.OK;
 			TableCity Tabla = new TableCity();
 			Tabla.GetParamCnx();
-			Retorno.Data =  Tabla.fun_location_city_edit_xml_from_hashmap(request.Form).data;
+			Retorno.Data =  Tabla.fun_location_city_edit_xml_from_hashmap(request.Form.post_request.internal_hashmap).data;
 			return Retorno;
 		}
 		private uHttp.Response response_fun_view_city_by_idstate_xml(Request request) {
@@ -706,8 +708,8 @@ this.serve_response( response, dos ); break;
 			TableCity Tabla = new TableCity();
 			Tabla.GetParamCnx();
 			int idstate = 0;
-			if(request.Query.has_key("idstate")) {
-				idstate = int.parse(request.Query["idstate"]);
+			if(request.Form.get_request.has_key("idstate")) {
+				idstate = int.parse(request.Form.get_request.get_value("idstate"));
 			}
 			Retorno.Data =  Tabla.fun_view_city_by_idstate_xml(idstate, true).data;
 			return Retorno;
@@ -720,8 +722,8 @@ this.serve_response( response, dos ); break;
 			TableState Tabla = new TableState();
 			Tabla.GetParamCnx();
 			string ids = "";
-			if(request.Form.has_key("ids")) {
-				ids = request.Form["ids"];
+			if(request.Form.post_request.has_key("ids")) {
+				ids = request.Form.post_request.get_value("ids");
 			}
 			Retorno.Data =  Tabla.fun_location_state_remove_selected_xml(ids, true).data;
 			return Retorno;
@@ -732,7 +734,7 @@ this.serve_response( response, dos ); break;
 			Retorno.Status = StatusCode.OK;
 			TableState Tabla = new TableState();
 			Tabla.GetParamCnx();
-			Retorno.Data =  Tabla.fun_location_state_edit_xml_from_hashmap(request.Form).data;
+			Retorno.Data =  Tabla.fun_location_state_edit_xml_from_hashmap(request.Form.post_request.internal_hashmap).data;
 			return Retorno;
 		}
 		private uHttp.Response response_fun_view_state_by_idl1_xml(Request request) {
@@ -742,8 +744,8 @@ this.serve_response( response, dos ); break;
 			TableState Tabla = new TableState();
 			Tabla.GetParamCnx();
 			int idl1 = 0;
-			if(request.Query.has_key("idl1")) {
-				idl1 = int.parse(request.Query["idl1"]);
+			if(request.Form.get_request.has_key("idl1")) {
+				idl1 = int.parse(request.Form.get_request.get_value("idl1"));
 			}
 			Retorno.Data =  Tabla.fun_view_state_by_idcountry_xml(idl1, true).data;
 			return Retorno;
@@ -757,11 +759,11 @@ this.serve_response( response, dos ); break;
 			Tabla.GetParamCnx();
 			string ids = "";
 			int level = 0;
-			if(request.Form.has_key("ids")) {
-				ids = request.Form["ids"];
+			if(request.Form.post_request.has_key("ids")) {
+				ids = request.Form.post_request.get_value("ids");
 			}
-			if(request.Form.has_key("level")) {
-				level = int.parse(request.Form["level"]);
+			if(request.Form.post_request.has_key("level")) {
+				level = int.parse(request.Form.post_request.get_value("level"));
 			}
 			Retorno.Data =  Tabla.fun_location_level_remove_selected_xml(level, ids, true).data;
 			return Retorno;
@@ -772,7 +774,7 @@ this.serve_response( response, dos ); break;
 			Retorno.Status = StatusCode.OK;
 			LocationLevel Tabla = new LocationLevel();
 			Tabla.GetParamCnx();
-			Retorno.Data =  Tabla.fun_location_level_edit_xml_from_hashmap(request.Form).data;
+			Retorno.Data =  Tabla.fun_location_level_edit_xml_from_hashmap(request.Form.post_request.internal_hashmap).data;
 			return Retorno;
 		}
 		private uHttp.Response response_fun_view_location_level_xml(Request request) {
@@ -781,7 +783,7 @@ this.serve_response( response, dos ); break;
 			Retorno.Status = StatusCode.OK;
 			LocationLevel Tabla = new LocationLevel();
 			Tabla.GetParamCnx();
-			Retorno.Data =  Tabla.fun_view_location_level_xml(request.Query, true).data;
+			Retorno.Data =  Tabla.fun_view_location_level_xml(request.Form.get_request.internal_hashmap, true).data;
 			return Retorno;
 		}
 		private uHttp.Response response_fun_contact_address_edit_xml(Request request) {
@@ -790,7 +792,7 @@ this.serve_response( response, dos ); break;
 			Retorno.Status = StatusCode.OK;
 			TableContacts Tabla = new TableContacts();
 			Tabla.GetParamCnx();
-			Retorno.Data =  Tabla.fun_contact_address_edit_xml_from_hashmap(request.Form, true).data;
+			Retorno.Data =  Tabla.fun_contact_address_edit_xml_from_hashmap(request.Form.post_request.internal_hashmap, true).data;
 			return Retorno;
 		}
 		private uHttp.Response response_fun_phones_address_edit_xml(Request request) {
@@ -799,7 +801,7 @@ this.serve_response( response, dos ); break;
 			Retorno.Status = StatusCode.OK;
 			PhoneTable Tabla = new PhoneTable();
 			Tabla.GetParamCnx();
-			Retorno.Data =  Tabla.fun_phones_address_edit_xml_from_hashmap(request.Form, true).data;
+			Retorno.Data =  Tabla.fun_phones_address_edit_xml_from_hashmap(request.Form.post_request.internal_hashmap, true).data;
 			return Retorno;
 		}
 		private uHttp.Response response_fun_address_edit_xml(Request request) {
@@ -808,7 +810,7 @@ this.serve_response( response, dos ); break;
 			Retorno.Status = StatusCode.OK;
 			AddressTable Tabla = new AddressTable();
 			Tabla.GetParamCnx();
-			Retorno.Data =  Tabla.fun_address_edit_xml_from_hashmap(request.Form, true).data;
+			Retorno.Data =  Tabla.fun_address_edit_xml_from_hashmap(request.Form.post_request.internal_hashmap, true).data;
 			return Retorno;
 		}
 		private uHttp.Response response_fun_view_address_byid_xml(Request request) {
@@ -818,8 +820,8 @@ this.serve_response( response, dos ); break;
 			AddressTable Tabla = new AddressTable();
 			Tabla.GetParamCnx();
 			int idaddress = 0;
-			if(request.Query.has_key("idaddress")) {
-				idaddress = int.parse(request.Query["idaddress"]);
+			if(request.Form.get_request.has_key("idaddress")) {
+				idaddress = int.parse(request.Form.get_request.get_value("idaddress"));
 			}
 			Retorno.Data =  Tabla.fun_view_address_byid_xml(idaddress, true).data;
 			return Retorno;
@@ -830,7 +832,7 @@ this.serve_response( response, dos ); break;
 			Retorno.Status = StatusCode.OK;
 			ProviderTable Tabla = new ProviderTable();
 			Tabla.GetParamCnx();
-			Retorno.Data =  Tabla.fun_provider_edit_xml_from_hashmap(request.Form, true).data;
+			Retorno.Data =  Tabla.fun_provider_edit_xml_from_hashmap(request.Form.post_request.internal_hashmap, true).data;
 			return Retorno;
 		}
 		private uHttp.Response ResponseSMSInViewTableFilter(Request request) {
@@ -840,14 +842,14 @@ this.serve_response( response, dos ); break;
 			string start = "2000-01-01";
 			string end = "2500-01-01";
 			int rows = 25;
-			if(request.Query.has_key("fstart")) {
-				start = request.Query["fstart"];
+			if(request.Form.get_request.has_key("fstart")) {
+				start = request.Form.get_request.get_value("fstart");
 			}
-			if(request.Query.has_key("fend")) {
-				end = request.Query["fend"];
+			if(request.Form.get_request.has_key("fend")) {
+				end = request.Form.get_request.get_value("fend");
 			}
-			if(request.Query.has_key("nrows")) {
-				rows = int.parse(request.Query["nrows"]);
+			if(request.Form.get_request.has_key("nrows")) {
+				rows = int.parse(request.Form.get_request.get_value("nrows"));
 			}
 			var Tabla = new TableSMSIn();
 			Tabla.GetParamCnx();
@@ -874,11 +876,11 @@ public void RequestVirtualPageHandler(uHttpServer server, Request request, DataO
 			Retorno.Status = StatusCode.OK;
 			string start = "1990-01-01";
 			string end = "1990-01-01";
-			if(request.Query.has_key("datestart")) {
-				start = request.Query["datestart"];
+			if(request.Form.get_request.has_key("datestart")) {
+				start = request.Form.get_request.get_value("datestart");
 			}
-			if(request.Query.has_key("dateend")) {
-				end = request.Query["dateend"];
+			if(request.Form.get_request.has_key("dateend")) {
+				end = request.Form.get_request.get_value("dateend");
 			}
 			TableIncomingCalls Tabla = new TableIncomingCalls();
 			Tabla.GetParamCnx();
@@ -909,7 +911,7 @@ public void RequestVirtualPageHandler(uHttpServer server, Request request, DataO
 			Retorno.Status = StatusCode.OK;
 			PhoneTable Tabla = new PhoneTable();
 			Tabla.GetParamCnx();
-			Retorno.Data =  Tabla.fun_phones_table_xml_from_hashmap(request.Form, true).data;
+			Retorno.Data =  Tabla.fun_phones_table_xml_from_hashmap(request.Form.post_request.internal_hashmap, true).data;
 			return Retorno;
 		}
 		private uHttp.Response ResponsePhoneById(Request request) {
@@ -917,8 +919,8 @@ public void RequestVirtualPageHandler(uHttpServer server, Request request, DataO
 			Retorno.Header["Content-Type"] = "text/xml";
 			Retorno.Status = StatusCode.OK;
 			int id = 0;
-			if(request.Query.has_key("idphone")) {
-				id = int.parse(request.Query["idphone"]);
+			if(request.Form.get_request.has_key("idphone")) {
+				id = int.parse(request.Form.get_request.get_value("idphone"));
 			}
 			PhoneTable Tabla = new PhoneTable();
 			Tabla.GetParamCnx();
@@ -930,8 +932,8 @@ public void RequestVirtualPageHandler(uHttpServer server, Request request, DataO
 			Retorno.Header["Content-Type"] = "text/xml";
 			Retorno.Status = StatusCode.OK;
 			int id = 0;
-			if(request.Query.has_key("idcontact")) {
-				id = int.parse(request.Query["idcontact"]);
+			if(request.Form.get_request.has_key("idcontact")) {
+				id = int.parse(request.Form.get_request.get_value("idcontact"));
 			}
 			PhoneTable Tabla = new PhoneTable();
 			Tabla.GetParamCnx();
@@ -944,7 +946,7 @@ public void RequestVirtualPageHandler(uHttpServer server, Request request, DataO
 			Retorno.Status = StatusCode.OK;
 			TableContacts Tabla = new TableContacts();
 			Tabla.GetParamCnx();
-			Retorno.Data =  Tabla.fun_contacts_edit_xml_from_hashmap(request.Form).data;
+			Retorno.Data =  Tabla.fun_contacts_edit_xml_from_hashmap(request.Form.post_request.internal_hashmap).data;
 			return Retorno;
 		}
 		private uHttp.Response ResponseContactById(Request request) {
@@ -952,8 +954,8 @@ public void RequestVirtualPageHandler(uHttpServer server, Request request, DataO
 			Retorno.Header["Content-Type"] = "text/xml";
 			Retorno.Status = StatusCode.OK;
 			int id = 0;
-			if(request.Query.has_key("idcontact")) {
-				id = int.parse(request.Query["idcontact"]);
+			if(request.Form.get_request.has_key("idcontact")) {
+				id = int.parse(request.Form.get_request.get_value("idcontact"));
 			}
 			TableContacts Tabla = new TableContacts();
 			Tabla.GetParamCnx();
@@ -984,9 +986,9 @@ public void RequestVirtualPageHandler(uHttpServer server, Request request, DataO
 			Retorno.Header["Content-Type"] = "text/xml";
 			Retorno.Status = StatusCode.OK;
 			var XmlRetorno = new StringBuilder("<table>");
-			if(request.Form.has_key("port")) {
-				if(request.Form["port"].length > 2) {
-					if(TableSerialPort.InsertUpdateFromWeb(request.Form)>0) {
+			if(request.Form.post_request.has_key("port")) {
+				if(request.Form.post_request.get_value("port").length > 2) {
+					if(TableSerialPort.InsertUpdateFromWeb(request.Form.post_request.internal_hashmap)>0) {
 						XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("Los cambios han sido aplicados".data), "true");
 					} else {
 						XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode("El registro no pudo ser guardado".data), "false");
@@ -1007,8 +1009,8 @@ public void RequestVirtualPageHandler(uHttpServer server, Request request, DataO
 			Retorno.Status = StatusCode.OK;
 			var XmlRetorno = new StringBuilder("<table>");
 			//TODO: Se tiene que buscar la forma de mejorar esta funcion para que el delete se haga en una sola funcion y no se tenga que hacer una solicitud por cada idport
-			if(request.Form.has_key("idports")) {
-				var idports = request.Form["idports"].split(",");
+			if(request.Form.post_request.has_key("idports")) {
+				var idports = request.Form.post_request.get_value("idports").split(",");
 				int del = 0;
 				foreach(var id in idports) {
 					int idp = int.parse(id).abs();
@@ -1040,8 +1042,8 @@ public void RequestVirtualPageHandler(uHttpServer server, Request request, DataO
 			TableContacts Tabla = new TableContacts();
 			Tabla.GetParamCnx();
 			string text = "";
-			if(request.Query.has_key("text")) {
-				text = request.Query["text"];
+			if(request.Form.get_request.has_key("text")) {
+				text = request.Form.get_request.get_value("text");
 			}
 			Retorno.Data =  Tabla.NameAndId_Search_Xml(text, true).data;
 			return Retorno;
@@ -1062,14 +1064,14 @@ public void RequestVirtualPageHandler(uHttpServer server, Request request, DataO
 			string start = "2000-01-01";
 			string end = "2100-01-01";
 			int rows = 0;
-			if(request.Query.has_key("fstart")) {
-				start = request.Query["fstart"];
+			if(request.Form.get_request.has_key("fstart")) {
+				start = request.Form.get_request.get_value("fstart");
 			}
-			if(request.Query.has_key("fend")) {
-				end = request.Query["fend"];
+			if(request.Form.get_request.has_key("fend")) {
+				end = request.Form.get_request.get_value("fend");
 			}
-			if(request.Query.has_key("nrows")) {
-				rows = int.parse(request.Query["nrows"]);
+			if(request.Form.get_request.has_key("nrows")) {
+				rows = int.parse(request.Form.get_request.get_value("nrows"));
 			}
 			var Tablasmsout = new TableOutgoing();
 			Tablasmsout.GetParamCnx();
@@ -1082,9 +1084,9 @@ public void RequestVirtualPageHandler(uHttpServer server, Request request, DataO
 			Retorno.Status = StatusCode.OK;
 			Retorno.Header["Content-Type"] = "text/xml";
 			var XmlRetorno = new StringBuilder("<table>");
-			if(request.Form.has_key("host")) {
-				if(request.Form["host"].length >= 5) {
-					int64 id = TablePostgres.UpdateFromWeb(request.Form);
+			if(request.Form.post_request.has_key("host")) {
+				if(request.Form.post_request.get_value("host").length >= 5) {
+					int64 id = TablePostgres.UpdateFromWeb(request.Form.post_request.internal_hashmap);
 					if(id>0) {
 						XmlRetorno.append_printf("<row><message>%s</message><response>%s</response></row>", Base64.encode(("Los cambios han sido aplicados (id: "+id.to_string()+")").data), "true");
 					} else {
